@@ -9,4 +9,4 @@ Ce logiciel permet une gestion simple et efficace de certains modules utiles à 
 
 # A propos de GDMC
 
-GDMC a été construis à l'aide de PHPDesktop, avec Laravel 5.3 et Bootstrap 3.3.7. Il a été créé dans l'optique d'aider le travail des agents de la Mairie. Pour connaître plus de détail quant à comment maintenir le logiciel, pour savoir comment permettre de partager la base de donnée dans un réseau, référez-vous à la partie ci-dessous.
+GDMC a été construis à l'aide de PHPDesktop, avec Laravel 5.3 et Bootstrap 3.3.7. Il a été créé dans l'optique d'aider le travail des agents de la Mairie. Pour connaître plus de détail quant à comment maintenir le logiciel et comment partager la base de donnée dans un réseau, référez-vous à la partie ci-dessous.

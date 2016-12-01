@@ -1,0 +1,76 @@
+body {
+	padding-top: 50px;
+}
+
+.printable {
+	padding: 0;
+}
+
+.btn {
+	margin: 2px;
+}
+
+a {
+	text-decoration: none !important;
+}
+
+.back {
+	font-size: 28px;
+	margin: 5px;
+	color: #333;
+}
+
+table th {
+	text-align: center;
+	vertical-align: middle !important;
+}
+
+table td {
+	text-align: center;
+	vertical-align: middle !important;
+	padding: 0 2px 0 2px !important;
+}
+
+table .danger {
+	font-weight: bold !important;
+}
+
+table td.nom {
+	text-align: left;
+	vertical-align: middle !important;
+}
+
+table td.reunionSujet {
+	text-align: left;
+	vertical-align: middle !important;
+}
+
+table td.reunionSujetBold {
+	text-align: left;
+	vertical-align: middle !important;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+table td.annéeBold {
+	vertical-align: middle !important;
+	font-weight: bold;
+}
+
+table td.sujet {
+	text-align: left;
+	vertical-align: middle !important;
+}
+
+li {
+	list-style: none;
+	padding-left: 5px;
+}
+
+#decal {
+	padding: 5px;
+}
+
+#deroule {
+	color: #333;
+}
