@@ -36346,3 +36346,82 @@ Created()
 - 17:12:56.371 DEBUG: Calling CefQuitMessageLoop()
 - 17:12:56.527 INFO: Ended application
 - 17:12:56.527 INFO: --------------------------------------------------------
+- 21:56:28.004 INFO: --------------------------------------------------------
+- 21:56:28.005 INFO: Started application
+- 21:56:28.005 INFO: Logging to: H:\project\dev\gdmc\debug.log
+- 21:56:28.005 INFO: Log level = DEBUG4
+- 21:56:28.006 INFO: Starting Mongoose 3.9c web server
+- 21:56:28.008 INFO: WWW directory: H:\project\dev\gdmc\www\public
+- 21:56:28.008 INFO: Index files: index.html,index.php
+- 21:56:28.025 INFO: CGI interpreter: H:\project\dev\gdmc\php\php-cgi.exe
+- 21:56:28.025 INFO: CGI pattern: **.php$
+- 21:56:28.026 INFO: Hide files patterns: 
+- 21:56:28.028 INFO: CGI environment variables set: TMP=C:\users\ifthenelse\Temp\,TEMP=C:\users\ifthenelse\Temp\,TMPDIR=C:\users\ifthenelse\Temp\,SERVER_NAME=127.0.0.1,PHPDESKTOP_VERSION=47.5
+- 21:56:28.109 INFO: Web server url: http://127.0.0.1:39405/
+- 21:56:28.114 INFO: remote_debugging_port = 57519
+- 21:56:28.115 DEBUG: Command line string for the browser process: "H:\project\dev\gdmc\gdmc.exe" --no-sandbox --lang=en-US --log-file="H:\project\dev\gdmc\debug.log" --remote-debugging-port=57519
+[1210/215628:ERROR:network_change_notifier_win.cc(153)] WSALookupServiceBegin failed with: 8
+- 21:56:29.450 DEBUG: App::OnContextInitialized()
+- 21:56:29.452 DEBUG: Window max width/height = 1278/742
+- 21:56:29.453 DEBUG: Window max size exceeded, new width/height = 1024/742
+- 21:56:29.460 DEBUG: GetBrowserWindow(): not found, hwnd = 65702
+- 21:56:29.461 DEBUG: WindowProc(): event WM_GETMINMAXINFO: could not fetch BrowserWindow
+- 21:56:29.480 DEBUG: BrowserWindow::CreateBrowserControl()
+- 21:56:29.481 DEBUG: StoreBrowserWindow(): hwnd = 65702
+- 21:56:29.588 DEBUG: ClientHandler::OnAfterCreated()
+- 21:56:29.588 DEBUG: SetCefBrowser() called in ClientHandler::OnAfterCreated()
+- 21:56:29.624 DEBUG: OnLoadingStateChange: loading=1, url=
+- 21:56:29.004 DEBUG: Command line string for the renderer process: "H:\project\dev\gdmc\gdmc.exe" --type=renderer --no-sandbox --lang=en-US --lang=en-US --log-file="H:\project\dev\gdmc\debug.log" --device-scale-factor=1 --num-raster-threads=2 --content-image-texture-target=3553,3553,3553,3553,3553,3553,3553,3553,3553,3553,3553,3553,3553 --video-image-texture-target=3553 --disable-accelerated-video-decode --disable-webrtc-hw-encoding --disable-gpu-compositing --channel="75.0.2078691989\737368392" /prefetch:673131151
+- 21:56:30.193 DEBUG: OnBrowserCreated()
+- 21:56:32.137 INFO: GET 200 /
+- 21:56:32.195 DEBUG: OnLoadingStateChange: loading=0, url=http://127.0.0.1:39405/
+- 21:57:13.222 DEBUG: WM_DESTROY
+- 21:57:13.223 DEBUG: RemoveBrowserWindow(): hwnd = 65702
+- 21:57:13.224 INFO: Stopping Mongoose web server
+- 21:57:13.224 DEBUG: Mongoose webserver stopped immediately
+- 21:57:13.231 DEBUG: OnBeforeClose() hwnd=131246
+- 21:57:13.232 DEBUG: RemoveBrowserWindow(): hwnd = 131246
+- 21:57:13.232 DEBUG: GetBrowserWindow(): not found, hwnd = 131246
+- 21:57:13.232 WARNING: RemoveBrowserWindow() failed: GetBrowserWindow() failed
+- 21:57:13.233 DEBUG: Calling CefQuitMessageLoop()
+- 21:57:13.254 DEBUG: OnBrowserDestroyed()
+[1210/215713:ERROR:ipc_channel_win.cc(502)] pipe error: 233
+- 11:28:56.003 INFO: --------------------------------------------------------
+- 11:28:56.005 INFO: Started application
+- 11:28:56.005 INFO: Logging to: H:\project\dev\gdmc\debug.log
+- 11:28:56.005 INFO: Log level = DEBUG4
+- 11:28:56.005 INFO: Starting Mongoose 3.9c web server
+- 11:28:56.007 INFO: WWW directory: H:\project\dev\gdmc\www\public
+- 11:28:56.007 INFO: Index files: index.html,index.php
+- 11:28:56.019 INFO: CGI interpreter: H:\project\dev\gdmc\php\php-cgi.exe
+- 11:28:56.019 INFO: CGI pattern: **.php$
+- 11:28:56.019 INFO: Hide files patterns: 
+- 11:28:56.020 INFO: CGI environment variables set: TMP=C:\users\ifthenelse\Temp\,TEMP=C:\users\ifthenelse\Temp\,TMPDIR=C:\users\ifthenelse\Temp\,SERVER_NAME=127.0.0.1,PHPDESKTOP_VERSION=47.5
+- 11:28:56.066 INFO: Web server url: http://127.0.0.1:38969/
+- 11:28:56.071 INFO: remote_debugging_port = 60057
+- 11:28:56.071 DEBUG: Command line string for the browser process: "H:\project\dev\gdmc\gdmc.exe" --no-sandbox --lang=en-US --log-file="H:\project\dev\gdmc\debug.log" --remote-debugging-port=60057
+[1211/112856:ERROR:network_change_notifier_win.cc(153)] WSALookupServiceBegin failed with: 8
+- 11:28:56.287 DEBUG: App::OnContextInitialized()
+- 11:28:56.287 DEBUG: Window max width/height = 1278/742
+- 11:28:56.288 DEBUG: Window max size exceeded, new width/height = 1024/742
+- 11:28:56.290 DEBUG: GetBrowserWindow(): not found, hwnd = 65642
+- 11:28:56.290 DEBUG: WindowProc(): event WM_GETMINMAXINFO: could not fetch BrowserWindow
+- 11:28:56.299 DEBUG: BrowserWindow::CreateBrowserControl()
+- 11:28:56.299 DEBUG: StoreBrowserWindow(): hwnd = 65642
+- 11:28:56.454 DEBUG: ClientHandler::OnAfterCreated()
+- 11:28:56.455 DEBUG: SetCefBrowser() called in ClientHandler::OnAfterCreated()
+- 11:28:56.501 DEBUG: OnLoadingStateChange: loading=1, url=
+- 11:28:57.004 DEBUG: Command line string for the renderer process: "H:\project\dev\gdmc\gdmc.exe" --type=renderer --no-sandbox --lang=en-US --lang=en-US --log-file="H:\project\dev\gdmc\debug.log" --device-scale-factor=1 --num-raster-threads=2 --content-image-texture-target=3553,3553,3553,3553,3553,3553,3553,3553,3553,3553,3553,3553,3553 --video-image-texture-target=3553 --disable-accelerated-video-decode --disable-webrtc-hw-encoding --disable-gpu-compositing --channel="38.0.1155203419\1332940935" /prefetch:673131151
+- 11:28:58.118 DEBUG: OnBrowserCreated()
+- 11:28:59.945 INFO: GET 200 /
+- 11:28:59.008 DEBUG: OnLoadingStateChange: loading=0, url=http://127.0.0.1:38969/
+- 11:29:33.101 DEBUG: WM_DESTROY
+- 11:29:33.102 DEBUG: RemoveBrowserWindow(): hwnd = 65642
+- 11:29:33.103 INFO: Stopping Mongoose web server
+- 11:29:33.104 DEBUG: Mongoose webserver stopped immediately
+- 11:29:33.113 DEBUG: OnBeforeClose() hwnd=131186
+- 11:29:33.113 DEBUG: RemoveBrowserWindow(): hwnd = 131186
+- 11:29:33.114 DEBUG: GetBrowserWindow(): not found, hwnd = 131186
+- 11:29:33.114 WARNING: RemoveBrowserWindow() failed: GetBrowserWindow() failed
+- 11:29:33.114 DEBUG: Calling CefQuitMessageLoop()
+- 11:29:33.341 DEBUG: OnBrowserDestroyed()

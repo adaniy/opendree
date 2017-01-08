@@ -48,7 +48,7 @@ return [
 
         'sqlite' => [
             'driver' => 'sqlite',
-            'database' => database_path('../mairie.db'),
+            'database' => storage_path('database/gdmc.db'),
             'prefix' => '',
         ],
 
