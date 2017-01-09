@@ -61,6 +61,21 @@
 			test
 		    </div>
 		</div>
+
+		<div class="col-md-6">
+		    <h4>Sous-partie</h4>
+		    <div class="col-md-6">
+			<div class="inner">
+			    Test
+			</div>
+		    </div>
+
+		    <div class="col-md-6">
+			<div class="inner">
+			    Test
+			</div>
+		    </div>
+		</div>
 	    </div>
 	</div>
 	<script src="{{ asset('js/jquery-1.11.3.min.js') }}"></script>
