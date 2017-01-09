@@ -25,6 +25,10 @@ Route::get('/', function() {
 	return redirect('action');
 });
 
+Route::get("test", function() {
+    return view('test');
+});
+
 /*
 --------> Gestion des actions
 */
