@@ -1,6 +1,6 @@
 // déploiement des panneaux supplémentaires pour certains boutons du menu gauche
 $(document).ready(() => {
-    $('button').click(() => {
+    $('.module').click(() => {
 	$('.deploy').fadeToggle(200, "linear");
     });
 });

@@ -10,10 +10,20 @@ class ActionClass
 {
 	public function insert(Request $request)
 	{
+        if(empty($request->input('alert'))) {
+            $alert = 0;
+        } else {
+            $alert = $request->input('alert');
+        }
+
+        if(empty($request->input('realise'))) {
+            $realise = 0;
+        } else {
+            $realise = $request->input('realise');
+        }
+
 		$nom = $request->input('nom');
-		$alert = $request->input('alert');
 		$alertStart = $request->input('alertStart');
-		$realise = $request->input('realise');
 		$date_creation = $request->input('date_creation');
 		$date_butoire = $request->input('date_butoire');
 		$date_realisation = $request->input('date_realisation');
@@ -34,7 +44,7 @@ class ActionClass
 			$action->date_realisation = $date_realisation;
 
 			if($action->save()) {
-				return redirect('/')->with("valide", "L'action a bien été ajoutée.");
+				return back()->with("valide", "L'action a bien été ajoutée.");
 			} else {
 				return back()->with("erreur", "L'action n'a pas pu être ajoutée.")->withInput();
 			}	

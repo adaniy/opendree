@@ -15,7 +15,7 @@ class ActionController extends Controller
 {
     public function index(Action $action, ActionClass $actionClass) 
     {
-    	return view("index")->with([
+    	return view("action.index")->with([
     		'action' => $action->orderBy('date_butoire', 'ASC')->get(),
     		'actionClass' => $actionClass,
     		'temps' => new TempsClass(),
@@ -30,7 +30,7 @@ class ActionController extends Controller
 
     public function postAction(ActionRequest $request, ActionClass $actionClass)
     {
-    	return $actionClass->insert($request);
+        return $actionClass->insert($request);
     }
 
     public function getEditAction($id, Action $action) 

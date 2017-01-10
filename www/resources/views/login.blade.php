@@ -5,16 +5,38 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('css/override.css') }}" rel="stylesheet">
+	<link href="{{ asset('css/login.css') }}" rel="stylesheet">
 
         <title>Connexion</title>
     </head>
     <body>
-	<div class="login">
-	    <div class="titre">Gestion de la Direction de la Mairie de Carcassonne</div>
-	    <form method="POST">
-		
-	    </form>
+	<div class="row">
+	    <div class="col-md-3 login">
+		<div class="titre"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> GDMC - Connexion</div>
+		<form method="POST">
+		    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+			
+		    <div class="form-group">
+			<input type="text" name="compte" class="form-control" value="{{ old('compte') }}" placeholder="Nom du compte" />
+		    </div>
+
+		    <div class="form-group">
+			<input type="password" name="password" class="form-control" value="{{ old('compte') }}" placeholder="Mot de passe" />
+		    </div>
+
+		    <div class="pull-left">
+			<div class="checkbox">
+			    <label>
+				<input type="checkbox" name="remember"> Mémoriser 
+			    </label>
+			</div>
+		    </div>
+			
+		    <div class="pull-right">
+			<input type="submit" class="btn btn-md btn-info" value="Connexion" />
+		    </div>
+		</form>
+	    </div>
 	</div>
 
 	<script src="{{ asset('js/jquery-1.11.3.min.js') }}"></script>

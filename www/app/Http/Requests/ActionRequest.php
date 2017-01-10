@@ -25,9 +25,9 @@ class ActionRequest extends FormRequest
     {
         return [
             'nom' => 'required',
-            'alert' => 'required|boolean',
+            'alert' => '',
             'alertStart' => 'numeric',
-            'realise' => 'required|boolean',
+            'realise' => '',
             'date_creation' => 'required|date_format:d/m/Y',
             'date_realisation' => 'date_format:d/m/Y',
             'date_butoire' => 'required|date_format:d/m/Y',

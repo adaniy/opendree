@@ -22,7 +22,7 @@ Route::pattern('id', '[0-9]+');
 */
 
 Route::get('/', function() {
-	return redirect('action');
+	return view('index');
 });
 
 Route::get("test", function() {
@@ -40,7 +40,6 @@ Route::get("login", function() {
 Route::get("action","ActionController@index");
 
 // Getter/Setter
-Route::get("action/ajout","ActionController@getAction");
 Route::post("action/ajout","ActionController@postAction");
 // ------------------------------ \\
 Route::get("action/modifier/{id}","ActionController@getEditAction");
