@@ -11,16 +11,12 @@
         <title>GDMC</title>
     </head>
     <body>
-	<nav class="menu col-md-12">
-	    <div class="subhead col-md-4">
-		@yield('gauche')
+	<nav class="head col-md-12 col-xs-12">
+	    <div class="content col-md-11 col-xs-10">
+		GDMC / @yield('head')
 	    </div>
 
-	    <div class="subhead col-md-7">
-		@yield('droite')
-	    </div>
-
-	    <div class="submenu col-md-1">
+	    <div class="menu col-md-1 col-xs-2">
 		<button class="module"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span></button>
 		<div class="deploy">
 		    <div class="titre">Modules</div>
@@ -68,7 +64,7 @@
 		@endif
 
 		{!! $actionClass->canAlert() !!}
-		@yield('contenu')
+		@yield('content')
 	    </div>
 	</div>
 

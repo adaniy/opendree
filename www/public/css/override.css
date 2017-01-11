@@ -11,18 +11,27 @@ html, body {
     height: 100%;
 }
 
-/* les paddings du container correspondent aux deux panneaux sur les côtés */
 .container-fluid {
-    padding: 0 190px 0 55px;
+
+}
+
+.btn {
+    border: 0;
+    border-radius: 2px;
+    box-shadow: 1px 1px 2px grey;
+    text-transform: uppercase;
+    font-weight: bold;
+
+    padding: 10px 20px 10px 20px;
 }
 
 .row {
-    padding: 0 20px 0 20px;
+    padding: 0;
 }
 
 .row > div {
     margin: 0;
-    padding: 5px;
+    padding: 0;
 }
 
 .inner {
@@ -52,6 +61,11 @@ h4 {
     font-size: 18px;
 }
 
+h4 a {
+    color: rgba(20, 20, 20, 0.8);
+    text-shadow: 1px 1px 2px grey;
+}
+
 .printable {
     padding: 0;
 }
@@ -68,7 +82,7 @@ a {
     cursor: not-allowed;
 }
 
-nav.menu {
+nav.head {
     height: auto;
     width: 100%;
 
@@ -86,7 +100,7 @@ nav.menu {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#494949', endColorstr='#3f3f3f',GradientType=0 );
 }
 
-nav.menu .module {
+nav.head .module {
     color: white;
     font-size: 25px;
 
@@ -98,12 +112,12 @@ nav.menu .module {
     padding: 0;
 }
 
-nav.menu .module:focus, .module:active {
+nav.head .module:focus, .module:active {
     border: 0;
     outline: none;
 }
 
-nav.menu .module a {
+nav.head .module a {
     color: white;
     background: none;
     border: 0;
@@ -113,11 +127,11 @@ nav.menu .module a {
     padding: 0;
 }
 
-nav.menu a:hover {
+nav.head a:hover {
     color: #FFF94C;
 }
 
-nav.menu .deploy {
+nav.head .deploy {
     display: none;
  
     height: 100%;
@@ -135,7 +149,7 @@ nav.menu .deploy {
     color: white;
 }
 
-nav.menu .deploy ul {
+nav.head .deploy ul {
     display: blocks;
     text-align: left;
     border-bottom: 1px solid rgba(0, 0, 0, 0.0);
@@ -147,16 +161,16 @@ nav.menu .deploy ul {
     margin: 0;
 }
 
-nav.menu .deploy ul:hover {
+nav.head .deploy ul:hover {
     border-color: #FFF94C;
 }
 
-nav.menu .deploy ul.disabled {
+nav.head .deploy ul.disabled {
     color: rgba(100, 100, 100, 0.3);
     text-shadow: none;
 }
 
-nav.menu .deploy .titre {
+nav.head .deploy .titre {
     font-size: 23px;
     font-weight: bold;
     text-align: center;
@@ -166,13 +180,105 @@ nav.menu .deploy .titre {
     border-bottom: 1px solid #FFF94C;
 }
 
-nav.menu .subhead {
+nav.head .content {
     text-align: left;
-    font-size: 35px;
+    font-size: 25px;
     color: white;
     font-weight: bold;
 }
 
-nav.menu .submenu {
+nav.head .menu {
     text-align: right;
+    font-size: 25px;
+}
+
+.panel {
+    margin: 0;
+    padding: 0;
+
+    border-radius: 0;
+}
+
+.panel .panel-heading {
+    background: rgba(200, 200, 200, 0.8);
+    border: 0;
+    padding: 5px;
+}
+
+.action {
+    height: 100vh;
+}
+
+.action .gauche {
+    height: 100%;
+    border-right: 1px solid rgba(100, 100, 100, 0.5);
+    overflow: auto;
+}
+
+.action .gauche .search {
+
+}
+
+.action .gauche .list {
+    font-size: 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.action .gauche .list li {
+    padding: 5px;
+    list-style: none;
+    transition: 0.3s;
+    border-bottom: 1px solid rgba(140, 140, 140, 0.0);
+}
+
+.action .gauche .list li:hover {
+    color: rgba(10, 100, 200, 1.0);
+    border-color: rgba(140, 140, 140, 0.8);
+}
+
+.action .gauche .list a {
+    color: rgba(5, 5, 5, 1.0);
+
+}
+
+.action .gauche .list li.active {
+    color: rgba(10, 100, 200, 1.0);
+    border-color: rgba(140, 140, 140, 0.8);
+}
+
+.action .gauche .list li.alerte {
+    color: rgba(230, 10, 10, 1.0);
+}
+
+.action .gauche .form-control {
+    border: 0;
+    box-shadow: 0;
+    background: none;
+    border-bottom: 1px solid rgba(180, 180, 180, 0.9);
+    border-radius: 0;
+}
+
+.action .gauche form {
+    margin: 0;
+    padding: 0;
+}
+
+.action .droite {
+    height: 100%;
+}
+
+.action .droite .titre {
+    font-size: 30px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+
+    margin-bottom: 20px;
+}
+
+.action .droite .action-info {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
 }
