@@ -15,8 +15,8 @@ class ActionController extends Controller
 {
     public function index(Action $action, ActionClass $actionClass) 
     {
-    	return view("action.index")->with([
-    		'action' => $action->orderBy('date_butoire', 'ASC')->get(),
+    	return view("action")->with([
+    		'action' => $action->orderBy('date_creation', 'DESC')->get(),
     		'actionClass' => $actionClass,
     		'temps' => new TempsClass(),
     		'carbon' => new Carbon()
@@ -28,38 +28,13 @@ class ActionController extends Controller
     	return view("action.insert");
     }
 
-    public function postAction(ActionRequest $request, ActionClass $actionClass)
-    {
-        return $actionClass->insert($request);
-    }
-
-    public function ajaxEditActionTitre(ActionRequest $request, ActionClass $actionClass)
+    public function editActionTitre(ActionRequest $request, ActionClass $actionClass)
     {
         return $actionClass->ajax('edit', 'nom', $request);
     }
 
-    public function ajaxAjoutAction(ActionRequest $request, ActionClass $actionClass)
+    public function ajoutAction(ActionRequest $request, ActionClass $actionClass)
     {
         return $actionClass->ajax('add', null, $request);
-    }
-    
-    public function getEditAction($id, Action $action) 
-    {
-    	return view("action.edit")->with([
-    		'id' => $id,
-    		'action' => $action->find($id)
-    	]);
-    }
-
-    public function postEditAction($id, ActionRequest $request)
-    {
-    	$actionClass = new ActionClass();
-
-    	return $actionClass->update($id, $request);
-    }
-
-    public function deleteAction($id, ActionClass $actionClass)
-    {
-    	return $actionClass->delete($id);
     }
 }

@@ -92,5 +92,5 @@ Route::post("election/brut","ElectionController@rechercheBrut");
 Route::get("election/brut/supprimer/{id}","ElectionController@supprimer");
 
 // Ajax
-Route::post("action/edit/nom", "ActionController@ajaxEditActionTitre");
-Route::post("action/ajout", "ActionController@ajaxAjoutAction");
+Route::post("action/edit/nom", "ActionController@editActionTitre");
+Route::post("action/ajout", "ActionController@ajoutAction");

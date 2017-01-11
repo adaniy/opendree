@@ -25,13 +25,18 @@ class ActionClass
 
                         $response = array(
                             'status' => 'success',
-                            'msg' => 'Nom modifié avec succès.',
+                            'id' => $id,
                         );
 
-                        return "OK";
+                        return json_encode($response);
                     }
                 } else {
-                    return "ID NOT FOUND";
+                    $response = array(
+                        'status' => 'not found',
+                        'newId' => 5,
+                    );
+
+                    return json_encode($response);
                 } 
             } elseif($method == "add") {
                 // l'ajout via ajax ne comprend que le titre
@@ -56,13 +61,23 @@ class ActionClass
                 if($action->save()) {
                     $response = array(
                         'status' => 'success',
-                        'msg' => 'Action ajouté avec succès.',
+                        'id' => $action->id,
                     );
+
+                    return json_encode($response);
                 } else {
-                    return "Erreur dans l'ajout de l'action.";
+                    $response = array(
+                        'status' => 'error',
+                    );
+
+                    return json_encode($response);
                 }
             } else {
-                return "NO";
+                $response = array(
+                    'status' => 'error',
+                );
+
+                return json_encode($response);
             }
         }
     }

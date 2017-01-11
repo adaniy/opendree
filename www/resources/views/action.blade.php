@@ -15,13 +15,13 @@
 		</form>
 	    </div>
 
-	    <div class="action-add text-center">
+	    <div class="action-new text-center">
 		<button id="add" class="live"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></button>
 	    </div>
 	    @foreach($action as $actions)
-		<div class="list"><div class="pull-right"><button id="edit" class="live" data-attribute="1"><span class="glyphicon glyphicon-edit" aria-hidden="true"></button></a></div><a href="{{ url('action/".$actions->id }}" data-attribute="{{ $actions->id }}"><li>{{ $actions->nom }}</li></a></div>
+		<div class="list"><div class="pull-right"><button id="edit" class="live" data-attribute="{{ $actions->id }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></button></a></div><a href="{{ url('action/'.$actions->id) }}"><li>{{ $actions->nom }}</li></a></div>
+	    @endforeach
 	</div>
-	@endforeach
 	<div class="droite col-md-9">
 	    <div class="titre">
 		Faire truc et truc

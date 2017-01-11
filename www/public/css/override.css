@@ -254,13 +254,16 @@ nav.head .menu {
 
 .action .gauche .form-control {
     border: 0;
-    box-shadow: 0;
+    box-shadow: none;
     background: none;
     border-bottom: 1px solid rgba(180, 180, 180, 0.9);
     border-radius: 0;
-}
 
-.action .gauche form {
+    font-size: 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: black;
+
     margin: 0;
     padding: 0;
 }
