@@ -1,17 +1,13 @@
 @extends('template')
 
-@section('contenu')
-    <div class="action">
-	<div class="col-md-4">
-	    <div class="gauche">
-		Test
-	    </div>
-	</div>
+@section('gauche')
+    Test
+@endsection
 
-	<div class="col-md-8">
-	    <div class="droite">
-		Test
-	    </div>
-	</div>
-    </div>
+@section('droite')
+    Test
+@endsection
+
+@section('contenu')
+    Test
 @endsection

@@ -11,8 +11,16 @@
         <title>GDMC</title>
     </head>
     <body>
-	<nav class="menu">
-	    <li>
+	<nav class="menu col-md-12">
+	    <div class="subhead col-md-4">
+		@yield('gauche')
+	    </div>
+
+	    <div class="subhead col-md-7">
+		@yield('droite')
+	    </div>
+
+	    <div class="submenu col-md-1">
 		<button class="module"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span></button>
 		<div class="deploy">
 		    <div class="titre">Modules</div>
@@ -22,14 +30,15 @@
 		    <a href="{{ url('budget') }}"><ul>▶ budget</ul></a>
 		    <a href="{{ url('planning') }}"><ul>▶ planning</ul></a>
 		</div>
-	    </li>
+	    </div>
 	</nav>
+
 	<div class="container-fluid">
 	    <div class="row">
 		@if(count($errors) > 0)
 		    <div class="bs-errors" data-example-id="dismissible-alert-css">
 			<div class="alert alert-warning alert-dismissible" role="alert">
-			    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+&			    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			    <strong>Attention : </strong><br />
 			    @foreach ($errors->all() as $errorsGet)
 				<li>{{ $errorsGet }}</li>
