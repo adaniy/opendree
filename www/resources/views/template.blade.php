@@ -5,9 +5,9 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="csrf-token" content="{{ csrf_token() }}">
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-		<link href="{{ asset('css/override.css') }}" rel="stylesheet">
-
+	<link href="{{ asset('css/override.css') }}" rel="stylesheet">
         <title>GDMC</title>
     </head>
     <body>
@@ -62,8 +62,7 @@
 			</div>
 		    </div>
 		@endif
-
-		{!! $actionClass->canAlert() !!}
+		
 		@yield('content')
 	    </div>
 	</div>

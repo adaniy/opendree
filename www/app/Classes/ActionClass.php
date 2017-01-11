@@ -8,6 +8,65 @@ use App\Action;
 
 class ActionClass
 {
+    public function ajax($method, $change, $request)
+    {
+        if($request->ajax()) {
+            $action = new Action;
+            $id = $request->get('id');
+
+            if($method == "edit") {
+                if($action->find($id)) {
+                    if($change == "nom") {
+                        $nom = e($request->get('nom'));
+
+                        $action->where('id', $id)->update([
+                            'nom' => $nom
+                        ]);
+
+                        $response = array(
+                            'status' => 'success',
+                            'msg' => 'Nom modifié avec succès.',
+                        );
+
+                        return "OK";
+                    }
+                } else {
+                    return "ID NOT FOUND";
+                } 
+            } elseif($method == "add") {
+                // l'ajout via ajax ne comprend que le titre
+                $nom = $request->get('nom');
+
+                // le reste sont des valeurs vides
+                $alert = null;
+                $alertStart = null;
+                $realise = null;
+                $date_creation = Carbon::now();
+                $date_butoire = null;
+                $date_realisation = null;
+                
+                $action->nom = $nom;
+                $action->alert = $alert;
+                $action->alertStart = $alertStart;
+                $action->realise = $realise;
+                $action->date_creation = $date_creation;
+                $action->date_butoire = $date_butoire;
+                $action->date_realisation = $date_realisation;
+
+                if($action->save()) {
+                    $response = array(
+                        'status' => 'success',
+                        'msg' => 'Action ajouté avec succès.',
+                    );
+                } else {
+                    return "Erreur dans l'ajout de l'action.";
+                }
+            } else {
+                return "NO";
+            }
+        }
+    }
+
 	public function insert(Request $request)
 	{
         if(empty($request->input('alert'))) {

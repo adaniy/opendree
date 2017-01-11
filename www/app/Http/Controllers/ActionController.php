@@ -33,6 +33,16 @@ class ActionController extends Controller
         return $actionClass->insert($request);
     }
 
+    public function ajaxEditActionTitre(ActionRequest $request, ActionClass $actionClass)
+    {
+        return $actionClass->ajax('edit', 'nom', $request);
+    }
+
+    public function ajaxAjoutAction(ActionRequest $request, ActionClass $actionClass)
+    {
+        return $actionClass->ajax('add', null, $request);
+    }
+    
     public function getEditAction($id, Action $action) 
     {
     	return view("action.edit")->with([

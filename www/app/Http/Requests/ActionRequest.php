@@ -24,13 +24,13 @@ class ActionRequest extends FormRequest
     public function rules()
     {
         return [
-            'nom' => 'required',
+            'nom' => '',
             'alert' => '',
             'alertStart' => 'numeric',
             'realise' => '',
-            'date_creation' => 'required|date_format:d/m/Y',
+            'date_creation' => 'date_format:d/m/Y',
             'date_realisation' => 'date_format:d/m/Y',
-            'date_butoire' => 'required|date_format:d/m/Y',
+            'date_butoire' => 'date_format:d/m/Y',
         ];
     }
 }

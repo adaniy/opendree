@@ -133,6 +133,7 @@ nav.head a:hover {
 
 nav.head .deploy {
     display: none;
+    z-index: 1000;
  
     height: 100%;
     padding: 10px;
@@ -283,13 +284,13 @@ nav.head .menu {
     text-align: center;
 }
 
-.action button.edit {
+.action button.live {
     border: 0;
     background: none;
 
     transition: 0.3s;
 }
 
-.action button.edit:hover {
+.action button.live:hover {
     color: orange;
 }

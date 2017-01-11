@@ -15,9 +15,12 @@
 		</form>
 	    </div>
 
-	    <div class="list"><div class="pull-right"><button class="edit" data-attribute="1"><span class="glyphicon glyphicon-edit" aria-hidden="true"></button></a></div><a href="#" data-attribute="1"><li>Faire truc et truc</li></a></div>
-	    <div class="list"><div class="pull-right"><button class="edit" data-attribute="2"><span class="glyphicon glyphicon-edit" aria-hidden="true"></button></a></div><a href="#" data-attribute="2"><li>Faire truc et truc</li></a></div>
-	    
+	    <div class="action-add text-center">
+		<button id="add" class="live"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></button>
+	    </div>
+
+	    <div class="list"><div class="pull-right"><button id="edit" class="live" data-attribute="1"><span class="glyphicon glyphicon-edit" aria-hidden="true"></button></a></div><a href="#" data-attribute="1"><li>Faire truc et truc</li></a></div>
+		<div class="list"><div class="pull-right"><button id="edit" class="live" data-attribute="2"><span class="glyphicon glyphicon-edit" aria-hidden="true"></button></a></div><a href="#" data-attribute="2"><li>Faire truc et truc</li></a></div>
 	</div>
 
 	<div class="droite col-md-9">
