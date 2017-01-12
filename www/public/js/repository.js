@@ -48,6 +48,7 @@ function liveExec(type, element, url, actionName, actionAttr, prependTo, newData
 	    e.preventDefault();
 	    var value = $(this).find('input[name='+ actionName +']').val();
 	    var id = $(this).attr(actionAttr);
+	    var actual = $(this);
 	
 	    $.ajax({
 		headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -64,7 +65,7 @@ function liveExec(type, element, url, actionName, actionAttr, prependTo, newData
 
 		    let dataReplace = part1 + response.id + part2 + value + part3;
 		    
-		    $(prependTo).replaceWith(dataReplace); // a corrigé, modifie tous ce qui est en cours de modification d'un coup
+		    actual.replaceWith(dataReplace); // a corrigé, modifie tous ce qui est en cours de modification d'un coup
 		}
 	    });
 	}
