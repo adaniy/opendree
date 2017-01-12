@@ -13,19 +13,22 @@ use App\Classes\TempsClass;
 
 class ActionController extends Controller
 {
-    public function index(Action $action, ActionClass $actionClass) 
+    public function index(Action $action, $id, ActionClass $actionClass) 
     {
     	return view("action")->with([
     		'action' => $action->orderBy('date_creation', 'DESC')->get(),
+            'actionCurrent' => $action->find($id),
     		'actionClass' => $actionClass,
     		'temps' => new TempsClass(),
     		'carbon' => new Carbon()
     	]);
     }
 
-    public function getAction(Action $action) 
+    public function redirectFirst(Action $action)
     {
-    	return view("action.insert");
+        $firstId = $action->orderBy("date_creation", "ASC")->first()->id;
+
+        return redirect('action/'.$firstId);
     }
 
     public function editActionTitre(ActionRequest $request, ActionClass $actionClass)

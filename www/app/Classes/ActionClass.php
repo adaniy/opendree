@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Action;
 
-class ActionClass
+use App\Classes\TempsClass;
+
+class ActionClass extends TempsClass
 {
     public function ajax($method, $change, $request)
     {
@@ -33,16 +35,16 @@ class ActionClass
                 } else {
                     $response = array(
                         'status' => 'not found',
-                        'newId' => 5,
                     );
 
                     return json_encode($response);
                 } 
-            } elseif($method == "add") {
+            }  elseif($method == "add") {
                 // l'ajout via ajax ne comprend que le titre
                 $nom = $request->get('nom');
 
                 // le reste sont des valeurs vides
+                $description = null;
                 $alert = null;
                 $alertStart = null;
                 $realise = null;
@@ -51,6 +53,7 @@ class ActionClass
                 $date_realisation = null;
                 
                 $action->nom = $nom;
+                $action->description = $description;
                 $action->alert = $alert;
                 $action->alertStart = $alertStart;
                 $action->realise = $realise;
@@ -168,32 +171,37 @@ class ActionClass
 		return back()->with("valide", "L'action a bien été supprimée.");
 	}
 
-	// Donne la différence en jour de l'action
-	public function diffDays($date)
-	{
-		$now = Carbon::now();
-		$dateDiff = Carbon::createFromFormat("d/m/Y",$date);
+    public function date($date)
+    {
+        $tempsClass = new TempsClass();
 
-		return $dateDiff->diffInDays($now);
-	}
-
-	// Donne la différence en jour de l'action
-	public function diffMonths($date)
-	{
-		$now = Carbon::now();
-		$dateDiff = Carbon::createFromFormat("d/m/Y",$date);
-
-		return $dateDiff->diffInMonths($now);
-	}
+        if($date == null) {
+            return "non complété";
+        } else {
+            return $tempsClass->parseDate($date);
+        }
+    }
 
 	// Donne la différence en jour de l'action
-	public function diffYears($date)
+	public function diff($date)
 	{
-		$now = Carbon::now();
-		$dateDiff = Carbon::createFromFormat("d/m/Y", $date);
-
-		return $dateDiff->diffInYears($now);
+        $tempsClass = new TempsClass();
+        
+        if($date == null) {
+            return "non complété";
+        } else {
+            return $tempsClass->diff($date);
+        }
 	}
+
+    public function description($string)
+    {
+        if($string == null) {
+            return "non complété";
+        } else {
+            return $string;
+        }
+    }
 
 	// Détecte si une action a une alerte enclenchable, si oui, retourne un script Javascript d'alerte basique.
 	public function canAlert()

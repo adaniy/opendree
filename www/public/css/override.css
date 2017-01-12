@@ -23,6 +23,7 @@ html, body {
     font-weight: bold;
 
     padding: 10px 20px 10px 20px;
+    transition: 0.3s;
 }
 
 .row {
@@ -39,6 +40,8 @@ html, body {
     box-shadow: 1px 1px 2px grey;
     border-radius: 1px;
     padding: 5px;
+
+    margin-bottom: 10px;
 }
 
 h2:before {
@@ -296,4 +299,13 @@ nav.head .menu {
 
 .action button.live:hover {
     color: orange;
+}
+
+.action-new {
+    margin-bottom: 20px;
+}
+
+.action .description {
+    font-size: 18px;
+    font-weight: bold;
 }

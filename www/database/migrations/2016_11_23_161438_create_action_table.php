@@ -18,6 +18,7 @@ class CreateActionTable extends Migration
             $table->enum('alert',[0,1])->nullable();
             $table->integer('alertStart')->unsigned()->nullable();
             $table->string("nom")->nullable();
+            $table->text("description")->nullable();
             $table->enum("realise",[0,1])->nullable();
             $table->date('date_creation')->nullable();
             $table->date('date_butoire')->nullable();

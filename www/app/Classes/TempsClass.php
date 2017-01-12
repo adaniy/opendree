@@ -6,11 +6,18 @@ use Carbon\Carbon;
 
 class TempsClass
 {
+    public function diff($date)
+    {
+        $now = Carbon::now();
+		$dateDiff = Carbon::createFromFormat("Y-m-d H:i:s", $date);
+
+		return $dateDiff->diffInDays($now);
+    }
 
 	public function parseDate($date)
 	{
 		Carbon::setLocale('fr');
-		$init = Carbon::createFromFormat('d/m/Y', $date);
+		$init = Carbon::createFromFormat('Y-m-d H:i:s', $date);
 
 		$jours = $init->format('d');
 		$mois = $init->format('m');

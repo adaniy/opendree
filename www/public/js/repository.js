@@ -1,4 +1,76 @@
-// déploiement des panneaux supplémentaires pour certains boutons du menu gauche
+function liveAddForm(element, url, actionName, actionAttr, placeholder, prependTo) {
+    $(element).on('click', function() {
+	var csrf_token = $('meta[name="csrf-token"]').attr('content');
+	var form = '<form method="POST" action="' + url + '" class="form '+ actionName +'">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '">' + '<input type="text" class="form-control" name="'+ actionAttr +'" placeholder="'+ placeholder +'"></form>';
+
+	$(prependTo).first().prepend(form);
+    });
+}
+function liveEditForm(element, data, url, actionName, actionAttr, replaceAt) {
+    $(element).on('click', function() {
+	var id = $(this).attr(data);
+	var old = $(this).closest(replaceAt).text();
+	var csrf_token = $('meta[name="csrf-token"]').attr('content');
+	var form = '<form method="POST" data-attribute="'+ id +'" action="' + url + '" class="form '+ actionName +'">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '">' + '<input type="hidden" name="id" value="'+ id +'"><input type="text" class="form-control" name="'+ actionAttr +'" value="'+ old +'"></form>';
+	$(this).closest(replaceAt).replaceWith(form);
+    });
+}
+
+function liveExec(type, element, url, actionName, actionAttr, prependTo, newData) {
+    $(document).on('submit', element, function (e) {
+	if(type == "add") {
+	    e.preventDefault();
+	    var value = $(this).find('input[name='+ actionName +']').val();
+	    var deleteForm = $(this).remove();
+	
+	    $.ajax({
+		headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+		type: "POST",
+		url: url,
+		data: $(this).serialize()
+	    }).done(function(msg) {
+		var response = $.parseJSON(msg);
+
+		if(response.status == "success") {
+		    var part1 = newData.part1;
+		    var part2 = newData.part2;
+		    var part3 = newData.part3;
+
+		    let dataReplace = part1 + response.id + part2 + value + part3;
+
+		    $(prependTo).first().prepend(dataReplace);
+		    deleteForm;
+
+		    console.log("The ajax request returned successful result.");
+		} else console.log("The ajax request returned an error.");
+	    });
+	} else if(type == "edit") {
+	    e.preventDefault();
+	    var value = $(this).find('input[name='+ actionName +']').val();
+	    var id = $(this).attr(actionAttr);
+	
+	    $.ajax({
+		headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+		type: "POST",
+		url: url,
+		data: $(this).serialize()
+	    }).done(function(msg) {
+		var response = $.parseJSON(msg);
+		console.log(response.status);
+		if(response.status == "success") {
+		    var part1 = newData.part1;
+		    var part2 = newData.part2;
+		    var part3 = newData.part3;
+
+		    let dataReplace = part1 + response.id + part2 + value + part3;
+		    
+		    $(prependTo).replaceWith(dataReplace); // a corrigé, modifie tous ce qui est en cours de modification d'un coup
+		}
+	    });
+	}
+    });    
+}
+
 $(function() {
     $('.module').click(() => {
 	$('.deploy').fadeToggle(200, "linear");
@@ -9,70 +81,68 @@ $(function() {
 	$('.alerte-on').fadeOut(500).fadeIn(500, blink);
     })();
 
-    // gestion du module "ACTION"
-    // ajout de titres
-    // formulaire
-    $('button#add').on('click', function() {
-	var delete_token = Math.random * 9999999;
-	var csrf_token = $('meta[name="csrf-token"]').attr('content');
-	var url = 'action/ajout';
-	var form = '<form method="POST" id="'+ delete_token +'" action="' + url + '" class="form action-add">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '">' + '<input type="text" class="form-control" name="nom" placeholder="Nom de la nouvelle action"></form>';
-
-	$('.list').first().prepend(form);
+    $('#refresh').on('click', function () {
+	location.href = location.href;
     });
-    // traitement
-    $(document).on('submit', ".action-add", function (e) {
-	e.preventDefault();
-	var nom = $(this).find('input[name=nom]').val();
-	
-	$.ajax({
-	    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-	    type: "POST",
-	    url: 'action/ajout',
-	    data: $(this).serialize()
-	}).done(function(msg) {
-	    var response = $.parseJSON(msg);
 
-	    if(response.status == "success") {
-		let newData = '<div class="list"><a href="action/' + response.id +'"><li>'+ nom +'</li></a></div>';
+    // gestion du module "ACTION"
+    // recherche instantané
+    $('.live-search').keyup( function() {
+	var filter = $(this).val(), count = 0;
 
-		$('.list').first().prepend(newData);
-		$('.').remove();
-
-		console.log("The ajax request returned successful result.");
+	$(".list").each( function () {
+	    if($(this).text().search(new RegExp(filter, "i")) < 0) {
+		$(this).fadeOut();
+	    } else {
+		$(this).show();
+		count++;
 	    }
 	});
     });
     
-    // modification des titres
-    $('button#edit').on('click', function() {
-	var id = $(this).attr('data-attribute');
-	var url = 'action/edit/nom';
-	var csrf_token = $('meta[name="csrf-token"]').attr('content');
-	var old = $(this).closest('.list').text();
-	var formBeginning = '<form method="POST" action="' + url + '" class="form action-edit">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '">' + '<input type="hidden" name="id" value="' + id + '">';
-	var formInput = '<input type="text" class="form-control" name="nom" value="' + old + '">';
-	var formEnding = '</form>';
+    // ajout de titres
+    // formulaire
+    liveAddForm('button#add', 'ajout', 'action-add', 'nom', "Nom de la nouvelle action", '.list');
 
-	$(this).closest('.list').replaceWith(formBeginning + formInput + formEnding);
+    // traitement
+    liveExec('add', '.action-add', 'ajout', 'nom', '', '.list', {
+	part1: '<div class="list"><div class="pull-right"><button id="edit" class="live"><span class="glyphicon glyphicon-remove" aria-hidden="true"></button></div><a href="action/',
+	part2: '"><li>',
+	part3: '</li></a></div>'
+    });
+
+    // modification de titres
+    // formulaire
+    liveEditForm('button#edit', 'data-attribute', 'edit/nom', 'action-edit', 'nom', '.list');
+    
+    liveExec('edit', '.action-edit', 'edit/nom', 'nom', 'data-attribute','.action-edit', {
+	part1: '<div class="list"><div class="pull-right"><button id="edit" class="live"><span class="glyphicon glyphicon-remove" aria-hidden="true"></button></div><a href="action/',
+	part2: '"><li>',
+	part3: '</li></a></div>'
     });
 
     // traitement
+    /*
     $(document).on('submit', ".action-edit", function (e) {
 	e.preventDefault();
 	var nom = $(this).find('input[name=nom]').val();
+	var id = $(this).attr('data-attribute');
+	
 	$.ajax({
 	    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 	    type: "POST",
-	    url: 'action/edit/nom',
+	    url: 'edit/nom',
 	    data: $(this).serialize()
 	}).done(function(msg) {
-	    // I'll put the condition for if the request is successful
-	    let replace = '<div class="list"><a href="#"><li>'+ nom +'</li></a></div>';
+	    var response = $.parseJSON(msg);
+	    console.log(response.status);
+	    if(response.status == "success") {
+		let replace = '<div class="list"><div class="pull-right"><button id="edit" class="live"><span class="glyphicon glyphicon-remove" aria-hidden="true"></button></div><a href="action/'+ id +'"><li>'+ nom +'</li></a></div>';
 
-	    $('.action-edit').replaceWith(replace);
+		$('.action-edit').replaceWith(replace);
+	    }
 	});
-    });
+    });*/
 });
 
 

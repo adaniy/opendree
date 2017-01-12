@@ -37,15 +37,8 @@ Route::get("login", function() {
 */
 
 // Index
-Route::get("action","ActionController@index");
-
-// Getter/Setter
-Route::post("action/ajout","ActionController@postAction");
-// ------------------------------ \\
-Route::get("action/modifier/{id}","ActionController@getEditAction");
-Route::post("action/modifier/{id}","ActionController@postEditAction");
-// ------------------------------ \\
-Route::get("action/supprimer/{id}","ActionController@deleteAction");
+Route::get("action", "ActionController@redirectFirst");
+Route::get("action/{id}", "ActionController@index");
 
 /*
 --------> Gestion des réunions
