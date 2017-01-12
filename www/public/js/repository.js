@@ -102,10 +102,8 @@ $(function() {
     });
     
     // ajout de titres
-    // formulaire
     liveAddForm('button#add', 'ajout', 'action-add', 'nom', "Nom de la nouvelle action", '.list');
 
-    // traitement
     liveExec('add', '.action-add', 'ajout', 'nom', '', '.list', {
 	part1: '<div class="list"><div class="pull-right"><button id="edit" class="live"><span class="glyphicon glyphicon-remove" aria-hidden="true"></button></div><a href="action/',
 	part2: '"><li>',
@@ -113,7 +111,6 @@ $(function() {
     });
 
     // modification de titres
-    // formulaire
     liveEditForm('button#edit', 'data-attribute', 'edit/nom', 'action-edit', 'nom', '.list');
     
     liveExec('edit', '.action-edit', 'edit/nom', 'nom', 'data-attribute','.action-edit', {
@@ -121,29 +118,9 @@ $(function() {
 	part2: '"><li>',
 	part3: '</li></a></div>'
     });
-
-    // traitement
-    /*
-    $(document).on('submit', ".action-edit", function (e) {
-	e.preventDefault();
-	var nom = $(this).find('input[name=nom]').val();
-	var id = $(this).attr('data-attribute');
-	
-	$.ajax({
-	    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-	    type: "POST",
-	    url: 'edit/nom',
-	    data: $(this).serialize()
-	}).done(function(msg) {
-	    var response = $.parseJSON(msg);
-	    console.log(response.status);
-	    if(response.status == "success") {
-		let replace = '<div class="list"><div class="pull-right"><button id="edit" class="live"><span class="glyphicon glyphicon-remove" aria-hidden="true"></button></div><a href="action/'+ id +'"><li>'+ nom +'</li></a></div>';
-
-		$('.action-edit').replaceWith(replace);
-	    }
-	});
-    });*/
+    // liveEditForm(element, data, url, actionName, actionAttr, replaceAt)
+    // modification de la description
+    liveEditForm('button#edit-description', 'data-attribute', 'edit/description', 'description', 'description', '.list');
 });
 
 

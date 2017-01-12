@@ -57,7 +57,7 @@
 	    </div>
 
 	    <div class="col-md-12">
-		<h4>Description<div class="pull-right"><button class="live"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></div></h4>
+		<h4>Description<div class="pull-right"><button id="edit-description" class="live"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></div></h4>
 		<div class="inner description">
 		    {{ $actionClass->description($actionCurrent->description) }}
 		</div>
