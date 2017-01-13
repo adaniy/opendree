@@ -106,12 +106,14 @@ $(function() {
 	var csrf_token = $('meta[name="csrf-token"]').attr('content');
 	var id = $('meta[name="id"]').attr('content');
 	
-	var form = '<form method="POST" action="' + url + '" class="form description-edit">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '">' + '<input type="hidden" name="id" value="'+ id +'"><input type="text" class="form-control" name="description" value="'+ old +'"></form>';
+	var form = '<form method="POST" action="' + url + '" class="form">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '">' + '<input type="hidden" name="id" value="'+ id +'"><textarea id="test" name="description" class="form-control description-edit">'+ old +'</textarea></form>';
 	
 	$('.description').replaceWith(form);
     });
 
-    $(document).on('submit', '.description-edit', function (e) {
+    if($('.description-edit')) {
+    $('.description-edit').on('keypress', function (e) {
+	if(e.keyCode == 13) alert(e.keyCode);
 	e.preventDefault();
 	var value = $(this).find('input[name=description]').val();
 	var actual = $(this);
@@ -132,6 +134,7 @@ $(function() {
 	    }
 	});
     });
+}
 });
 
 

@@ -51,7 +51,7 @@ class ActionClass extends TempsClass
                     }
                 } else {
                     $response = array(
-                        'status' => 'not found',
+                        'status' => $id,
                     );
 
                     return json_encode($response);
