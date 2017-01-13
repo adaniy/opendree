@@ -129,9 +129,11 @@ $(function() {
 	var form = '<form method="POST" action="' + url + '" class="form">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '">' + '<input type="hidden" name="id" value="'+ id +'"><textarea id="test" name="description" class="form-control description-edit">'+ old +'</textarea></form>';
 	
 	$('.description').replaceWith(form);
+	$('.description-edit').trigger('click'); // on déclenche l'action click pour assurer que le textarea prenne la bonne hauteur lors de son apparition
     });
 
-    $('.inner').on('change keyup keydown paste cut', 'textarea', function () {
+    // on s'assure que la hauteur du textarea s'ajuste en fonction du contenu
+    $('.inner').on('change click keyup keydown paste cut', 'textarea', function () {
         $(this).height(0).height(this.scrollHeight);
     }).find('textarea').change();
 
