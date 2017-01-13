@@ -328,3 +328,7 @@ nav.head .menu {
     padding: 0;
     max-width: 100%;
 }
+
+.action .droite textarea {
+    height: 100%;
+}

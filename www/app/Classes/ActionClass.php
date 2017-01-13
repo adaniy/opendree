@@ -33,7 +33,7 @@ class ActionClass extends TempsClass
 
                         return json_encode($response);
                     } elseif($change == "description") {
-                        $description = e($request->get('description'));
+                        $description = $request->get('description');
 
                         
                         $action->where('id', $id)->update([
