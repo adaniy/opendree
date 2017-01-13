@@ -16,10 +16,8 @@ class CreateActionTable extends Migration
         Schema::create('action', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->enum('alert',[0,1])->nullable();
-            $table->integer('alertStart')->unsigned()->nullable();
             $table->string("nom")->nullable();
             $table->text("description")->nullable();
-            $table->enum("realise",[0,1])->nullable();
             $table->date('date_creation')->nullable();
             $table->date('date_butoire')->nullable();
             $table->date('date_realisation')->nullable();

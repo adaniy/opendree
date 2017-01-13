@@ -312,3 +312,18 @@ nav.head .menu {
     font-size: 18px;
     font-weight: bold;
 }
+
+.action .droite .form-control {
+    border: 0;
+    height: auto;
+    box-shadow: none;
+    background: none;
+    border-radius: 0;
+    color: rgba(200, 60, 10, 1.0);
+    font-size: 18px;
+    font-weight: bold;
+
+
+    margin: 0;
+    padding: 0;
+}

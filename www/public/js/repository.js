@@ -12,8 +12,11 @@ $(function() {
 	location.href = location.href;
     });
 
-    // gestion du module "ACTION"
-    // recherche instantané
+    // ----------- MODULE - ACTION ----------- \\
+    // ---------------------------------------- \\
+
+    // RECHERCHE INSTANTANE \\
+    // ------------------------ \\
     $('.live-search').keyup( function() {
 	var filter = $(this).val(), count = 0;
 
@@ -39,7 +42,8 @@ $(function() {
     $(document).on('submit', '.action-add', function (e) {
 	e.preventDefault();
 	var value = $(this).find('input[name=nom]').val();
-	var deleteForm = $(this).remove();
+
+	var actual = $(this);
 	
 	$.ajax({
 	    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -50,10 +54,10 @@ $(function() {
 	    var response = $.parseJSON(msg);
 
 	    if(response.status == "success") {
-		let dataReplace = '<div class="list"><div class="pull-right"><button id="edit" class="live"><span class="glyphicon glyphicon-remove" aria-hidden="true"></button></div><a href="' + response.id + '"><li>' + value + '</li></a></div>';
+		let dataReplace = '<div class="list"><div class="pull-right"><button id="edit" class="live"><span class="glyphicon glyphicon-remove" aria-hidden="trueOPOP"></button></div><a href="' + response.id + '"><li>' + value + '</li></a></div>';
 
-		$('.list').first().prepend(dataReplace);
-		deleteForm;
+		actual.replaceWith(dataReplace);
+
 
 		console.log("The ajax request returned successful result.");
 	    } else console.log("The ajax request returned an error.");
@@ -67,7 +71,7 @@ $(function() {
 	var old = $(this).closest('.list').text();
 	var url = 'edit/nom';
 	var csrf_token = $('meta[name="csrf-token"]').attr('content');
-	var form = '<form method="POST" data-attribute="'+ id +'" action="' + url + '" class="form action-edit">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '">' + '<input type="hidden" name="id" value="'+ id +'"><input tfype="text" class="form-control" name="nom" value="'+ old +'"></form>';
+	var form = '<form method="POST" data-attribute="'+ id +'" action="' + url + '" class="form action-edit">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '">' + '<input type="hidden" name="id" value="'+ id +'"><input type="text" class="form-control" name="nom" value="'+ old +'"></form>';
 	$(this).closest('.list').replaceWith(form);
     });
 
@@ -96,7 +100,38 @@ $(function() {
 
     // DESCRIPTION  - MODIFICATION \\
     // ------------------------------ \\
-    
+    $('button#edit-description').on('click', function() {
+	var old = $('.description').text();
+	var url = 'edit/description';
+	var csrf_token = $('meta[name="csrf-token"]').attr('content');
+	var id = $('meta[name="id"]').attr('content');
+	
+	var form = '<form method="POST" action="' + url + '" class="form description-edit">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '">' + '<input type="hidden" name="id" value="'+ id +'"><input type="text" class="form-control" name="description" value="'+ old +'"></form>';
+	
+	$('.description').replaceWith(form);
+    });
+
+    $(document).on('submit', '.description-edit', function (e) {
+	e.preventDefault();
+	var value = $(this).find('input[name=description]').val();
+	var actual = $(this);
+	var url = 'edit/description';
+	
+	$.ajax({
+	    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+	    type: "POST",
+	    url: url,
+	    data: $(this).serialize()
+	}).done(function(msg) {
+	    var response = $.parseJSON(msg);
+	    console.log(response.status);
+	    if(response.status == "success") {
+		let dataReplace = '<div class="description">'+ value +'</div>';
+		    
+		actual.replaceWith(dataReplace);
+	    }
+	});
+    });
 });
 
 

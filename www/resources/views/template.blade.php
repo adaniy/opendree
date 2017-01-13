@@ -9,6 +9,8 @@
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/override.css') }}" rel="stylesheet">
         <title>GDMC</title>
+
+	@yield('meta')
     </head>
     <body>
 	<nav class="head col-md-12 col-xs-12">

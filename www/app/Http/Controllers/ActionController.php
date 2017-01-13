@@ -20,7 +20,8 @@ class ActionController extends Controller
             'actionCurrent' => $action->find($id),
     		'actionClass' => $actionClass,
     		'temps' => new TempsClass(),
-    		'carbon' => new Carbon()
+    		'carbon' => new Carbon(),
+            'id' => $id
     	]);
     }
 
@@ -34,6 +35,11 @@ class ActionController extends Controller
     public function editActionTitre(ActionRequest $request, ActionClass $actionClass)
     {
         return $actionClass->ajax('edit', 'nom', $request);
+    }
+
+    public function editActionDescription(ActionRequest $request, ActionClass $actionClass)
+    {
+        return $actionClass->ajax('edit', 'description', $request);
     }
 
     public function ajoutAction(ActionRequest $request, ActionClass $actionClass)

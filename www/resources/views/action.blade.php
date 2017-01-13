@@ -4,6 +4,10 @@
     Actions planifiées
 @endsection
 
+@section('meta')
+    <meta name="id" content="{{ $id }}">
+@endsection
+
 @section('content')
     <div class="action">
 	<div class="gauche col-md-3">
@@ -58,8 +62,8 @@
 
 	    <div class="col-md-12">
 		<h4>Description<div class="pull-right"><button id="edit-description" class="live"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></div></h4>
-		<div class="inner description">
-		    {{ $actionClass->description($actionCurrent->description) }}
+		    <div class="inner">
+			<div class="description">{{ $actionClass->description($actionCurrent->description) }}</div>
 		</div>
 	    </div>
 

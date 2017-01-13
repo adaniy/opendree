@@ -14,9 +14,10 @@ class ActionClass extends TempsClass
     {
         if($request->ajax()) {
             $action = new Action;
-            $id = $request->get('id');
 
             if($method == "edit") {
+                $id = $request->get('id');
+
                 if($action->find($id)) {
                     if($change == "nom") {
                         $nom = e($request->get('nom'));
@@ -31,6 +32,22 @@ class ActionClass extends TempsClass
                         );
 
                         return json_encode($response);
+                    } elseif($change == "description") {
+                        $description = e($request->get('description'));
+
+                        
+                        $action->where('id', $id)->update([
+                            'description' => $description
+                        ]);
+
+                        $response = array(
+                            'status' => 'success',
+                            'id' => $id,
+                        );
+
+                        return json_encode($response);
+                    } else {
+                        
                     }
                 } else {
                     $response = array(

@@ -25,6 +25,7 @@ class ActionRequest extends FormRequest
     {
         return [
             'nom' => 'min:2',
+            'description' => '',
             'alert' => 'boolean',
             'alertStart' => 'numeric',
             'realise' => 'boolean',
