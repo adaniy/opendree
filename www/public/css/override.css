@@ -293,6 +293,10 @@ nav.head .menu {
     text-align: center;
 }
 
+.action .droite .action-info .form-control {
+    text-align: center;
+}
+
 .action button.live {
     border: 0;
     background: none;

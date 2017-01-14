@@ -74,7 +74,7 @@ $(function() {
 	    var response = $.parseJSON(msg);
 
 	    if(response.status == "success") {
-		let dataReplace = '<div class="list"><div class="pull-right"><button id="edit" class="live"><span class="glyphicon glyphicon-remove" aria-hidden="true"></button></div><a href="' + response.id + '"><li>' + value + '</li></a></div>';
+		let dataReplace = '<div class="list"><div class="pull-right"><button id="edit" data-attribute="'+ response.id +'" class="live"><span class="glyphicon glyphicon-edit" aria-hidden="true"></button></div><a href="' + response.id + '"><li>' + value + '</li></a></div>';
 
 		actual.replaceWith(dataReplace);
 
@@ -86,7 +86,7 @@ $(function() {
 
     // TITRES - MODIFICATIONS \\
     // ---------------------------- \\
-    $('button#edit').on('click', function() {
+    $('.gauche').on('click', 'button#edit', function() {
 	var id = $(this).attr('data-attribute');
 	var old = $(this).closest('.list').text();
 	var url = 'edit/nom';
@@ -111,7 +111,13 @@ $(function() {
 	    var response = $.parseJSON(msg);
 	    console.log(response.status);
 	    if(response.status == "success") {
-		let dataReplace = '<div class="list"><div class="pull-right"><button id="edit" class="live"><span class="glyphicon glyphicon-remove" aria-hidden="true"></button></div><a href="action/' + id + '"><li>' + value + '</li></a></div>';
+		if(id == $('meta[name=id]').attr('content')) { // si l'id du titre de l'action modifié est celle de la page actuelle ...
+		    // alors on modifie aussi le titre dans la partie droite
+		    let titreReplace = '<div class="titre">'+ escapeHtml(value) +'</div>';
+		    $('.titre').text(value);
+		}
+
+		let dataReplace = '<div class="list"><div class="pull-right"><button id="edit" class="live" data-attribute="'+ id +'"><span class="glyphicon glyphicon-edit" aria-hidden="true"></button></div><a href="action/' + id + '"><li>' + escapeHtml(value) + '</li></a></div>';
 		    
 		actual.replaceWith(dataReplace);
 	    }
@@ -164,6 +170,43 @@ $(function() {
 
 	    return false;
 	}
+    });
+
+    // DATE DE CREATION - MODIFICATION
+    // ------------------------------------ \\
+    $('.action').on('click', 'button#edit-date-creation', function() {
+	var id = $(this).attr('data-attribute');
+	var old = $('.action-date-creation').text();
+	var url = 'edit/nom';
+	var csrf_token = $('meta[name="csrf-token"]').attr('content');
+	var form = '<div class="inner action-info action-date-creation"><form method="POST" action="' + url + '" class="form action-edit-date-creation">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '">' + '<input type="text" class="form-control" name="date_creation" value="'+ old +'"></form></div>';
+	$('.action-date-creation').replaceWith(form);
+    });
+
+    $(document).on('submit', '.action-edit-date-creation', function (e) {
+	e.preventDefault();
+	var value = $(this).find('input[name=date_creation]').val();
+	var id = $('meta[name="id"]').attr('content');
+	var actual = $(this);
+	var url = 'edit/date-creation';
+	
+	$.ajax({
+	    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+	    type: "POST",
+	    url: url,
+	    data: {
+		id: id,
+		"date_creation": value
+	    }
+	}).done(function(msg) {
+	    var response = $.parseJSON(msg);
+	    console.log(response.status);
+	    if(response.status == "success") {
+		let dataReplace = '<div class="inner action-info action-date-creation"><div class="pull-right"><button id="edit-date-creation" class="live"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button></div>'+ value +'</div>';
+		    
+		actual.text(value);
+	    }
+	});
     });
 });
 

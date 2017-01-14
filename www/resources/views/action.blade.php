@@ -23,20 +23,20 @@
 		<div class="pull-right"><button id="refresh" class="live"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button></div>
 		<button id="add" class="live"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></button>
 	    </div>
+
 	    @foreach($action as $actions)
 		<div class="list"><div class="pull-right"><button id="edit" class="live" data-attribute="{{ $actions->id }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></button></div><a href="{{ url('action/'.$actions->id) }}"><li>{{ $actions->nom }}</li></a></div>
 	    @endforeach
 	</div>
+
 	<div class="droite col-md-9">
 	    <div class="titre">
 		{{ $actionCurrent->nom }}
 	    </div>
 
 	    <div class="col-md-3">
-		<h4>Date de création<div class="pull-right"><a href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></div></h4>
-		<div class="inner action-info">
-		    {{ $actionClass->date($actionCurrent->date_creation) }}
-		</div>
+		<h4>Date de création<div class="pull-right"><button id="edit-date-creation" class="live"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button></div></h4>
+		<div class="inner action-info action-date-creation">{{ $actionClass->date($actionCurrent->date_creation) }}</div>
 	    </div>
 
 	    <div class="col-md-3">
@@ -61,7 +61,7 @@
 	    </div>
 
 	    <div class="col-md-12">
-		<h4>Description<div class="pull-right"><button id="edit-description" class="live"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></div></h4>
+		<h4>Description<div class="pull-right"><button id="edit-description" class="live"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button></div></h4>
 		    <div class="inner">
 			<div class="description">{!! $actionClass->description($actionCurrent->description) !!}</div>
 		</div>

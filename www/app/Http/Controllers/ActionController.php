@@ -16,7 +16,7 @@ class ActionController extends Controller
     public function index(Action $action, $id, ActionClass $actionClass) 
     {
     	return view("action")->with([
-    		'action' => $action->orderBy('date_creation', 'DESC')->get(),
+    		'action' => $action->orderBy('id', 'DESC')->get(),
             'actionCurrent' => $action->find($id),
     		'actionClass' => $actionClass,
     		'temps' => new TempsClass(),
@@ -27,7 +27,7 @@ class ActionController extends Controller
 
     public function redirectFirst(Action $action)
     {
-        $firstId = $action->orderBy("date_creation", "ASC")->first()->id;
+        $firstId = $action->orderBy("id", "ASC")->first()->id;
 
         return redirect('action/'.$firstId);
     }
@@ -40,6 +40,11 @@ class ActionController extends Controller
     public function editActionDescription(ActionRequest $request, ActionClass $actionClass)
     {
         return $actionClass->ajax('edit', 'description', $request);
+    }
+
+    public function editActionDateCreation(ActionRequest $request, ActionClass $actionClass)
+    {
+        return $actionClass->ajax('edit', 'date-creation', $request);
     }
 
     public function ajoutAction(ActionRequest $request, ActionClass $actionClass)

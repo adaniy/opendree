@@ -14,6 +14,18 @@ class TempsClass
 		return $dateDiff->diffInDays($now);
     }
 
+    public function convert($date) // convertie une date en format "simple" vers le format base de donnée.
+    {
+        Carbon::setLocale('fr');
+        $init = Carbon::createFromFormat('d/m/Y', $date);
+
+        $d = $init->format('d');
+        $m = $init->format('m');
+        $Y = $init->format('Y');
+
+        return $Y.'-'.$m.'-'.$d.' 00:00:00';
+    }
+
 	public function parseDate($date)
 	{
 		Carbon::setLocale('fr');

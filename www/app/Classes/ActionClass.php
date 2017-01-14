@@ -14,6 +14,7 @@ class ActionClass extends TempsClass
     {
         if($request->ajax()) {
             $action = new Action;
+            $temps = new TempsClass;
 
             if($method == "edit") {
                 $id = $request->get('id');
@@ -46,6 +47,20 @@ class ActionClass extends TempsClass
                         );
 
                         return json_encode($response);
+                    } elseif($change == "date-creation") {
+                        $dateCreation = $temps->convert($request->get('date_creation'));
+                        
+                        
+                        $action->where('id', $id)->update([
+                            'date_creation' => $dateCreation
+                        ]);
+
+                        $response = array(
+                            'status' => 'success',
+                            'id' => $id,
+                        );
+
+                        return json_encode($response);
                     } else {
                         
                     }
@@ -63,8 +78,6 @@ class ActionClass extends TempsClass
                 // le reste sont des valeurs vides
                 $description = null;
                 $alert = null;
-                $alertStart = null;
-                $realise = null;
                 $date_creation = Carbon::now();
                 $date_butoire = null;
                 $date_realisation = null;
@@ -72,8 +85,6 @@ class ActionClass extends TempsClass
                 $action->nom = $nom;
                 $action->description = $description;
                 $action->alert = $alert;
-                $action->alertStart = $alertStart;
-                $action->realise = $realise;
                 $action->date_creation = $date_creation;
                 $action->date_butoire = $date_butoire;
                 $action->date_realisation = $date_realisation;
