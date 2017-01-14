@@ -56,9 +56,9 @@ $(function() {
 	var csrf_token = $('meta[name="csrf-token"]').attr('content');
 	var form = '<form method="POST" action="ajout" class="form action-add">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '">' + '<input type="text" class="form-control" name="nom" placeholder="Nom de la nouvelle action"></form>';
 
-	$('.list').first().prepend(form);
+	$('.action-list').prepend(form);
     });
-
+    
     // VALIDATION - TRAITEMENT AJAX \\
     $(document).on('submit', '.action-add', function (e) {
 	e.preventDefault();
@@ -87,15 +87,15 @@ $(function() {
 
     // TITRES - MODIFICATIONS \\
     // ---------------------------- \\
-    $('.gauche').on('click', 'button#edit', function() {
+    $(document).on('click', 'button#edit', function() {
 	var id = $(this).attr('data-attribute');
 	var old = $(this).closest('.list').text();
 	var url = 'edit/nom';
 	var csrf_token = $('meta[name="csrf-token"]').attr('content');
 	var form = '<form method="POST" data-attribute="'+ id +'" action="' + url + '" class="form action-edit">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '">' + '<input type="hidden" name="id" value="'+ id +'"><input type="text" class="form-control" name="nom" value="'+ old +'"></form>';
-	$(this).parent().parent().replaceWith(form);
+	$(this).parent().parent().closest('.list').replaceWith(form);
     });
-
+    
     // VALIDATION - TRAITEMENT AJAX \\
     $(document).on('submit', '.action-edit', function (e) {
 	e.preventDefault();
