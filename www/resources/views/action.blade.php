@@ -20,7 +20,7 @@
 	    </div>
 
 	    <div class="action-new">
-		<div class="pull-right"><button id="refresh" class="live"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button></div>
+		<div class="pull-right"><button id="refresh" class="live"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button> <a href="{{ url('action') }}" class="button-link"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a></div>
 		<button id="add" class="live"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></button>
 	    </div>
 
@@ -40,24 +40,18 @@
 	    </div>
 
 	    <div class="col-md-3">
-		<h4>Date de réalisation<div class="pull-right"><a href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></div></h4>
-		<div class="inner action-info">
-		    {{ $actionClass->date($actionCurrent->date_realisation) }}
-		</div>
+		<h4>Date de réalisation<div class="pull-right"><button id="edit-date-realisation" class="live"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button></div></h4>
+		<div class="inner action-info action-date-realisation">{{ $actionClass->date($actionCurrent->date_realisation) }}</div>
 	    </div>
 
 	    <div class="col-md-3">
-		<h4>Date butoire<div class="pull-right"><a href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></div></h4>
-		<div class="inner action-info">
-		    {{ $actionClass->date($actionCurrent->date_butoire) }}
-		</div>
+		<h4>Date butoire<div class="pull-right"><button id="edit-date-butoire" class="live"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button></div></h4>
+		<div class="inner action-info action-date-butoire">{{ $actionClass->date($actionCurrent->date_butoire) }}</div>
 	    </div>
 
 	    <div class="col-md-3">
-		<h4>Jours restant<div class="pull-right"><a href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></div></h4>
-		<div class="inner action-info">
-		    {{ $actionClass->diff($actionCurrent->alertStart) }}
-		</div>
+		<h4>Jours restant</h4>
+		<div class="inner action-info action-jour-restant">{{ $actionClass->diff($actionCurrent->date_butoire) }}</div>
 	    </div>
 
 	    <div class="col-md-12">
@@ -70,12 +64,10 @@
 	    <div class="col-md-12">
 		<div class="col-md-12">
 		    <br />
-		    <div class="pull-left">
-			<a href="#" class="btn btn-md btn-success">recevoir une alerte</a> <a href="#" class="btn btn-md btn-danger">ne pas recevoir d'alertes</a>
-		    </div>
+		    <div class="pull-left">{!! $actionClass->alertButton($id) !!}</div>
 
 		    <div class="pull-right">
-			<a href="#" class="btn btn-md btn-danger">Supprimer</a>
+			<a href="{{ url('action/delete/'.$id) }}" onclick="return confirm('Confirmez-vous la suppression de cette action ?')" class="btn btn-md btn-danger">Supprimer</a>
 		    </div>
 		</div>
 	    </div>

@@ -84,8 +84,15 @@ Route::get("election/brut","ElectionController@indexBrut");
 Route::post("election/brut","ElectionController@rechercheBrut");
 Route::get("election/brut/supprimer/{id}","ElectionController@supprimer");
 
-// Ajax
+// Ajax - post
 Route::post("action/edit/nom", "ActionController@editActionTitre");
 Route::post("action/edit/description", "ActionController@editActionDescription");
 Route::post("action/edit/date-creation", "ActionController@editActionDateCreation");
+Route::post("action/edit/date-realisation", "ActionController@editActionDateRealisation");
+Route::post("action/edit/date-butoire", "ActionController@editActionDateButoire");
 Route::post("action/ajout", "ActionController@ajoutAction");
+
+// Ajax - get
+Route::get("action/get/jour-restant", "ActionController@getJourRestant");
+Route::get("action/alerte", "ActionController@getAlert");
+Route::get("action/delete/{id}", "ActionController@delete");

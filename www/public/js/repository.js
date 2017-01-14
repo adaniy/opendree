@@ -59,6 +59,7 @@ $(function() {
 	$('.list').first().prepend(form);
     });
 
+    // VALIDATION - TRAITEMENT AJAX \\
     $(document).on('submit', '.action-add', function (e) {
 	e.preventDefault();
 	var value = $(this).find('input[name=nom]').val();
@@ -92,9 +93,10 @@ $(function() {
 	var url = 'edit/nom';
 	var csrf_token = $('meta[name="csrf-token"]').attr('content');
 	var form = '<form method="POST" data-attribute="'+ id +'" action="' + url + '" class="form action-edit">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '">' + '<input type="hidden" name="id" value="'+ id +'"><input type="text" class="form-control" name="nom" value="'+ old +'"></form>';
-	$(this).closest('.list').replaceWith(form);
+	$(this).parent().parent().replaceWith(form);
     });
 
+    // VALIDATION - TRAITEMENT AJAX \\
     $(document).on('submit', '.action-edit', function (e) {
 	e.preventDefault();
 	var value = $(this).find('input[name=nom]').val();
@@ -117,7 +119,7 @@ $(function() {
 		    $('.titre').text(value);
 		}
 
-		let dataReplace = '<div class="list"><div class="pull-right"><button id="edit" class="live" data-attribute="'+ id +'"><span class="glyphicon glyphicon-edit" aria-hidden="true"></button></div><a href="action/' + id + '"><li>' + escapeHtml(value) + '</li></a></div>';
+		let dataReplace = '<div class="list"><div class="pull-right"><button id="edit" class="live" data-attribute="'+ id +'"><span class="glyphicon glyphicon-edit" aria-hidden="true"></button></div><a href="' + id + '"><li>' + escapeHtml(value) + '</li></a></div>';
 		    
 		actual.replaceWith(dataReplace);
 	    }
@@ -143,6 +145,7 @@ $(function() {
         $(this).height(0).height(this.scrollHeight);
     }).find('textarea').change();
 
+    // VALIDATION - TRAITEMENT AJAX \\
     $('.inner').on('keypress', '.description-edit', function (e) {
 	if(e.keyCode == 13 && !e.shiftKey) {
 	    var value = nl2br(escapeHtml($(this).parent().find('textarea[name=description]').val()));
@@ -177,12 +180,12 @@ $(function() {
     $('.action').on('click', 'button#edit-date-creation', function() {
 	var id = $(this).attr('data-attribute');
 	var old = $('.action-date-creation').text();
-	var url = 'edit/nom';
 	var csrf_token = $('meta[name="csrf-token"]').attr('content');
-	var form = '<div class="inner action-info action-date-creation"><form method="POST" action="' + url + '" class="form action-edit-date-creation">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '">' + '<input type="text" class="form-control" name="date_creation" value="'+ old +'"></form></div>';
+	var form = '<div class="inner action-info action-date-creation"><form method="POST" class="form action-edit-date-creation">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '">' + '<input type="text" class="form-control" name="date_creation" value="'+ old +'"></form></div>';
 	$('.action-date-creation').replaceWith(form);
     });
 
+    // VALIDATION - TRAITEMENT AJAX \\
     $(document).on('submit', '.action-edit-date-creation', function (e) {
 	e.preventDefault();
 	var value = $(this).find('input[name=date_creation]').val();
@@ -208,6 +211,101 @@ $(function() {
 	    }
 	});
     });
+
+    // DATE DE REALISATION - MODIFICATION
+    // ------------------------------------ \\
+    $('.action').on('click', 'button#edit-date-realisation', function() {
+	var id = $(this).attr('data-attribute');
+	var old = $('.action-date-realisation').text();
+	var csrf_token = $('meta[name="csrf-token"]').attr('content');
+	var form = '<div class="inner action-info action-date-realisation"><form method="POST" class="form action-edit-date-realisation">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '">' + '<input type="text" class="form-control" name="date_realisation" value="'+ old +'"></form></div>';
+	$('.action-date-realisation').replaceWith(form);
+    });
+
+    // VALIDATION - TRAITEMENT AJAX \\
+    $(document).on('submit', '.action-edit-date-realisation', function (e) {
+	e.preventDefault();
+	var value = $(this).find('input[name=date_realisation]').val();
+	var id = $('meta[name="id"]').attr('content');
+	var actual = $(this);
+	var url = 'edit/date-realisation';
+	
+	$.ajax({
+	    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+	    type: "POST",
+	    url: url,
+	    data: {
+		id: id,
+		"date_realisation": value
+	    }
+	}).done(function(msg) {
+	    var response = $.parseJSON(msg);
+	    console.log(response.status);
+	    if(response.status == "success") {
+		let dataReplace = '<div class="inner action-info action-date-realisation"><div class="pull-right"><button id="edit-date-realisation" class="live"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button></div>'+ value +'</div>';
+		    
+		actual.text(value);
+	    }
+	});
+    });
+
+    // DATE BUTOIRE - MODIFICATION
+    // ------------------------------------ \\
+    $('.action').on('click', 'button#edit-date-butoire', function() {
+	var id = $(this).attr('data-attribute');
+	var old = $('.action-date-butoire').text();
+	var csrf_token = $('meta[name="csrf-token"]').attr('content');
+	var form = '<div class="inner action-info action-date-butoire"><form method="POST" class="form action-edit-date-butoire">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '">' + '<input type="text" class="form-control" name="date_butoire" value="'+ old +'"></form></div>';
+	$('.action-date-butoire').replaceWith(form);
+    });
+
+    // VALIDATION - TRAITEMENT AJAX \\
+    $(document).on('submit', '.action-edit-date-butoire', function (e) {
+	
+	
+	e.preventDefault();
+	var value = $(this).find('input[name=date_butoire]').val();
+	var id = $('meta[name="id"]').attr('content');
+	var actual = $(this);
+	var url = 'edit/date-butoire';
+
+	// requête get ajax de la mise à jour du nombre de jour restant
+	$.ajax({
+	    type: "GET",
+	    url: "get/jour-restant",
+	    data: {
+		"date_butoire": value
+	    }
+	}).done(function(msg) {
+	    var response = $.parseJSON(msg);
+	    
+	    if(response.status == "success") {
+		$('.action-jour-restant').text(response.newDate);
+	    }
+	});
+	
+	$.ajax({
+	    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+	    type: "POST",
+	    url: url,
+	    data: {
+		id: id,
+		"date_butoire": value
+	    }
+	}).done(function(msg) {
+	    var response = $.parseJSON(msg);
+	    console.log(response.status);
+	    if(response.status == "success") {
+		let dataReplace = '<div class="inner action-info action-date-butoire"><div class="pull-right"><button id="edit-date-butoire" class="live"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button></div>'+ value +'</div>';
+		    
+		actual.text(value);
+	    }
+	});
+    });
+
+    // ACTIVER LES ALERTES
+    // ------------------------------------ \\
+    
 });
 
 

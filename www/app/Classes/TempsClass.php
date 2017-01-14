@@ -10,11 +10,30 @@ class TempsClass
     {
         $now = Carbon::now();
 		$dateDiff = Carbon::createFromFormat("Y-m-d H:i:s", $date);
+        $diff = $dateDiff->diffInDays($now);
 
-		return $dateDiff->diffInDays($now);
+        if($diff == 0) {
+            return $diff;
+        } elseif($dateDiff < $now) {
+            return '- '.$diff;
+        } else {
+            return $diff;
+        }
     }
 
     public function convert($date) // convertie une date en format "simple" vers le format base de donnée.
+    {
+        Carbon::setLocale('fr');
+        $init = Carbon::createFromFormat('d/m/Y', $date);
+
+        $d = $init->format('d');
+        $m = $init->format('m');
+        $Y = $init->format('Y');
+
+        return $Y.'-'.$m.'-'.$d.' 00:00:00';
+    }
+
+    public function convert2($date) // convertie une date en format "simple" vers le format base de donnée.
     {
         Carbon::setLocale('fr');
         $init = Carbon::createFromFormat('d/m/Y', $date);

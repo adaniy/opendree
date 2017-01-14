@@ -29,6 +29,27 @@ html, body {
     transition: 0.3s;
 }
 
+a.button-link {
+    color: black;
+    transition: 0.3s;
+}
+
+a.button-link:hover {
+    color: orange;
+}
+
+button.live {
+    border: 0;
+    background: none;
+
+    transition: 0.3s;
+}
+
+button.live:hover {
+    outline: none;
+    color: orange;
+}
+
 .row {
     padding: 0;
 }
@@ -297,16 +318,7 @@ nav.head .menu {
     text-align: center;
 }
 
-.action button.live {
-    border: 0;
-    background: none;
 
-    transition: 0.3s;
-}
-
-.action button.live:hover {
-    color: orange;
-}
 
 .action-new {
     margin-bottom: 20px;

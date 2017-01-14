@@ -61,6 +61,34 @@ class ActionClass extends TempsClass
                         );
 
                         return json_encode($response);
+                    } elseif($change == "date-realisation") {
+                        $dateRealisation = $temps->convert($request->get('date_realisation'));
+                        
+                        
+                        $action->where('id', $id)->update([
+                            'date_realisation' => $dateRealisation
+                        ]);
+
+                        $response = array(
+                            'status' => 'success',
+                            'id' => $id,
+                        );
+
+                        return json_encode($response);
+                    } elseif($change == "date-butoire") {
+                        $dateButoire = $temps->convert($request->get('date_butoire'));
+                        
+                        
+                        $action->where('id', $id)->update([
+                            'date_butoire' => $dateButoire
+                        ]);
+
+                        $response = array(
+                            'status' => 'success',
+                            'id' => $id,
+                        );
+
+                        return json_encode($response);
                     } else {
                         
                     }
@@ -81,6 +109,7 @@ class ActionClass extends TempsClass
                 $date_creation = Carbon::now();
                 $date_butoire = null;
                 $date_realisation = null;
+                $deleted = 0;
                 
                 $action->nom = $nom;
                 $action->description = $description;
@@ -88,6 +117,7 @@ class ActionClass extends TempsClass
                 $action->date_creation = $date_creation;
                 $action->date_butoire = $date_butoire;
                 $action->date_realisation = $date_realisation;
+                $action->deleted = $deleted;
 
                 if($action->save()) {
                     $response = array(
@@ -99,6 +129,31 @@ class ActionClass extends TempsClass
                 } else {
                     $response = array(
                         'status' => 'error',
+                    );
+
+                    return json_encode($response);
+                }
+            } elseif($method == "get") {
+                if($change == "date_butoire") {
+                    $date = $temps->convert($request->get("date_butoire"));
+                    $newDate = $temps->diff($date);
+
+                    $response = array(
+                        'status' => 'success',
+                        'newDate' => $newDate
+                    );
+
+                    return json_encode($response);
+                } elseif($change == "alerte") {
+                    $alerte = $request->get("alerte");
+                    $id = $request->get("id");
+
+                    $action->where('id', $id)->update([
+                        'alert' => $alerte
+                    ]);
+                    
+                    $response = array(
+                        'status' => 'success',
                     );
 
                     return json_encode($response);
@@ -194,9 +249,20 @@ class ActionClass extends TempsClass
 	public function delete($id)
 	{
 		$action = new Action;
+        $deleted = $action->find($id)->deleted;
 
-		$action->find($id)->delete();
-		return back()->with("valide", "L'action a bien été supprimée.");
+        if($deleted) {
+            $action->where('id', $id)->update([
+                'deleted' => 0
+            ]);
+        } else {
+            $action->where('id', $id)->update([
+                'deleted' => 1
+            ]);
+        }
+        
+
+        return redirect("action");
 	}
 
     public function date($date)
@@ -264,4 +330,16 @@ class ActionClass extends TempsClass
 			return 0;
 		}
 	}
+
+    public function alertButton($id) // retourne le bouton des alertes
+    {
+        $action = new Action;
+        if($action->find($id)->alert == 1) {
+            $button = '<button class="btn btn-md btn-danger action-alerte" value="0">ne pas recevoir d\'alerte</button>';
+        } else {
+            $button = '<button class="btn btn-md btn-success action-alerte" value="1">recevoir une alerte</button>';
+        }
+
+        return $button;
+    }
 }
