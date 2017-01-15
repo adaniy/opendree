@@ -13,9 +13,19 @@ use App\Classes\TempsClass;
 
 class ActionController extends Controller
 {
-    public function index(Action $action, $id, ActionClass $actionClass) 
+    public function index(Action $action, ActionClass $actionClass)
     {
-    	return view("action")->with([
+        return view("action.index")->with([
+    		'action' => $action->where('deleted', 0)->orderBy('id', 'DESC')->get(),
+    		'actionClass' => $actionClass,
+    		'temps' => new TempsClass(),
+    		'carbon' => new Carbon()
+    	]);
+    }
+    
+    public function getAction(Action $action, $id, ActionClass $actionClass) 
+    {
+    	return view("action.get")->with([
     		'action' => $action->where('deleted', 0)->orderBy('id', 'DESC')->get(),
             'actionCurrent' => $action->find($id),
     		'actionClass' => $actionClass,
@@ -23,13 +33,6 @@ class ActionController extends Controller
     		'carbon' => new Carbon(),
             'id' => $id
     	]);
-    }
-
-    public function redirectFirst(Action $action)
-    {
-        $firstId = $action->where('deleted', 0)->orderBy("id", "ASC")->first()->id;
-
-        return redirect('action/'.$firstId);
     }
 
     public function delete($id, ActionClass $actionClass)
@@ -75,5 +78,10 @@ class ActionController extends Controller
     public function getJourRestant(ActionRequest $request, ActionClass $actionClass)
     {
         return $actionClass->ajax('get', 'date_butoire', $request);
+    }
+
+    public function stats(ActionClass $actionClass)
+    {
+        return $actionClass->stats();
     }
 }

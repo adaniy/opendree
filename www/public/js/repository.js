@@ -18,6 +18,8 @@ function nl2br (str, is_xhtml) {
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ breakTag +'$2');
 }
 
+var ctx = $("#myChart");
+
 $(function() {
     $('.module').click(() => {
 	$('.deploy').fadeToggle(200, "linear");
@@ -69,7 +71,7 @@ $(function() {
 	$.ajax({
 	    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 	    type: "POST",
-	    url: 'ajout',
+	    url: '/action/ajout',
 	    data: $(this).serialize()
 	}).done(function(msg) {
 	    var response = $.parseJSON(msg);
@@ -90,7 +92,7 @@ $(function() {
     $(document).on('click', 'button#edit', function() {
 	var id = $(this).attr('data-attribute');
 	var old = $(this).closest('.list').text();
-	var url = 'edit/nom';
+	var url = '/action/edit/nom';
 	var csrf_token = $('meta[name="csrf-token"]').attr('content');
 	var form = '<form method="POST" data-attribute="'+ id +'" action="' + url + '" class="form action-edit">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '">' + '<input type="hidden" name="id" value="'+ id +'"><input type="text" class="form-control" name="nom" value="'+ old +'"></form>';
 	$(this).parent().parent().closest('.list').replaceWith(form);
@@ -102,7 +104,7 @@ $(function() {
 	var value = $(this).find('input[name=nom]').val();
 	var id = $(this).attr('data-attribute');
 	var actual = $(this);
-	var url = 'edit/nom';
+	var url = '/action/edit/nom';
 	
 	$.ajax({
 	    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -261,8 +263,6 @@ $(function() {
 
     // VALIDATION - TRAITEMENT AJAX \\
     $(document).on('submit', '.action-edit-date-butoire', function (e) {
-	
-	
 	e.preventDefault();
 	var value = $(this).find('input[name=date_butoire]').val();
 	var id = $('meta[name="id"]').attr('content');
@@ -305,7 +305,35 @@ $(function() {
 
     // ACTIVER LES ALERTES
     // ------------------------------------ \\
-    
+    $(document).on('click', '.action-alerte', function (e) {
+	var id = $('meta[name="id"]').attr('content');
+	var value = $(this).attr("value");
+	var actual = $(this);
+
+	e.preventDefault();
+
+	$.ajax({
+	    type: "GET",
+	    url: "alerte",
+	    data: {
+		id: id,
+		alerte: value
+	    }
+	}).done(function(msg) {
+	    var response = $.parseJSON(msg);
+	    console.log(response.status);
+
+	    if(response.status == "success") {
+		if(value == 1) {
+		    var dataReplace = '<button class="btn btn-md btn-danger action-alerte" value="0">ne pas recevoir d\'alerte</button>';
+		} else {
+		    var dataReplace = '<button class="btn btn-md btn-success action-alerte" value="1">recevoir une alerte</button>';
+		}
+
+		actual.replaceWith(dataReplace);
+	    }
+	});
+    });
 });
 
 

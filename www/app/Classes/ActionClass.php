@@ -325,9 +325,9 @@ class ActionClass extends TempsClass
 		$now = Carbon::now();
 
 		if(Carbon::createFromFormat("d/m/Y", $action->find($id)->date_butoire)->diffInDays($now) <= $action->find($id)->alertStart && $action->find($id)->alert == 1) {
-			return 1;
+			return true;
 		} else {
-			return 0;
+			return false;
 		}
 	}
 
@@ -341,5 +341,40 @@ class ActionClass extends TempsClass
         }
 
         return $button;
+    }
+
+    public function stats()
+    {
+        $carbon = new Carbon;
+        $action = new Action;
+        $realise = $action->whereNotNull("date_realisation")->count();
+        $nonRealise = $action->whereNull("date_realisation")->count();
+        
+        $resultat = array(
+            'status' => 'success',
+            'realise' => $realise,
+            'nonRealise' => $nonRealise,
+            'line' => array(
+                'annee' => array(),
+                'nb' => array()
+            )
+        );
+
+        // on récupère les années où des actions ont eu lieu
+        $actionPeriod = $action->orderBy('date_creation')->get();
+
+        foreach($actionPeriod as $actionPeriods) {
+            // pour chaque année
+            $year = $carbon->parse($actionPeriods->date_creation)->year;
+            
+
+            if(!in_array($year, $resultat['line']['annee'], true)) {
+                $nb = $action->whereYear('date_creation', (string) $year)->count();
+                array_push($resultat['line']['annee'], $year);
+                array_push($resultat['line']['nb'], $nb);
+            }
+        }
+        
+        return json_encode($resultat);
     }
 }

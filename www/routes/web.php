@@ -37,8 +37,8 @@ Route::get("login", function() {
 */
 
 // Index
-Route::get("action", "ActionController@redirectFirst");
-Route::get("action/{id}", "ActionController@index");
+Route::get("action", "ActionController@index");
+Route::get("action/{id}", "ActionController@getAction");
 
 /*
 --------> Gestion des réunions
@@ -93,6 +93,7 @@ Route::post("action/edit/date-butoire", "ActionController@editActionDateButoire"
 Route::post("action/ajout", "ActionController@ajoutAction");
 
 // Ajax - get
+Route::get("action/stats", "ActionController@stats");
 Route::get("action/get/jour-restant", "ActionController@getJourRestant");
 Route::get("action/alerte", "ActionController@getAlert");
 Route::get("action/delete/{id}", "ActionController@delete");

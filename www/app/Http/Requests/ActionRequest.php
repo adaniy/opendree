@@ -24,11 +24,9 @@ class ActionRequest extends FormRequest
     public function rules()
     {
         return [
-            'nom' => 'min:2',
-            'description' => 'min:2',
+            'nom' => 'filled|min:2',
+            'description' => 'filled|min:2',
             'alert' => 'boolean',
-            'alertStart' => 'numeric',
-            'realise' => 'boolean',
             'date_creation' => 'date_format:d/m/Y',
             'date_realisation' => 'date_format:d/m/Y',
             'date_butoire' => 'date_format:d/m/Y',

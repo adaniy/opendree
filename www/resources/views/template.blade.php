@@ -72,6 +72,10 @@
 	<script src="{{ asset('js/jquery-1.11.3.min.js') }}"></script>
 	<script src="{{ asset('js/bootstrap.min.js') }}"></script>
 	<script src="{{ asset('js/repository.js') }}"></script>
+
+	<script src="{{ asset("js/Chart.bundle.min.js") }}"></script>
+	<script src="{{ asset("js/chart/utils.js") }}"></script>
+	<script src="{{ asset("js/chart/action.js") }}"></script>
     </body>
 </html>
 
