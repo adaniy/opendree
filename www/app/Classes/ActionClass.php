@@ -356,7 +356,8 @@ class ActionClass extends TempsClass
             'nonRealise' => $nonRealise,
             'line' => array(
                 'annee' => array(),
-                'nb' => array()
+                'nbRealise' => array(),
+                'nbNonRealise' => array()
             )
         );
 
@@ -369,9 +370,12 @@ class ActionClass extends TempsClass
             
 
             if(!in_array($year, $resultat['line']['annee'], true)) {
-                $nb = $action->whereYear('date_creation', (string) $year)->count();
+                $nbRealise = $action->whereYear('date_creation', (string) $year)->whereNotNull('date_realisation')->count();
+                $nbNonRealise = $action->whereYear('date_creation', (string) $year)->whereNull('date_realisation')->count();
+                
                 array_push($resultat['line']['annee'], $year);
-                array_push($resultat['line']['nb'], $nb);
+                array_push($resultat['line']['nbRealise'], $nbRealise);
+                array_push($resultat['line']['nbNonRealise'], $nbNonRealise);
             }
         }
         

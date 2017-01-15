@@ -307,6 +307,13 @@ nav.head .menu {
     margin: 10px 0 20px 0;
 }
 
+.action .droite .subtitre {
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+}
+
 .action .droite .action-info {
     font-size: 18px;
     font-weight: bold;

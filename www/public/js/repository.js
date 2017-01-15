@@ -77,7 +77,7 @@ $(function() {
 	    var response = $.parseJSON(msg);
 
 	    if(response.status == "success") {
-		let dataReplace = '<div class="list"><div class="pull-right"><button id="edit" data-attribute="'+ response.id +'" class="live"><span class="glyphicon glyphicon-edit" aria-hidden="true"></button></div><a href="' + response.id + '"><li>' + value + '</li></a></div>';
+		let dataReplace = '<div class="list"><div class="pull-right"><button id="edit" data-attribute="'+ response.id +'"f class="live"><span class="glyphicon glyphicon-edit" aria-hidden="true"></button></div><a href="/action/' + response.id + '"><li>' + value + '</li></a></div>';
 
 		actual.replaceWith(dataReplace);
 

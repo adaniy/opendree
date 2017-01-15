@@ -33,12 +33,18 @@
 		Index des actions planifiées
 	    </div>
 
-	    <div class="col-md-6">
-		<div id="canvas-holder"><canvas id="chart-action" /></div>
+	    <div class="col-md-4">
+		<h2>Comparaison des actions</h2>
+		<div class="inner">
+		    <div id="canvas-holder"><canvas id="chart-action" /></div>
+		</div>
 	    </div>
 
-	    <div class="col-md-6">
-		<div id="canvas-holder"><canvas id="chart-action2" /></div>
+	    <div class="col-md-8">
+		<h2>Statistique annuelle des actions</h2>
+		<div class="inner">
+		    <div id="canvas-holder"><canvas id="chart-action2" /></div>
+		</div>
 	    </div>
 	</div>
     </div>
