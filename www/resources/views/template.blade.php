@@ -73,9 +73,12 @@
 	<script src="{{ asset('js/bootstrap.min.js') }}"></script>
 	<script src="{{ asset('js/repository.js') }}"></script>
 
-	<script src="{{ asset("js/Chart.bundle.min.js") }}"></script>
-	<script src="{{ asset("js/chart/utils.js") }}"></script>
-	<script src="{{ asset("js/chart/action.js") }}"></script>
+	{{-- on ne permet le chargement des fonctions JS des statistiques uniquement dans la page concernée --}}
+	@if(Request::segment(1) == "action" && empty(Request::segment(2)))
+	    <script src="{{ asset("js/Chart.bundle.min.js") }}"></script>
+	    <script src="{{ asset("js/chart/utils.js") }}"></script>
+	    <script src="{{ asset("js/chart/action.js") }}"></script>
+	@endif
     </body>
 </html>
 

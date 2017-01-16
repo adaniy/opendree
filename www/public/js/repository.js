@@ -251,30 +251,30 @@ $(function() {
 	});
     });
 
-    // DATE BUTOIRE - MODIFICATION
+    // DATE BUTOIR - MODIFICATION
     // ------------------------------------ \\
-    $('.action').on('click', 'button#edit-date-butoire', function() {
+    $('.action').on('click', 'button#edit-date-butoir', function() {
 	var id = $(this).attr('data-attribute');
-	var old = $('.action-date-butoire').text();
+	var old = $('.action-date-butoir').text();
 	var csrf_token = $('meta[name="csrf-token"]').attr('content');
-	var form = '<div class="inner action-info action-date-butoire"><form method="POST" class="form action-edit-date-butoire">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '">' + '<input type="text" class="form-control" name="date_butoire" value="'+ old +'"></form></div>';
-	$('.action-date-butoire').replaceWith(form);
+	var form = '<div class="inner action-info action-date-butoir"><form method="POST" class="form action-edit-date-butoir">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '">' + '<input type="text" class="form-control" name="date_butoir" value="'+ old +'"></form></div>';
+	$('.action-date-butoir').replaceWith(form);
     });
 
     // VALIDATION - TRAITEMENT AJAX \\
-    $(document).on('submit', '.action-edit-date-butoire', function (e) {
+    $(document).on('submit', '.action-edit-date-butoir', function (e) {
 	e.preventDefault();
-	var value = $(this).find('input[name=date_butoire]').val();
+	var value = $(this).find('input[name=date_butoir]').val();
 	var id = $('meta[name="id"]').attr('content');
 	var actual = $(this);
-	var url = 'edit/date-butoire';
+	var url = 'edit/date-butoir';
 
 	// requête get ajax de la mise à jour du nombre de jour restant
 	$.ajax({
 	    type: "GET",
 	    url: "get/jour-restant",
 	    data: {
-		"date_butoire": value
+		"date_butoir": value
 	    }
 	}).done(function(msg) {
 	    var response = $.parseJSON(msg);
@@ -290,13 +290,14 @@ $(function() {
 	    url: url,
 	    data: {
 		id: id,
-		"date_butoire": value
+		"date_butoir": value
 	    }
 	}).done(function(msg) {
 	    var response = $.parseJSON(msg);
 	    console.log(response.status);
+
 	    if(response.status == "success") {
-		let dataReplace = '<div class="inner action-info action-date-butoire"><div class="pull-right"><button id="edit-date-butoire" class="live"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button></div>'+ value +'</div>';
+		let dataReplace = '<div class="inner action-info action-date-butoir"><div class="pull-right"><button id="edit-date-butoir" class="live"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button></div>'+ value +'</div>';
 		    
 		actual.text(value);
 	    }

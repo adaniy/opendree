@@ -16,7 +16,7 @@ class ActionController extends Controller
     public function index(Action $action, ActionClass $actionClass)
     {
         return view("action.index")->with([
-    		'action' => $action->where('deleted', 0)->orderBy('id', 'DESC')->get(),
+    		'action' => $action->where('deleted', 0)->orderBy('alert', 'DESC')->orderBy('date_butoir', 'ASC')->orderBy('id', 'DESC')->get(),
     		'actionClass' => $actionClass,
     		'temps' => new TempsClass(),
     		'carbon' => new Carbon()
@@ -26,7 +26,7 @@ class ActionController extends Controller
     public function getAction(Action $action, $id, ActionClass $actionClass) 
     {
     	return view("action.get")->with([
-    		'action' => $action->where('deleted', 0)->orderBy('id', 'DESC')->get(),
+    		'action' => $action->where('deleted', 0)->orderBy('alert', 'DESC')->orderBy('date_butoir', 'ASC')->orderBy('id', 'DESC')->get(),
             'actionCurrent' => $action->find($id),
     		'actionClass' => $actionClass,
     		'temps' => new TempsClass(),
@@ -60,9 +60,9 @@ class ActionController extends Controller
         return $actionClass->ajax('edit', 'date-realisation', $request);
     }
 
-    public function editActionDateButoire(ActionRequest $request, ActionClass $actionClass)
+    public function editActionDateButoir(ActionRequest $request, ActionClass $actionClass)
     {
-        return $actionClass->ajax('edit', 'date-butoire', $request);
+        return $actionClass->ajax('edit', 'date-butoir', $request);
     }
 
     public function ajoutAction(ActionRequest $request, ActionClass $actionClass)
@@ -77,11 +77,16 @@ class ActionController extends Controller
 
     public function getJourRestant(ActionRequest $request, ActionClass $actionClass)
     {
-        return $actionClass->ajax('get', 'date_butoire', $request);
+        return $actionClass->ajax('get', 'date_butoir', $request);
     }
 
     public function stats(ActionClass $actionClass)
     {
         return $actionClass->stats();
+    }
+
+    public function actionAlert($id, ActionClass $actionClass)
+    {
+        return $actionClass->canAlertBoolean($id);
     }
 }

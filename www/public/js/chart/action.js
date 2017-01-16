@@ -33,14 +33,32 @@ function syncActionStatsLine () {
 	}
     });
 }
+
+function syncActionStats () {
+    $.ajax({
+	type: "GET",
+	url: "action/stats",
+    }).done(function(msg) {
+	var response = $.parseJSON(msg);
+
+	if(response.status == "success") {
+	    $('action-realise').text(response.realise);
+	    $('action-non-realise').text(response.nonRealise);
+	    $('action-total').text(response.nb);
+	}
+    });
+}
+
 // d'abord, on obtiens les données avec une requête AJAX unique
 syncActionStatsDoughnut();
 syncActionStatsLine();
+syncActionStats();
 
-// ensuite on synchronise les statistiques en temps réel
+// ensuite on répète ces fonctions dans une intervale les statistiques en temps réel
 setInterval(function() {
     syncActionStatsDoughnut();
     syncActionStatsLine();
+    syncActionStats();
 
     console.log("test");
 }, 5000);

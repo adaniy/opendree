@@ -78,6 +78,17 @@ h2 {
     text-shadow: 0 1px 1px white;
 }
 
+h3:before {
+    content: "▶ ";
+}
+
+h3 {
+    margin: 0 0 10px 0;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0 1px 1px white;
+}
+
 h4:before {
     content: "▶ ";
 }
@@ -324,8 +335,6 @@ nav.head .menu {
     text-align: center;
 }
 
-
-
 .action-new {
     margin-bottom: 20px;
 }
@@ -353,4 +362,21 @@ nav.head .menu {
 
 .action .droite textarea {
     height: 100%;
+}
+
+.table-stats th {
+    vertical-align: middle;
+    text-align: center;
+    font-weight: bold;
+}
+
+.table-stats td.categorie {
+    vertical-align: middle;
+    font-weight: bold;
+    text-align: right;
+}
+
+.table-stats td.value {
+    vertical-align: middle;
+    text-align: center;
 }

@@ -75,12 +75,12 @@ class ActionClass extends TempsClass
                         );
 
                         return json_encode($response);
-                    } elseif($change == "date-butoire") {
-                        $dateButoire = $temps->convert($request->get('date_butoire'));
+                    } elseif($change == "date-butoir") {
+                        $dateButoir = $temps->convert($request->get('date_butoir'));
                         
                         
                         $action->where('id', $id)->update([
-                            'date_butoire' => $dateButoire
+                            'date_butoir' => $dateButoir
                         ]);
 
                         $response = array(
@@ -107,7 +107,7 @@ class ActionClass extends TempsClass
                 $description = null;
                 $alert = null;
                 $date_creation = Carbon::now();
-                $date_butoire = null;
+                $date_butoir = null;
                 $date_realisation = null;
                 $deleted = 0;
                 
@@ -115,7 +115,7 @@ class ActionClass extends TempsClass
                 $action->description = $description;
                 $action->alert = $alert;
                 $action->date_creation = $date_creation;
-                $action->date_butoire = $date_butoire;
+                $action->date_butoir = $date_butoir;
                 $action->date_realisation = $date_realisation;
                 $action->deleted = $deleted;
 
@@ -134,8 +134,8 @@ class ActionClass extends TempsClass
                     return json_encode($response);
                 }
             } elseif($method == "get") {
-                if($change == "date_butoire") {
-                    $date = $temps->convert($request->get("date_butoire"));
+                if($change == "date_butoir") {
+                    $date = $temps->convert($request->get("date_butoir"));
                     $newDate = $temps->diff($date);
 
                     $response = array(
@@ -185,7 +185,7 @@ class ActionClass extends TempsClass
 		$nom = $request->input('nom');
 		$alertStart = $request->input('alertStart');
 		$date_creation = $request->input('date_creation');
-		$date_butoire = $request->input('date_butoire');
+		$date_butoir = $request->input('date_butoir');
 		$date_realisation = $request->input('date_realisation');
 
 		// On empêche de décocher "réalisé" tout en laissant une date de réalisation, et inversement
@@ -197,10 +197,9 @@ class ActionClass extends TempsClass
 			$action = new Action;
 			$action->nom = $nom;
 			$action->alert = $alert;
-			$action->alertStart = $alertStart;
-			$action->realise = $realise;
+
 			$action->date_creation = $date_creation;
-			$action->date_butoire = $date_butoire;
+			$action->date_butoir = $date_butoir;
 			$action->date_realisation = $date_realisation;
 
 			if($action->save()) {
@@ -218,7 +217,7 @@ class ActionClass extends TempsClass
 		$alertStart = $request->input('alertStart');
 		$realise = $request->input('realise');
 		$date_creation = $request->input('date_creation');
-		$date_butoire = $request->input('date_butoire');
+		$date_butoir = $request->input('date_butoir');
 		$date_realisation = $request->input('date_realisation');
 
 		// On empêche de décocher "réalisé" tout en laissant une date de réalisation, et inversement
@@ -236,7 +235,7 @@ class ActionClass extends TempsClass
 				   	'alertStart' => $alertStart,
 				   	'realise' => $realise,
 				   	'date_creation' => $date_creation,
-				   	'date_butoire' => $date_butoire,
+				   	'date_butoir' => $date_butoir,
 				   	'date_realisation' => $date_realisation,
 			])) {
 				return redirect('/')->with("valide", "L'action a bien été modifiée.");
@@ -305,14 +304,14 @@ class ActionClass extends TempsClass
 		$nb = 0;
 
 		foreach($action->get() as $actions) {
-			if(Carbon::createFromFormat("d/m/Y", $actions->date_butoire)->diffInDays($now) <= $actions->alertStart && $actions->alert == 1) {
+			if(Carbon::createFromFormat("d/m/Y", $actions->date_butoir)->diffInDays($now) <= $actions->alertStart && $actions->alert == 1) {
 				$nb++;
 			}
 		}
 
 		// Si au moins 1 alerte est enclenchable, alors on peut afficher l'alerte, sinon rien
 		if($nb > 0) {
-			return "<script>self.alert(\"GDMC : une action ou plus arrive à la date butoire sans avoir été réalisée. Ouvrez le gestionnaire des actions pour voir le ou lesquelles.\")</script>";
+			return "<script>self.alert(\"GDMC : une action ou plus arrive à la date butoir sans avoir été réalisée. Ouvrez le gestionnaire des actions pour voir le ou lesquelles.\")</script>";
 		} else {
 			return "";
 		}
@@ -321,14 +320,22 @@ class ActionClass extends TempsClass
 	// Même chose qu'au-dessus, mais ne retourne qu'un 1 ou 0, afin d'effectuer des vérifications
 	public function canAlertBoolean($id)
 	{
-		$action = new Action();
+		$action = new Action;
+        $temps = new TempsClass;
+        
 		$now = Carbon::now();
+        $alertStart = 30;
 
-		if(Carbon::createFromFormat("d/m/Y", $action->find($id)->date_butoire)->diffInDays($now) <= $action->find($id)->alertStart && $action->find($id)->alert == 1) {
-			return true;
-		} else {
-			return false;
-		}
+        if($action->find($id)->date_butoir != null) {
+            if(Carbon::parse($action->find($id)->date_butoir)->diffInDays($now) <= $alertStart && $action->find($id)->alert == 1
+               OR Carbon::parse($action->find($id)->date_butoir) <= $now && $action->find($id)->alert == 1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
 	}
 
     public function alertButton($id) // retourne le bouton des alertes
@@ -347,13 +354,15 @@ class ActionClass extends TempsClass
     {
         $carbon = new Carbon;
         $action = new Action;
-        $realise = $action->whereNotNull("date_realisation")->count();
-        $nonRealise = $action->whereNull("date_realisation")->count();
+        $realise = $action->where('deleted', 0)->whereNotNull("date_realisation")->count();
+        $nonRealise = $action->where('deleted', 0)->whereNull("date_realisation")->count();
+        $nb = $action->where('deleted', 0)->count();
         
         $resultat = array(
             'status' => 'success',
             'realise' => $realise,
             'nonRealise' => $nonRealise,
+            'nb' => $nb,
             'line' => array(
                 'annee' => array(),
                 'nbRealise' => array(),
@@ -362,7 +371,7 @@ class ActionClass extends TempsClass
         );
 
         // on récupère les années où des actions ont eu lieu
-        $actionPeriod = $action->orderBy('date_creation')->get();
+        $actionPeriod = $action->where('deleted', 0)->orderBy('date_creation')->get();
 
         foreach($actionPeriod as $actionPeriods) {
             // pour chaque année
@@ -370,8 +379,8 @@ class ActionClass extends TempsClass
             
 
             if(!in_array($year, $resultat['line']['annee'], true)) {
-                $nbRealise = $action->whereYear('date_creation', (string) $year)->whereNotNull('date_realisation')->count();
-                $nbNonRealise = $action->whereYear('date_creation', (string) $year)->whereNull('date_realisation')->count();
+                $nbRealise = $action->where('deleted', 0)->whereYear('date_creation', (string) $year)->where('deleted', 0)->whereNotNull('date_realisation')->count();
+                $nbNonRealise = $action->where('deleted', 0)->whereYear('date_creation', (string) $year)->where('deleted', 0)->whereNull('date_realisation')->count();
                 
                 array_push($resultat['line']['annee'], $year);
                 array_push($resultat['line']['nbRealise'], $nbRealise);

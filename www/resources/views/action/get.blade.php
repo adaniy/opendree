@@ -24,7 +24,7 @@
 	    </div>
 	    <div class="action-list">
 	    @foreach($action as $actions)
-		<div class="list"><div class="pull-right"><button id="edit" class="live" data-attribute="{{ $actions->id }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button></div><a href="{{ url('action/'.$actions->id) }}"><li class="">{{ $actions->nom }}</li></a></div>
+		<div class="list" data-attribute="{{ $actions->id }}"><div class="pull-right"><button id="edit" class="live" data-attribute="{{ $actions->id }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button></div><a href="{{ url('action/'.$actions->id) }}"><li @if($actionClass->canAlertBoolean($actions->id)) class="alerte" @endif>{{ $actions->nom }}</li></a></div>
 	    @endforeach
 	    </div>
 	</div>
@@ -45,13 +45,13 @@
 	    </div>
 
 	    <div class="col-md-3">
-		<h4>Date butoire<div class="pull-right"><button id="edit-date-butoire" class="live"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button></div></h4>
-		<div class="inner action-info action-date-butoire">{{ $actionClass->date($actionCurrent->date_butoire) }}</div>
+		<h4>Date butoir<div class="pull-right"><button id="edit-date-butoir" class="live"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button></div></h4>
+		<div class="inner action-info action-date-butoir">{{ $actionClass->date($actionCurrent->date_butoir) }}</div>
 	    </div>
 
 	    <div class="col-md-3">
 		<h4>Jours restant</h4>
-		<div class="inner action-info action-jour-restant">{{ $actionClass->diff($actionCurrent->date_butoire) }}</div>
+		<div class="inner action-info action-jour-restant">{{ $actionClass->diff($actionCurrent->date_butoir) }}</div>
 	    </div>
 
 	    <div class="col-md-12">
