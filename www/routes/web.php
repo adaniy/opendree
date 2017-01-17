@@ -32,19 +32,12 @@ Route::get("test", function() {
 Route::get("login", function() {
     return view('login');
 });
-/*
---------> Gestion des actions
-*/
 
-// Index
 Route::get("action", "ActionController@index");
 Route::get("action/{id}", "ActionController@getAction");
 
-/*
---------> Gestion des réunions
-*/
+Route::get("budget", "BudgetController@index");
 
-// Index
 Route::get("reunion","ReunionController@index");
 Route::post("reunion","ReunionController@postRecherche");
 

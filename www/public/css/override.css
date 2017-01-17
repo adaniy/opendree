@@ -172,15 +172,16 @@ nav.head .deploy {
     display: none;
     z-index: 1000;
  
-    height: 100%;
+    height: auto;
     padding: 10px;
     width: 200px;
 
     position: fixed;
     bottom: 90%;
-    top: 75px;
+    top: 50px;
     right: 0;
     text-align: left;
+    vertical-align: top;
 
     background: rgba(40, 40, 40, 0.9);
 
@@ -248,7 +249,7 @@ nav.head .menu {
 }
 
 .action .gauche {
-    height: 100%;
+    height: 100vh;
     border-right: 1px solid rgba(100, 100, 100, 0.5);
     overflow: auto;
 }
@@ -306,7 +307,7 @@ nav.head .menu {
 }
 
 .action .droite {
-    height: 100%;
+    height: 100vh;
 }
 
 .action .droite .titre {
@@ -335,7 +336,7 @@ nav.head .menu {
     text-align: center;
 }
 
-.action-new {
+.action .action-new {
     margin-bottom: 20px;
 }
 
@@ -364,19 +365,31 @@ nav.head .menu {
     height: 100%;
 }
 
-.table-stats th {
+.action .table-stats th {
     vertical-align: middle;
     text-align: center;
     font-weight: bold;
 }
 
-.table-stats td.categorie {
+.action .table-stats td.categorie {
     vertical-align: middle;
     font-weight: bold;
     text-align: right;
 }
 
-.table-stats td.value {
+.action .table-stats td.value {
     vertical-align: middle;
     text-align: center;
+}
+
+.budget .nav-tabs {
+    border-bottom: 1px solid #ddd;
+}
+
+.budget .nav-tabs li.active {
+    
+}
+
+.budget table {
+    border: none !important;
 }

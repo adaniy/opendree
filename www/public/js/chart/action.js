@@ -9,8 +9,8 @@ function syncActionStatsDoughnut () {
 	    realise = response.realise;
 	    nonRealise = response.nonRealise;
 	    
-	    config.data.datasets[0].data = [ realise, nonRealise ];
-	    window.action.update();
+	    doughnut.data.datasets[0].data = [ realise, nonRealise ];
+	    doughnut.update();
 	}
     });
 
@@ -59,14 +59,13 @@ setInterval(function() {
     syncActionStatsDoughnut();
     syncActionStatsLine();
     syncActionStats();
-
-    console.log("test");
-}, 5000);
+}, 4000);
 
 var defaultData = 1;
 
-// statistique par si réalisé ou non
-var config = {
+// comparaison des actions
+var ctx = document.getElementById("chart-action").getContext("2d");
+var doughnut = new Chart(ctx, {
     type: 'doughnut',
     data: {
         datasets: [{
@@ -99,7 +98,7 @@ var config = {
 	    animateRotate: true
         }
     }
-};
+});
 
 // statistiques par années des actions planifiées
 var ctx2 = document.getElementById("chart-action2").getContext("2d");
@@ -110,7 +109,7 @@ var line = new Chart.Line(ctx2, {
             {
 		label: "Réalisés",
 		fill: false,
-		lineTension: 0.1,
+		lineTension: 0.2,
 		backgroundColor: "#56E953",
 		borderColor: "#56E953",
 		borderCapStyle: 'butt',
@@ -132,7 +131,7 @@ var line = new Chart.Line(ctx2, {
 	    {
 		label: "Non réalisés",
 		fill: false,
-		lineTension: 0.1,
+		lineTension: 0.2,
 		backgroundColor: "#D31C13",
 		borderColor: "#D31C13",
 		borderCapStyle: 'butt',
@@ -154,10 +153,3 @@ var line = new Chart.Line(ctx2, {
 	]
     }
 });
-
-window.onload = function() {
-    var ctx = document.getElementById("chart-action").getContext("2d");
-    window.action = new Chart(ctx, config);
-
-
-};
