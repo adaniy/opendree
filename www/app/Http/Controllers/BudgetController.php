@@ -21,4 +21,14 @@ class BudgetController extends Controller
             'budgetClass' => $budgetClass
         ]);
     }
+
+    public function getDepense($id, BudgetClass $budgetClass)
+    {
+        return $budgetClass->getDepense($id);
+    }
+
+    public function addDepense($id, BudgetClass $budgetClass)
+    {
+        return $budgetClass->addDepense($id);
+    }
 }

@@ -14,24 +14,64 @@ use App\Classes\TempsClass;
 
 class BudgetClass extends TempsClass
 {
+    public function __construct()
+    {
+        $this->budget = new Budget;
+        $this->budgetDepense = new BudgetDepense;
+        $this->budgetCategory = new BudgetCategory;
+    }
+    
     // récupère le total d'un budget
     public function total($id)
     {
         $budget = new Budget;
         $budgetDepense = new BudgetDepense;
-        $budgetCategory = new BudgetCategory;
 
-        $arrayBudget = [];
-        $arrayDepense = [];
+        $vote = $budget->find($id)->vote;
 
-        // on récupère un array représentant les budgets
-        foreach($budget->get() as $budgets) {
-            $arrayBudget[] = $budgets->vote;
+        foreach($budgetDepense->where('budget_id', $id)->get() as $depenses) {
+            $vote = $vote - $depenses->amount;
+        }
+        
+        return $vote;
+    }
+
+    public function getDepense($id)
+    {
+        $resultat = ['status' => 'success'];
+
+        foreach($this->budgetDepense->where('budget_id', $id)->get() as $depenses) {
+            $resultat[]['category'] = $depenses->category;
+            $resultat[]['amount'] = $depenses->amount;
         }
 
-        // on retrouve la position dans l'array de l'id
-        $key = array_search($id, $arrayBudget);
+        return json_encode($resultat);
+    }
 
-        return $arrayBudget[0];
+    public function addDepense($id)
+    {
+        $budget = new Budget;
+        $budgetDepense = new BudgetDepense;
+
+        $amount = 0;
+        $category = "Nouvelle dépense";
+
+        $budgetDepense->budget_id = $id;
+        $budgetDepense->category = $category;
+        $budgetDepense->amount = $amount;
+
+        if($budgetDepense->save()) {
+            $resultat = array(
+                'status' => 'success',
+                'category' => $category,
+                'amount' => $amount
+            );
+        } else {
+            $resultat = array(
+                "status" => "error"
+            );
+        }
+        
+        return json_encode($resultat);
     }
 }

@@ -49,6 +49,10 @@ button.live:hover {
     color: orange;
 }
 
+button.live:focus, button.live:active {
+    outline: none;
+}
+
 .row {
     padding: 0;
 }
@@ -391,5 +395,49 @@ nav.head .menu {
 }
 
 .budget table {
-    border: none !important;
+    width: 100%;
+    margin: 0;
+}
+
+.budget table th {
+    text-align: center;
+    vertical-align: middle;
+    text-transform: uppercase;
+
+    font-size: 16px;
+}
+
+.budget table tr.vote {
+    background: #36C92A;
+    font-weight: bold;
+    color: white;
+}
+
+.budget table tr.total {
+    background: #444444;
+    font-weight: bold;
+    color: white;
+}
+
+.budget table tr.budget {
+    background: #444444;
+    color: white;
+}
+
+.budget table td.category {
+    font-weight: bold;
+    vertical-align: middle;
+    text-align: center;
+
+    text-transform: uppercase;
+}
+
+.budget table td.amount {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.budget .add {
+    width: 100%;
+    text-align: center;
 }

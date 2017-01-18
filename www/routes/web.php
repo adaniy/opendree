@@ -77,6 +77,16 @@ Route::get("election/brut","ElectionController@indexBrut");
 Route::post("election/brut","ElectionController@rechercheBrut");
 Route::get("election/brut/supprimer/{id}","ElectionController@supprimer");
 
+// Ajax - get
+Route::get("action/stats", "ActionController@stats");
+Route::get("action/get/jour-restant", "ActionController@getJourRestant");
+Route::get("action/alerte", "ActionController@getAlert");
+Route::get("action/alerte/{id}", "ActionController@actionAlert");
+Route::get("action/delete/{id}", "ActionController@delete");
+
+Route::get("budget/depense/{id}", "BudgetController@getDepense");
+Route::get("budget/ajout/depense/{id}", "BudgetController@addDepense");
+
 // Ajax - post
 Route::post("action/edit/nom", "ActionController@editActionTitre");
 Route::post("action/edit/description", "ActionController@editActionDescription");
@@ -85,9 +95,3 @@ Route::post("action/edit/date-realisation", "ActionController@editActionDateReal
 Route::post("action/edit/date-butoir", "ActionController@editActionDateButoir");
 Route::post("action/ajout", "ActionController@ajoutAction");
 
-// Ajax - get
-Route::get("action/stats", "ActionController@stats");
-Route::get("action/get/jour-restant", "ActionController@getJourRestant");
-Route::get("action/alerte", "ActionController@getAlert");
-Route::get("action/alerte/{id}", "ActionController@actionAlert");
-Route::get("action/delete/{id}", "ActionController@delete");

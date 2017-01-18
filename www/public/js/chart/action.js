@@ -13,8 +13,6 @@ function syncActionStatsDoughnut () {
 	    doughnut.update();
 	}
     });
-
-    
 }
 
 function syncActionStatsLine () {

@@ -21,12 +21,7 @@ class CreateBudgetDepenseTable extends Migration
                 ->on('budget')
                 ->onDelete('cascade');
 
-            $table->integer('budget_category_id')->unsigned();
-            $table->foreign('budget_category_id')
-                ->references('id')
-                ->on('budget_category')
-                ->onDelete('cascade');
-            
+            $table->string('category');
             $table->bigInteger('amount')->unsigned();
             $table->timestamps();
         });
