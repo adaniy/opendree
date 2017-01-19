@@ -38,19 +38,16 @@ a.button-link:hover {
 }
 
 button.live {
-    border: 0;
-    background: none;
-
-    transition: 0.3s;
+    padding: 3px 7px 3px 7px;
 }
 
-button.live:hover {
-    outline: none;
-    color: orange;
+button.btn-tree {
+    padding: 5px 10px 5px 10px;
+    font-size: 13px;
 }
 
-button.live:focus, button.live:active {
-    outline: none;
+button.btn-tree:focus, button.btn-tree:active {
+    outline: none !important;
 }
 
 .row {
@@ -437,7 +434,83 @@ nav.head .menu {
     text-align: center;
 }
 
+.budget table td.actions {
+    text-align: center !important;
+}
+
 .budget .add {
     width: 100%;
     text-align: center;
+}
+
+.budget .depense-category-edit .form-control {
+    text-align: center;
+    background: none;
+    box-shadow: none;
+    border: 0;
+    height: 0;
+    text-transform: uppercase;
+    color: rgba(200, 60, 10, 1.0);
+}
+
+.budget .depense-amount-edit .form-control {
+    text-align: center;
+
+    background: none;
+    box-shadow: none;
+    border: 0;
+    height: 0;
+    color: rgba(200, 60, 10, 1.0);
+
+    font-weight: bold;
+}
+
+.budget .tree,
+.budget .tree ul {
+    margin: 0 0 0 1em;
+    padding: 0;
+    list-style: none;
+    color: black;
+    position: relative;
+}
+
+.budget .tree ul {
+    margin-left: .5em;
+}
+
+.budget .tree:before,
+.budget .tree ul:before {
+    content :"";
+    display: block;
+    width: 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    border-left: 1px solid;
+}
+
+.budget .tree li {
+    margin: 0;
+    padding: 0 1.5em;
+    line-height: 2em;
+    font-weight: bold;
+    position: relative;
+}
+
+.budget .tree li:before {
+    content: "";
+    display: block;
+    width: 10px;
+    height: 0;
+    border-top: 1px solid;
+    margin-top: -1px;
+    position: absolute;
+    top: 1em;
+    left: 0;
+}
+
+.budget .tree li:last-child:before {
+    background: white;
+    height: auto;
 }

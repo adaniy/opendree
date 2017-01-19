@@ -18,13 +18,26 @@ function nl2br (str, is_xhtml) {
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ breakTag +'$2');
 }
 
-var ctx = $("#myChart");
+function unformat_number(number) {
+    return number.replace(/ /g, '');
+}
 
 $(function() {
     $('.module').click(() => {
 	$('.deploy').fadeToggle(200, "linear");
     });
 
+    var csrfToken = $('[name="csrf_token"]').attr('content');
+
+    // rafraichissement des tokens csrf
+    setInterval(refreshToken, 3600000); 
+    function refreshToken() {
+        $.get('refresh-csrf').done(function(data){
+            csrfToken = data;
+        });
+    }
+    setInterval(refreshToken, 3600000);
+    
     // les alertes clignotent
     (function blink() {
 	$('.alerte-on').fadeOut(500).fadeIn(500, blink);

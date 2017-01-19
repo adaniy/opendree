@@ -15,9 +15,15 @@ class CreateBudgetTable extends Migration
     {
         Schema::create('budget', function (Blueprint $table) {
             $table->increments('id')->unsigned();
+            $table->integer('service_id')->unsigned();
+            $table->foreign('service_id')
+                ->references('id')
+                ->on('service')
+                ->onDelete('cascade');
 
-            $table->mediumText('name');
+            $table->string('name');
             $table->bigInteger('vote')->unsigned();
+            $table->date('date');
             $table->timestamps();
         });
     }

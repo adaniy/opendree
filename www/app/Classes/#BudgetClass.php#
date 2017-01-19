@@ -1,0 +1,106 @@
+<?php
+namespace App\Classes;
+
+use Illuminate\Http\Request;
+
+use Carbon\Carbon;
+
+use App\Action;
+use App\Budget;
+use App\BudgetDepense;
+use App\BudgetCategory;
+
+use App\Classes\TempsClass;
+
+class BudgetClass extends TempsClass
+{
+    public function __construct()
+    {
+        $this->budget = new Budget;
+        $this->budgetDepense = new BudgetDepense;
+        $this->budgetCategory = new BudgetCategory;
+    }
+    
+    // récupère le total d'un budget
+    public function total($id)
+    {
+        $budget = new Budget;
+        $budgetDepense = new BudgetDepense;
+
+        $vote = $budget->find($id)->vote;
+
+        foreach($budgetDepense->where('budget_id', $id)->get() as $depenses) {
+            $vote = $vote - $depenses->amount;
+        }
+        
+        return $vote;
+    }
+
+    public function getDepense($id)
+    {
+        $resultat = ['status' => 'success'];
+
+        foreach($this->budgetDepense->where('budget_id', $id)->get() as $depenses) {
+            $resultat[]['category'] = $depenses->category;
+            $resultat[]['amount'] = $depenses->amount;
+        }
+
+        return json_encode($resultat);
+    }
+
+    public function addDepense($id)
+    {
+        $amount = 0;
+        $category = "Nouvelle dépense";
+
+        $this->budgetDepense->budget_id = $id;
+        $this->budgetDepense->category = $category;
+        $this->budgetDepense->amount = $amount;
+
+        if($this->budgetDepense->save()) {
+            $resultat = array(
+                'status' => 'success',
+                'category' => $category,
+                'amount' => $amount
+            );
+        } else {
+            $resultat = array(
+                "status" => "error"
+            );
+        }
+        
+        return json_encode($resultat);
+    }
+
+    public function editDepense($request)
+    {
+        $id = $request->get("id");
+        if(!empty($category)) {
+            $category = $request->get("category");
+        } else {
+        }
+
+        if(!empty($category)) {
+            $category = $request->get("category");
+        } else {
+            $amount = $request->get("amount");
+        }
+
+        if($this->budgetDepense->where('id', $id)->update([
+            "category" => $category,
+            "amount" => $amount
+        ])) {
+            $response = [
+                "status" => "success",
+                "category" => $category,
+                "amount" => $amount
+            ];
+        } else {
+            $response = [
+                "status" => "error"
+            ];
+        }
+
+        return $response;
+    }
+}

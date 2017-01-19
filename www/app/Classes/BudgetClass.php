@@ -22,47 +22,54 @@ class BudgetClass extends TempsClass
     }
     
     // récupère le total d'un budget
-    public function total($id)
+    public function getTotal($id)
     {
-        $budget = new Budget;
-        $budgetDepense = new BudgetDepense;
+        if($this->budget->find($id)) {
+            $vote = $this->budget->find($id)->vote;
 
-        $vote = $budget->find($id)->vote;
+            foreach($this->budgetDepense->where('budget_id', $id)->get() as $depenses) {
+                $vote = $vote - $depenses->amount;
+            }
 
-        foreach($budgetDepense->where('budget_id', $id)->get() as $depenses) {
-            $vote = $vote - $depenses->amount;
+            $response = [
+                "status" => "success",
+                "total" => number_format($vote, 2, '.', ' ')
+            ];
+        } else {
+            $response = [
+                "status" => "error"
+            ];
         }
         
-        return $vote;
+        return json_encode($response);
     }
 
     public function getDepense($id)
     {
-        $resultat = ['status' => 'success'];
+        $category = $this->budgetDepense->find($id)->category;
+        $amount = $this->budgetDepense->find($id)->amount;
 
-        foreach($this->budgetDepense->where('budget_id', $id)->get() as $depenses) {
-            $resultat[]['category'] = $depenses->category;
-            $resultat[]['amount'] = $depenses->amount;
-        }
+        $resultat = [
+            "category" => $category,
+            "amount" => $amount
+        ];
 
         return json_encode($resultat);
     }
 
     public function addDepense($id)
     {
-        $budget = new Budget;
-        $budgetDepense = new BudgetDepense;
-
         $amount = 0;
         $category = "Nouvelle dépense";
 
-        $budgetDepense->budget_id = $id;
-        $budgetDepense->category = $category;
-        $budgetDepense->amount = $amount;
+        $this->budgetDepense->budget_id = $id;
+        $this->budgetDepense->category = $category;
+        $this->budgetDepense->amount = $amount;
 
-        if($budgetDepense->save()) {
+        if($this->budgetDepense->save()) {
             $resultat = array(
                 'status' => 'success',
+                'id' => $this->budgetDepense->id,
                 'category' => $category,
                 'amount' => $amount
             );
@@ -73,5 +80,54 @@ class BudgetClass extends TempsClass
         }
         
         return json_encode($resultat);
+    }
+
+    public function editDepense($request)
+    {
+        $id = $request->get("id");
+
+        if($this->budgetDepense->find($id)) {
+            if(!empty($request->get("category"))) {
+                $category = $request->get("category");
+                $amount = $request->get("amount");
+
+                $this->budgetDepense->where('id', $id)->update(["category" => $category, "amount" => $amount]);
+                $response = [
+                    "status" => "success",
+                    "category" => $category,
+                    "amount" => number_format($amount, 2, '.', ' '),
+                    "budget_id" => $this->budgetDepense->find($id)->budget_id
+                ];
+            } else {
+                $response = [
+                    "status" => "error"
+                ];
+            }
+        } else {
+            $response = [
+                "status" => "unknown"
+            ];
+        }
+            
+
+        return json_encode($response);
+    }
+
+    public function deleteDepense($id)
+    {
+        $budget_id = $this->budgetDepense->find($id)->budget_id;
+
+        if($this->budgetDepense->where('id', $id)->delete()) {
+            $response = [
+                'status' => 'success',
+                'budget_id' => $budget_id
+            ];
+        } else {
+            $response = [
+                'status' => 'error'
+            ];
+        }
+
+        return json_encode($response);
     }
 }

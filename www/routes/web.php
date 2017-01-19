@@ -84,8 +84,10 @@ Route::get("action/alerte", "ActionController@getAlert");
 Route::get("action/alerte/{id}", "ActionController@actionAlert");
 Route::get("action/delete/{id}", "ActionController@delete");
 
+Route::get("budget/total/{id}", "BudgetController@getTotal");
 Route::get("budget/depense/{id}", "BudgetController@getDepense");
 Route::get("budget/ajout/depense/{id}", "BudgetController@addDepense");
+Route::get("budget/delete/depense/{id}", "BudgetController@deleteDepense");
 
 // Ajax - post
 Route::post("action/edit/nom", "ActionController@editActionTitre");
@@ -95,3 +97,18 @@ Route::post("action/edit/date-realisation", "ActionController@editActionDateReal
 Route::post("action/edit/date-butoir", "ActionController@editActionDateButoir");
 Route::post("action/ajout", "ActionController@ajoutAction");
 
+Route::post("budget/edit/depense", "BudgetController@editDepense");
+
+// rafraichissement csrf
+Route::get('refresh-csrf', function(){
+    return csrf_token();
+});
+
+// désactivation du formatage des nombres
+Route::get('unformat/{number}', function($number) {
+    $resultat = [
+        'number' => number_format($number)
+    ];
+
+    return json_encode($resultat);
+});

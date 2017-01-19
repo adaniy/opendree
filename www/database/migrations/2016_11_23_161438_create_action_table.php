@@ -21,7 +21,7 @@ class CreateActionTable extends Migration
             $table->date('date_creation')->nullable();
             $table->date('date_butoir')->nullable();
             $table->date('date_realisation')->nullable();
-            $table->smallInt("deleted");
+            $table->tinyInteger("deleted");
             $table->timestamps();
         });
     }
