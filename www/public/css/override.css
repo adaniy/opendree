@@ -438,6 +438,24 @@ nav.head .menu {
     text-align: center !important;
 }
 
+.budget .table-header {
+    background: #444444;
+    text-align: center;
+    margin: 0 auto;
+    padding: 5px 0 5px 0;
+
+    color: white;
+    text-transform: uppercase;
+
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+}
+
+.budget .table-footer {
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
 .budget .add {
     width: 100%;
     text-align: center;
@@ -454,6 +472,31 @@ nav.head .menu {
 }
 
 .budget .depense-amount-edit .form-control {
+    text-align: center;
+
+    background: none;
+    box-shadow: none;
+    border: 0;
+    height: 0;
+    color: rgba(200, 60, 10, 1.0);
+
+    font-weight: bold;
+}
+
+.budget .budget-name-edit .form-control {
+    text-align: center;
+    border: 0;
+    height: 0;
+    text-transform: uppercase;
+
+    color: rgba(200, 60, 10, 1.0);
+    background: none;
+    box-shadow: none;
+
+    padding: 18px 0 18px 0;
+}
+
+.budget .budget-vote-edit .form-control {
     text-align: center;
 
     background: none;
@@ -513,4 +556,11 @@ nav.head .menu {
 .budget .tree li:last-child:before {
     background: white;
     height: auto;
+}
+
+.budget .tree-category {
+    text-transform: uppercase;
+    padding: 5px 15px 5px 15px;
+
+    margin: 0 2px 0 10px;
 }
