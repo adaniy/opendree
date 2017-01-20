@@ -84,6 +84,10 @@ Route::get("action/alerte", "ActionController@getAlert");
 Route::get("action/alerte/{id}", "ActionController@actionAlert");
 Route::get("action/delete/{id}", "ActionController@delete");
 
+Route::get("budget/add", "BudgetController@add");
+Route::get("budget/add/{id}/year/{year}", "BudgetController@addYear");
+Route::get("budget/delete/{id}", "BudgetController@delete");
+Route::get("budget/delete/year/{year}", "BudgetController@deleteYear");
 Route::get("budget/total/{id}", "BudgetController@getTotal");
 Route::get("budget/depense/{id}", "BudgetController@getDepense");
 Route::get("budget/ajout/depense/{id}", "BudgetController@addDepense");
@@ -97,6 +101,7 @@ Route::post("action/edit/date-realisation", "ActionController@editActionDateReal
 Route::post("action/edit/date-butoir", "ActionController@editActionDateButoir");
 Route::post("action/ajout", "ActionController@ajoutAction");
 
+Route::post("budget/edit", "BudgetController@edit");
 Route::post("budget/edit/depense", "BudgetController@editDepense");
 
 // rafraichissement csrf

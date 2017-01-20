@@ -29,6 +29,31 @@ class BudgetController extends Controller
     {
         return $budgetClass->getTotal($id);
     }
+
+    public function addYear($id, $year, BudgetClass $budgetClass)
+    {
+        return $budgetClass->addYear($id, $year);
+    }
+
+    public function add(BudgetClass $budgetClass)
+    {
+        return $budgetClass->add();
+    }
+
+    public function edit(BudgetRequest $request, BudgetClass $budgetClass)
+    {
+        return $budgetClass->edit($request);
+    }
+
+    public function delete($id, BudgetClass $budgetClass)
+    {
+        return $budgetClass->delete($id);
+    }
+
+    public function deleteYear($year, BudgetClass $budgetClass)
+    {
+        return $budgetClass->deleteYear($year);
+    }
     
     public function getDepense($id, BudgetClass $budgetClass)
     {
@@ -49,4 +74,8 @@ class BudgetController extends Controller
     {
         return $budgetClass->deleteDepense($id);
     }
+
+    
+
+    
 }

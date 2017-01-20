@@ -145,13 +145,13 @@ $(document).on('click', 'button#delete-depense', function (e) {
 
 // modification des budgets
 $(document).on('click', 'button#edit-budget', function() {
-    var id = $(this).parent().parent().attr('data-attribute');
+    var id = $(this).attr('data-attribute');
 
-    var name = $(this).parent().parent();
+    var name = $('.table-header[data-attribute="'+ id +'"]');
     var vote = $('.amount[data-attribute="'+ id +'"]');
     var csrf_token = $('meta[name="csrf-token"]').attr('content');
     
-    var formName = '<div class="table-header col-md-12"><form method="POST" class="form budget-name-edit" data-attribute="'+ id +'">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '"><input type="hidden" name="id" value="'+ id +'">' + '<input type="text" class="form-control" name="name" value="' + name.text() + '"></form></div>';
+    var formName = '<div class="table-header col-md-12" data-attribute="'+  id +'"><form method="POST" class="form budget-name-edit" data-attribute="'+ id +'">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '"><input type="hidden" name="id" value="'+ id +'">' + '<input type="text" class="form-control" name="name" value="' + name.text() + '"></form></div>';
     var formVote = '<td class="amount"><form method="POST" class="form budget-vote-edit" data-attribute="'+ id +'">' + '<input type="hidden" name="csrf-token" value="' + csrf_token + '"><input type="hidden" name="id" value="'+ id +'">' + '<input type="text" class="form-control" name="vote" value="'+ unformat_number(vote.text()) +'"></form</td>';
 
     name.replaceWith(formName);
@@ -162,33 +162,139 @@ $(document).on('click', 'button#edit-budget', function() {
 $(document).on('submit', '.budget-name-edit', function (e) {
     e.preventDefault();
     var id = $(this).attr("data-attribute");
+    console.log(id);
+    var firstForm = $('form.budget-name-edit[data-attribute="'+ id +'"]');
+    var secondForm = $('form.budget-vote-edit[data-attribute="'+ id +'"]');
 
-    var firstForm = '.depense-category-edit';
-    var secondForm = '.depense-amount-edit';
-
-    var data1 = $('tr[data-attribute="'+ id +'"]').find(firstForm).serialize();
-    var data2 = $('tr[data-attribute="'+ id +'"]').find(secondForm).serialize();
-
-    var category = escapeHtml($('tr[data-attribute="'+ id +'"]').find('input[name=category]').val());
-    var amount = escapeHtml($('tr[data-attribute="'+ id +'"]').find('input[name=amount]').val());
+    var data1 = firstForm.serialize();
+    var data2 = secondForm.serialize();
     
     $.ajax({
 	headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 	type: "POST",
-	url: "/budget/edit/depense",
+	url: "/budget/edit",
 	data: data1 + "&" + data2
     }).done(function (msg) {
 	var response = $.parseJSON(msg);
 
 	if(response.status == "success") {
 	    // si la requête est un succès, on rétablis les colonnes avec les nouvelles valeurs asynchrone
-	    var categoryReplace = '<td class="category" data-attribute="'+ id +'">'+ response.category +'</td>';
-	    var amountReplace = '<td class="amount" data-attribute="'+ id +'">'+ response.amount +'</td>';
+	    firstForm.parent().replaceWith('<div class="table-header col-md-12" data-attribute="'+  id +'">' + response.name + '<div class="pull-right"><button id="edit-budget" class="btn btn-xs btn-info btn-tree" data-attribute="'+ id +'"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button><button id="delete-budget" class="btn btn-xs btn-danger btn-tree" data-attribute="'+ id +'"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></div>');
+	    secondForm.parent().replaceWith('<td class="amount col-md-6" data-attribute="'+ id +'">'+ response.vote +'</td>');
 
-	    $('tr[data-attribute="'+ id +'"]').find('.depense-category-edit').parent().replaceWith(categoryReplace);
-	    $('tr[data-attribute="'+ id +'"]').find('.depense-amount-edit').parent().replaceWith(amountReplace);
+	    syncBudgetTotal('tr.total', id);
+	}
+    });
+});
 
-	    syncBudgetTotal('tr.total', response.budget_id);
+// traitement ajax dupliqué pour la modification des budgets
+$(document).on('submit', '.budget-vote-edit', function (e) {
+    e.preventDefault();
+    var id = $(this).attr("data-attribute");
+    console.log(id);
+    var firstForm = $('form.budget-name-edit[data-attribute="'+ id +'"]');
+    var secondForm = $('form.budget-vote-edit[data-attribute="'+ id +'"]');
+
+    var data1 = firstForm.serialize();
+    var data2 = secondForm.serialize();
+    
+    $.ajax({
+	headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+	type: "POST",
+	url: "/budget/edit",
+	data: data1 + "&" + data2
+    }).done(function (msg) {
+	var response = $.parseJSON(msg);
+
+	if(response.status == "success") {
+	    // si la requête est un succès, on rétablis les colonnes avec les nouvelles valeurs asynchrone
+	    firstForm.parent().replaceWith('<div class="table-header col-md-12" data-attribute="'+  id +'">' + response.name + '<div class="pull-right"><button id="edit-budget" class="btn btn-xs btn-info btn-tree" data-attribute="'+ id +'"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button><button id="delete-budget" class="btn btn-xs btn-danger btn-tree" data-attribute="'+ id +'"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></div>');
+	    secondForm.parent().replaceWith('<td class="amount col-md-6" data-attribute="'+ id +'">'+ response.vote +'</td>');
+
+	    syncBudgetTotal('tr.total', id);
+	}
+    });
+});
+
+// ajout d'un budget
+$(document).on('click', 'button#add-budget', function (e) {
+    e.preventDefault();
+    var id = $(this).attr("data-attribute");
+    var year = $(this).attr("data-year");
+    var parent = $(this).parent();
+
+    console.log(id);
+
+    $.ajax({
+	type: "GET",
+	url: "/budget/add/" + id + "/year/" + year,
+    }).done(function (msg) {
+	var response = $.parseJSON(msg);
+
+	if(response.status == "success") {
+	    var newData = '<li><div class="table-header col-md-12" data-attribute="'+ response.id +'"><name>'+ response.name +'</name><div class="pull-right"><button id="edit-budget" class="btn btn-xs btn-info btn-tree" data-attribute="'+ response.id +'"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button><button id="delete-budget" class="btn btn-xs btn-danger btn-tree" data-attribute="'+ response.id +'"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></div></div><table class="table table-striped table-hover table-bordered table-board"><tr class="vote"><td class="category col-md-5">Budget voté</td><td class="amount col-md-6" data-attribute="'+ response.id +'">'+ response.vote +'</td><td class="actions col-md-1">&nbsp;</td></tr><tr class="total table-footer" data-attribute="'+ response.id +'"><td class="category">total</td><td class="amount"><total></total></td><td class="actions"><div class="add"><button id="add-depense" class="btn btn-md btn-warning btn-tree" data-attribute="'+ response.id +'"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></button></div></td></tr></table></li>';
+	    parent.before(newData);
+	}
+    });
+});
+
+// ajout d'une année budgétaire
+$(document).on('click', 'button#add-year', function (e) {
+    e.preventDefault();
+    actual = $(this);
+
+    $.ajax({
+	type: "GET",
+	url: "/budget/add",
+    }).done(function (msg) {
+	var response = $.parseJSON(msg);
+
+	if(response.status == "success") {
+	    location.reload();
+	}
+    });
+});
+
+// suppression d'un budget
+$(document).on('click', 'button#delete-budget', function (e) {
+    e.preventDefault();
+    var id = $(this).attr("data-attribute");
+    var parent = $(this).parent().parent().parent();
+
+    console.log(id);
+
+    $.ajax({
+	type: "GET",
+	url: "/budget/delete/" + id,
+    }).done(function (msg) {
+	var response = $.parseJSON(msg);
+
+	if(response.status == "success") {
+	    parent.fadeOut(800, function () {
+		parent.remove();
+	    });
+	}
+    });
+});
+
+// suppression d'un budget
+$(document).on('click', 'button#delete-year', function (e) {
+    e.preventDefault();
+    var year = $(this).attr("data-attribute");
+    var parent = $(this).parent();
+
+    console.log(year);
+
+    $.ajax({
+	type: "GET",
+	url: "/budget/delete/year/" + year,
+    }).done(function (msg) {
+	var response = $.parseJSON(msg);
+
+	if(response.status == "success") {
+	    parent.fadeOut(800, function () {
+		parent.remove();
+	    });
 	}
     });
 });

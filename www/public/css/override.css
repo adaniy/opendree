@@ -440,9 +440,10 @@ nav.head .menu {
 
 .budget .table-header {
     background: #444444;
-    text-align: center;
+    text-align: left;
+    vertical-align: middle !important;
     margin: 0 auto;
-    padding: 5px 0 5px 0;
+    padding: 5px 5px 5px 5px;
 
     color: white;
     text-transform: uppercase;
@@ -484,16 +485,16 @@ nav.head .menu {
 }
 
 .budget .budget-name-edit .form-control {
-    text-align: center;
+    text-align: left;
     border: 0;
     height: 0;
     text-transform: uppercase;
 
-    color: rgba(200, 60, 10, 1.0);
+    color: rgba(250, 150, 100, 1.0);
     background: none;
     box-shadow: none;
 
-    padding: 18px 0 18px 0;
+    padding: 14px 0 19px 0;
 }
 
 .budget .budget-vote-edit .form-control {

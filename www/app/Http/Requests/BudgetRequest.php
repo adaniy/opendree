@@ -24,6 +24,8 @@ class BudgetRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => 'filled|min:1', 
+            'vote' => 'filled|numeric',
             'category' => 'filled|min:1',
             'amount' => 'filled|numeric'
         ];

@@ -22,7 +22,8 @@ class CreateBudgetTable extends Migration
                 ->onDelete('cascade');
 
             $table->string('name');
-            $table->bigInteger('vote')->unsigned();
+            $table->bigInteger('vote');
+            $table->bigInteger('dm');
             $table->date('date');
             $table->timestamps();
         });
