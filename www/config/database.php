@@ -50,6 +50,7 @@ return [
             'driver' => 'sqlite',
             'database' => storage_path('database/gdmc.db'),
             'prefix' => '',
+            'exec' => 'PRAGMA foreign_keys = ON;', // enabling cascade
         ],
 
         'mysql' => [

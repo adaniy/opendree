@@ -84,7 +84,7 @@
 
 	{{-- on ne permet le chargement des fonctions JS des budgets uniquement dans la page concernée --}}
 	@if(Request::segment(1) == "budget" && empty(Request::segment(2)))
-	    <script src="{{ asset("js/budget/tableau.js") }}"></script>
+	    <script src="{{ asset("js/budget/gestion.js") }}"></script>
 	@endif
     </body>
 </html>

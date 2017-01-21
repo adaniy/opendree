@@ -13,12 +13,12 @@
 	@include('budget.menu')
     
 	<div class="tab-content">
-	    <div role="budget" class="tab-pane fade in active" id="tableau">
-		@include('budget.tableau')
+	    <div role="budget" class="tab-pane fade in active" id="gestion">
+		@include('budget.gestion')
 	    </div>
 
-	    <div role="budget" class="tab-pane fade" id="render">
-		@include('budget.render')
+	    <div role="budget" class="tab-pane fade" id="tableau">
+		@include('budget.tableau')
 	    </div>
 	</div>
     </div>
