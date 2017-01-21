@@ -5,15 +5,21 @@
 	    <div class="collapse" id="collapse{{ $budgetTree->date }}">
 		<ul>
 		    @foreach($service->get() as $services)
-			<li><button class="btn btn-tree btn-xs btn-warning" type="button" data-toggle="collapse" data-target="#collapse{{ $budgetTree->date }}{{ $services->name }}" aria-expanded="false" aria-controls="collapse{{ $budgetTree->date }}{{ $services->name }}">{{ $services->name }}</button>
-			    <div class="collapse" id="collapse{{ $budgetTree->date }}{{ $services->name }}">
+			<li><button class="btn btn-tree btn-xs btn-warning" type="button" data-toggle="collapse" data-target="#collapse{{ $budgetTree->date }}{{ $services->id }}" aria-expanded="false" aria-controls="collapse{{ $budgetTree->date }}{{ $services->id }}">{{ $services->name }}</button>
+			    <div class="collapse" id="collapse{{ $budgetTree->date }}{{ $services->id }}">
 				<ul>
 					@foreach($budget->where('service_id', $services->id)->where('date', $budgetTree->date)->get() as $budgets)
 					    <li><div class="table-header col-md-12" data-attribute="{{ $budgets->id }}"><name>{{ $budgets->name }}</name><div class="pull-right"><button id="edit-budget" class="btn btn-xs btn-info btn-tree" data-attribute="{{ $budgets->id }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button><button id="delete-budget" class="btn btn-xs btn-danger btn-tree" data-attribute="{{ $budgets->id }}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></div></div>
 						<table class="table table-striped table-hover table-bordered table-board">
-						<tr class="vote">
+						<tr class="vote" data-attribute="{{ $budgets->id }}">
 						    <td class="category col-md-5">Budget voté</td>
 						    <td class="amount col-md-6" data-attribute="{{ $budgets->id }}">{{ number_format($budgets->vote, 2, '.', ' ') }}</td>
+						    <td class="actions col-md-1">&nbsp;</td>
+						</tr>
+
+						<tr class="dm" data-attribute="{{ $budgets->id }}">
+						    <td class="category col-md-5">Modification DM</td>
+						    <td class="amount col-md-6">{{ number_format($budgets->dm, 2, '.', ' ') }}</td>
 						    <td class="actions col-md-1">&nbsp;</td>
 						</tr>
 
@@ -51,6 +57,8 @@
 <button class="btn btn-xs btn-tree btn-default tree-category">gestion des services</button>
 <ul class="tree">
     @foreach($service->get() as $services)
-	<li class="services"><button class="btn btn-tree btn-xs btn-warning" type="button">{{ $services->name }}</button><button id="delete-service" class="btn btn-xs btn-danger btn-tree"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></li>
+	<li class="services"><button class="btn btn-tree btn-xs btn-warning" type="button">{{ $services->name }}</button><button id="edit-service" class="btn btn-xs btn-info btn-tree" data-attribute="{{ $services->id }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button><button id="delete-service" data-attribute="{{ $services->id }}" class="btn btn-xs btn-danger btn-tree"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></li>
     @endforeach
+
+    <li><button id="add-service" class="btn btn-xs btn-success btn-tree"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></button></li>
 </ul>

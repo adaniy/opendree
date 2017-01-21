@@ -30,13 +30,18 @@ class BudgetClass extends TempsClass
             $vote = $this->budget->find($id)->vote;
             $dm = $this->budget->find($id)->dm;
 
-            foreach($this->budgetDepense->where('budget_id', $id)->get() as $depenses) {
-                $vote = $vote + $dm - ($depenses->amount);
+            // si il y a des dépenses dans ce budget, alors on peut les soustraire aux votes et DM
+            if($this->budgetDepense->where('budget_id', $id)->count() > 0) {
+                foreach($this->budgetDepense->where('budget_id', $id)->get() as $depenses) {
+                    $total = ($vote + $dm) - $depenses->amount;
+                }
+            } else { // sinon on se contente d'additionner les votes et dm
+                $total = $vote + $dm;
             }
 
             $response = [
                 "status" => "success",
-                "total" => number_format($vote, 2, '.', ' ')
+                "total" => number_format($total, 2, '.', ' ')
             ];
         } else {
             $response = [
@@ -47,7 +52,7 @@ class BudgetClass extends TempsClass
         return json_encode($response);
     }
 
-    public function addYear($idService, $year)
+    public function addYear($year)
     {
         $default = [
             "name" => "Nouveau budget",
@@ -55,11 +60,11 @@ class BudgetClass extends TempsClass
             "dm" => 0
         ];
 
-        $this->budget->service_id = $idService;
+        $this->budget->service_id = $this->service->first()->id;
         $this->budget->name = $default['name'];
         $this->budget->dm = $default['dm'];
         $this->budget->vote = $default['vote'];
-        $this->budget->date = Carbon::parse($year)->year;
+        $this->budget->date = $year;
 
         if($this->budget->save()) {
             $response = [
@@ -67,7 +72,7 @@ class BudgetClass extends TempsClass
                 "name" => $default['name'],
                 "vote" => $default['vote'],
                 "id" => $this->budget->id,
-                "year" => Carbon::parse($year)->year
+                "year" => $year
             ];
         } else {
             $response = [
@@ -78,7 +83,7 @@ class BudgetClass extends TempsClass
         return json_encode($response);
     }
 
-    public function add()
+    public function add($id, $year)
     {
         $default = [
             "name" => "Nouveau budget",
@@ -86,25 +91,20 @@ class BudgetClass extends TempsClass
             "dm" => 0
         ];
 
-        if($this->budget->count() > 0) { // s'il y a plus d'une année, on choisi la dernière et on ajoute une année
-            $last = $this->budget->orderBy("date", "DESC")->first()->date + 1;
-        } else { // sinon on met l'année d'aujourd'hui
-            $last = Carbon::now()->year;
-        }
-
-        $this->budget->service_id = $this->service->first()->id;
+        $this->budget->service_id = $id;
         $this->budget->name = $default['name'];
         $this->budget->dm = $default['dm'];
         $this->budget->vote = $default['vote'];
-        $this->budget->date = $last;
+        $this->budget->date = $year;
 
         if($this->budget->save()) {
             $response = [
                 "status" => "success",
                 "name" => $default['name'],
                 "vote" => $default['vote'],
+                "dm" => $default['dm'],
                 "id" => $this->budget->id,
-                "last" => $last
+                "year" => $year
             ];
         } else {
             $response = [
@@ -115,22 +115,80 @@ class BudgetClass extends TempsClass
         return json_encode($response);
     }
 
+    public function addService()
+    {
+        $default = [
+            'name' => 'nouveau service',
+        ];
+
+        $this->service->name = $default['name'];
+
+        if($this->service->save()) {
+            $response = [
+                "status" => "success",
+                "name" => $default['name']
+            ];
+        } else {
+            $response = [
+                "status" => "error"
+            ];
+        }
+
+        return json_encode($response);
+    }
+
+    public function editService($request)
+    {
+        $id = $request->get("id");
+        $name = $request->get("name");
+
+        if($this->service->find($id)) {
+            $this->service->where('id', $id)->update([
+                'name' => $name
+            ]);
+            
+            $response = [
+                "status" => "success"
+            ];
+        } else {
+            $response = [
+                "status" => "error"
+            ];
+        }
+
+        return json_encode($response);
+    }
+
+    public function deleteService($id)
+    {
+        $this->service->where('id', $id)->delete();
+
+        $response = [
+            "status" => "success"
+        ];
+
+        return json_encode($response);
+    }
+
     public function edit($request)
     {
         $id = $request->get("id");
         $name = $request->get("name");
         $vote = $request->get("vote");
+        $dm = $request->get("dm");
 
         if($this->budget->find($id)) {
             $this->budget->where('id', $id)->update([
                 'name' => $name,
-                'vote' => $vote
+                'vote' => $vote,
+                'dm' => $dm
             ]);
 
             $response = [
                 "status" => "success",
                 "name" => $name,
-                "vote" => number_format($vote, 2, '.', ' ')
+                "vote" => number_format($vote, 2, '.', ' '),
+                "dm" => number_format($dm, 2, '.', ' ')
             ];
         } else {
             $response = [

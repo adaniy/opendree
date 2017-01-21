@@ -29,7 +29,7 @@ $(document).on('click', 'button#add-depense', function (e) {
 	var response = $.parseJSON(msg);
 
 	if(response.status == "success") {
-	    $('tr.total[data-attribute="' + id + '"]').before('<tr class="depense" data-attribute="'+ response.id +'"><td class="category">' + response.category +'</td><td class="amount">' + response.amount +'</td><td class="actions"><button id="edit-depense" class="btn  btn-xs btn-info live" data-attribute="'+ response.id +'"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button> <button id="delete-depense" class="btn btn-xs btn-danger live" data-attribute="'+ response.id +'"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td></tr>');
+	    $('tr.total[data-attribute="' + id + '"]').befo('<tr class="depense" data-attribute="'+ response.id +'"><td class="category">' + response.category +'</td><td class="amount">' + response.amount +'</td><td class="actions"><button id="edit-depense" class="btn  btn-xs btn-info live" data-attribute="'+ response.id +'"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button> <button id="delete-depense" class="btn btn-xs btn-danger live" data-attribute="'+ response.id +'"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></td></tr>');
 	    
 	    console.log("The ajax request returned successful result.");
 	} else console.log("The ajax request returned an error.");

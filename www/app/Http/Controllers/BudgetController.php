@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\BudgetRequest;
+use App\Http\Requests\BudgetServiceRequest;
 
 use App\Classes\BudgetClass;
 
@@ -30,15 +31,32 @@ class BudgetController extends Controller
         return $budgetClass->getTotal($id);
     }
 
-    public function addYear($id, $year, BudgetClass $budgetClass)
+    public function add($id, $year, BudgetClass $budgetClass)
     {
-        return $budgetClass->addYear($id, $year);
+        return $budgetClass->add($id, $year);
     }
 
-    public function add(BudgetClass $budgetClass)
+    public function addYear($year, BudgetClass $budgetClass)
     {
-        return $budgetClass->add();
+        return $budgetClass->addYear($year);
     }
+
+    public function addService(BudgetClass $budgetClass)
+    {
+        return $budgetClass->addService();
+    }
+
+    public function editService(BudgetRequest $request, BudgetClass $budgetClass)
+    {
+        return $budgetClass->editService($request);
+    }
+
+    public function deleteService($id, BudgetClass $budgetClass)
+    {
+        return $budgetClass->deleteService($id);
+    }
+
+    
 
     public function edit(BudgetRequest $request, BudgetClass $budgetClass)
     {

@@ -12,12 +12,6 @@
 */
 
 /*
---------> Sécurisation des routes
-*/
-
-Route::pattern('id', '[0-9]+');
-
-/*
 --------> Index
 */
 
@@ -84,14 +78,16 @@ Route::get("action/alerte", "ActionController@getAlert");
 Route::get("action/alerte/{id}", "ActionController@actionAlert");
 Route::get("action/delete/{id}", "ActionController@delete");
 
-Route::get("budget/add", "BudgetController@add");
-Route::get("budget/add/{id}/year/{year}", "BudgetController@addYear");
+Route::get("budget/add/{id}/{year}", "BudgetController@add");
+Route::get("budget/add/year/{year}", "BudgetController@addYear");
 Route::get("budget/delete/{id}", "BudgetController@delete");
 Route::get("budget/delete/year/{year}", "BudgetController@deleteYear");
 Route::get("budget/total/{id}", "BudgetController@getTotal");
 Route::get("budget/depense/{id}", "BudgetController@getDepense");
 Route::get("budget/ajout/depense/{id}", "BudgetController@addDepense");
 Route::get("budget/delete/depense/{id}", "BudgetController@deleteDepense");
+Route::get("budget/add/service", "BudgetController@addService");
+Route::get("budget/delete/service/{id}", "BudgetController@deleteService");
 
 // Ajax - post
 Route::post("action/edit/nom", "ActionController@editActionTitre");
@@ -102,6 +98,7 @@ Route::post("action/edit/date-butoir", "ActionController@editActionDateButoir");
 Route::post("action/ajout", "ActionController@ajoutAction");
 
 Route::post("budget/edit", "BudgetController@edit");
+Route::post("budget/service/edit", "BudgetController@editService");
 Route::post("budget/edit/depense", "BudgetController@editDepense");
 
 // rafraichissement csrf

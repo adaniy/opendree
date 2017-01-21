@@ -17,8 +17,8 @@
 		@include('budget.tableau')
 	    </div>
 
-	    <div role="budget" class="tab-pane fade" id="statistics">
-		@include('budget.statistics')
+	    <div role="budget" class="tab-pane fade" id="render">
+		@include('budget.render')
 	    </div>
 	</div>
     </div>
