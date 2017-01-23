@@ -29,15 +29,14 @@ class BudgetClass extends TempsClass
         if($this->budget->find($id)) {
             $vote = $this->budget->find($id)->vote;
             $dm = $this->budget->find($id)->dm;
-
+            $total = $vote + $dm;
+            
             // si il y a des dépenses dans ce budget, alors on peut les soustraire aux votes et DM
             if($this->budgetDepense->where('budget_id', $id)->count() > 0) {
                 foreach($this->budgetDepense->where('budget_id', $id)->get() as $depenses) {
-                    $total = ($vote + $dm) - $depenses->amount;
+                    $total -= $depenses->amount;
                 }
-            } else { // sinon on se contente d'additionner les votes et dm
-                $total = $vote + $dm;
-            }
+            } 
 
             $response = [
                 "status" => "success",
@@ -50,6 +49,56 @@ class BudgetClass extends TempsClass
         }
         
         return json_encode($response);
+    }
+
+    public function getTotalRaw($id)
+    {
+        if($this->budget->find($id)) {
+            $vote = $this->budget->find($id)->vote;
+            $dm = $this->budget->find($id)->dm;
+
+            $total = $vote + $dm;
+        } 
+
+        
+        return $total;
+    }
+
+    public function getSpentPercentage($total, $spent)
+    {
+        if($total == 0 || $spent == 0) {
+            return 0;
+        }
+        
+        return number_format(($spent / $total) * 100, 2);
+    }
+
+    public function getSpent($id)
+    {
+        if($this->budget->find($id)) {
+            $spent = 0;
+            if($this->budgetDepense->where('budget_id', $id)->count() > 0) {
+                foreach($this->budgetDepense->where('budget_id', $id)->get() as $depenses) {
+                    $spent += $depenses->amount;
+                }
+            }
+        }
+
+        return $spent;
+    }
+
+    public function getRemaining($total, $spent)
+    {
+        return $total - $spent;
+    }
+
+    public function getVariation($vote, $dm)
+    {
+        if($vote == 0 || $dm == 0) {
+            return 0;
+        } else {
+            return $vote / $dm;
+        }
     }
 
     public function addYear($year)
@@ -320,5 +369,34 @@ class BudgetClass extends TempsClass
         }
 
         return json_encode($response);
+    }
+
+    // fonctions obtenant les informations pour le tableau \\
+
+    // on obtiens la liste des budgets, et le premier budget d'un service possède le header du service
+    public function rowSpan($id, $idService, $year)
+    {
+        $count = $this->budget->where([
+            ['service_id', $idService],
+            ['date', $year]
+        ])->count();
+        
+        if($this->budget->where([
+            ['service_id', $idService],
+            ['date', $year]
+        ])->orderBy('id', 'ASC')->first()->id == $id
+        && $count > 1) {
+            $column = '<th class="service-side" rowspan="'.$count.'">'.$this->service->find($idService)->name.'</th>';
+        } elseif($this->budget->where([
+            ['service_id', $idService],
+            ['date', $year]
+        ])->orderBy('id', 'ASC')->first()->id == $id
+        && $count == 1) {
+            $column = '<th>'.$this->service->find($idService)->name.'</th>';
+        } else {
+            $column = '';
+        }
+        
+        return $column;
     }
 }

@@ -93,7 +93,8 @@ class BudgetController extends Controller
         return $budgetClass->deleteDepense($id);
     }
 
-    
-
-    
+    public function board(BudgetClass $budgetClass)
+    {
+        return $budgetClass->board();
+    }
 }

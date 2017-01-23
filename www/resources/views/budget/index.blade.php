@@ -17,8 +17,8 @@
 		@include('budget.gestion')
 	    </div>
 
-	    <div role="budget" class="tab-pane fade" id="tableau">
-		@include('budget.tableau')
+	    <div role="budget" class="tab-pane fade" id="board">
+		@include('budget.board')
 	    </div>
 	</div>
     </div>

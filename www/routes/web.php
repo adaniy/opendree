@@ -71,6 +71,7 @@ Route::get("election/brut","ElectionController@indexBrut");
 Route::post("election/brut","ElectionController@rechercheBrut");
 Route::get("election/brut/supprimer/{id}","ElectionController@supprimer");
 
+// refonte du frontend
 // Ajax - get
 Route::get("action/stats", "ActionController@stats");
 Route::get("action/get/jour-restant", "ActionController@getJourRestant");
@@ -88,6 +89,9 @@ Route::get("budget/ajout/depense/{id}", "BudgetController@addDepense");
 Route::get("budget/delete/depense/{id}", "BudgetController@deleteDepense");
 Route::get("budget/add/service", "BudgetController@addService");
 Route::get("budget/delete/service/{id}", "BudgetController@deleteService");
+Route::get("budget/board", "BudgetController@board");
+
+Route::get("dashboard", "DashboardController@index");
 
 // Ajax - post
 Route::post("action/edit/nom", "ActionController@editActionTitre");
