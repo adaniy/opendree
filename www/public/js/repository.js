@@ -7,6 +7,28 @@ var entityMap = {
   "/": '&#x2F;'
 };
 
+function msgError(error) {
+    return $.notify({
+	message: error,
+	animate: {
+	    enter: 'animated bounceInDown',
+	    exit: 'animated bounceOutUp'
+	},
+	type: 'danger'
+    });
+}
+
+function msgSuccess(success) {
+    return $.notify({
+	message: success,
+	type: 'success',
+	animate: {
+	    enter: 'animated bounceInDown',
+	    exit: 'animated bounceOutUp'
+	}
+    });
+}
+
 function escapeHtml(string) {
   return String(string).replace(/[&<>"'\/]/g, function (s) {
     return entityMap[s];
@@ -22,7 +44,26 @@ function unformat_number(number) {
     return number.replace(/ /g, '');
 }
 
+bootbox.addLocale("fr2", {
+    OK : "VALIDER",
+    CANCEL : "ANNULER",
+    CONFIRM : "VALIDER"
+});
+
+bootbox.setLocale('fr2');
+
+// on règle les boutons pour qu'ils puissent diriger vers une adresse, comme les a
+$(document).on('click', 'button', function () {
+    var href = $(this).attr('href');
+
+    if(href != undefined) {
+	window.location.href = href;
+    }
+});
+
 $(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+
     $('.module').click(() => {
 	$('.deploy').fadeToggle(200, "linear");
     });

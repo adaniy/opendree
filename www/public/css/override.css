@@ -37,6 +37,10 @@ a.button-link:hover {
     color: orange;
 }
 
+button.close:focus {
+    outline: none !important;
+}
+
 button.live {
     padding: 3px 7px 3px 7px;
 }
@@ -64,6 +68,21 @@ button.btn-more:focus, button.btn-more:active {
 
 button.btn-more:hover {
     color: orange;
+}
+
+.loading-animation {
+    -animation: spin .7s infinite linear;
+    -webkit-animation: spin2 .7s infinite linear;
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
 }
 
 .row {
@@ -657,6 +676,10 @@ nav.head .menu {
     text-align: left;
 }
 
+.dashboard .menu button:focus {
+    outline: none;
+}
+
 .dashboard .menu button.btn-home {
     background: #474747;
     transition: .2s;
@@ -677,10 +700,6 @@ nav.head .menu {
 
 .dashboard .menu button.btn-year:hover {
     background: #525252;
-}
-
-.dashboard .menu button.btn-year:focus {
-    outline: none;
 }
 
 .dashboard .menu button.btn-month {
@@ -717,6 +736,8 @@ nav.head .menu {
     font-size: 20px;
     margin: 10px 0 0 0;
     color: #4C565D;
+    text-align: center;
+    font-weight: bold;
 
     text-transform: uppercase;
 }
@@ -726,8 +747,9 @@ nav.head .menu {
     border-radius: 1px;
 
     margin: 5px 0 5px 0;
-
+    
     text-align: center;
+    transition: .5s;
 }
 
 .dashboard .content .data .header {
@@ -739,11 +761,36 @@ nav.head .menu {
     font-weight: bold;
 }
 
+.dashboard .content .data .middle .form-control {
+    text-align: center;
+    background: none;
+    font-size: 30px;
+    color: #333;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+}
+
+.dashboard .content .data .middle li {
+    list-style: none;
+}
+
+.dashboard .content .data .small {
+    font-size: 18px;
+}
+
 .dashboard .content .data .footer {
     text-align: center;
     font-size: 14px;
 
     color: #696969;
+    transition: .3s;
+}
+
+.dashboard .content .data .footer:hover, .middle:hover, .header:hover {
+    cursor: pointer;
+
 }
 
 .dashboard .content .data .footer .title {

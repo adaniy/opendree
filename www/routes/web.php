@@ -92,6 +92,11 @@ Route::get("budget/delete/service/{id}", "BudgetController@deleteService");
 Route::get("budget/board", "BudgetController@board");
 
 Route::get("dashboard", "DashboardController@index");
+Route::get("dashboard/{year}/{month}", "DashboardController@access");
+Route::get("dashboard/{year}", "DashboardController@accessYear");
+
+Route::get("dashboard/add/{year}", "DashboardController@add");
+Route::get("dashboard/add/{year}/month", "DashboardController@addMonth");
 
 // Ajax - post
 Route::post("action/edit/nom", "ActionController@editActionTitre");

@@ -287,19 +287,21 @@ $(document).on('click', 'button#add-year', function (e) {
 	    title: "Ajout d'une année budgétaire",
 	    placeholder: "année souhaitée",
 	    callback: function (year) {
-		$.ajax({
-		    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-		    type: 'GET',
-		    url: 'budget/add/year/' + year,
-		}).done( function (msg) {
-		    var response = $.parseJSON(msg);
+		if(year != null) {
+		    $.ajax({
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			type: 'GET',
+			url: 'budget/add/year/' + year,
+		    }).done( function (msg) {
+			var response = $.parseJSON(msg);
 
-		    if(response.status == "success") {
-			location.reload();
-		    }
-		});
+			if(response.status == "success") {
+			    location.reload();
+			}
+		    });
 
-		location.reload();
+		    location.reload();
+		}
 	    }
 	});
 });
@@ -333,23 +335,25 @@ $(document).on('click', 'button#edit-service', function (e) {
 	title: "Modification du nom d'un service",
 	value: old,
 	callback: function (name) {
-	    $.ajax({
-		headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-		type: 'POST',
-		url: 'budget/service/edit',
-		data: {
-		    id: id,
-		    name: name
-		}
-	    }).done( function (msg) {
-		var response = $.parseJSON(msg);
+	    if(name != null) {
+		$.ajax({
+		    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+		    type: 'POST',
+		    url: 'budget/service/edit',
+		    data: {
+			id: id,
+			name: name
+		    }
+		}).done( function (msg) {
+		    var response = $.parseJSON(msg);
 
-		if(response.status == "success") {
-		    location.reload();
-		}
-	    });;
+		    if(response.status == "success") {
+			location.reload();
+		    }
+		});
 
-	    location.reload();
+		location.reload();
+	    }
 	}
     });
 });
@@ -361,16 +365,18 @@ $(document).on('click', 'button#delete-service', function (e) {
     actual = $(this);
 
     bootbox.confirm("Êtes-vous sûr de vouloir supprimer ce service ?", function (result) {
-	$.ajax({
-	    type: "GET",
-	    url: "/budget/delete/service/" + id,
-	}).done(function (msg) {
-	    var response = $.parseJSON(msg);
+	if(result) {
+	    $.ajax({
+		type: "GET",
+		url: "/budget/delete/service/" + id,
+	    }).done(function (msg) {
+		var response = $.parseJSON(msg);
 	    
-	    if(response.status == "success") {
-		location.reload();
-	    }
-	});
+		if(response.status == "success") {
+		    location.reload();
+		}
+	    });
+	}
     });
 });
 
@@ -403,18 +409,20 @@ $(document).on('click', 'button#delete-year', function (e) {
     var parent = $(this).parent();
 
     bootbox.confirm("Êtes-vous sûr de vouloir supprimer l'année budgétaire <b>"+ year +"</b> ?", function (result) {
-	$.ajax({
-	    type: "GET",
-	    url: "/budget/delete/year/" + year,
-	}).done(function (msg) {
-	    var response = $.parseJSON(msg);
+	if(result) {
+	    $.ajax({
+		type: "GET",
+		url: "/budget/delete/year/" + year,
+	    }).done(function (msg) {
+		var response = $.parseJSON(msg);
 
-	    if(response.status == "success") {
-		parent.fadeOut(800, function () {
-		    parent.remove();
-		});
-	    }
-	});
+		if(response.status == "success") {
+		    parent.fadeOut(800, function () {
+			parent.remove();
+		    });
+		}
+	    });
+	}
     });
 });
 

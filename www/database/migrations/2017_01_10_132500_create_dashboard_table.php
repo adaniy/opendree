@@ -6,14 +6,19 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateDashboardTable extends Migration
 {
-    /**
+        /**
      * Run the migrations.
      *
      * @return void
      */
     public function up()
     {
-        //
+        Schema::create('dashboard', function (Blueprint $table) {
+            $table->increments('id')->unsigned();
+
+            $table->date('date');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +28,6 @@ class CreateDashboardTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('dashboard');
     }
 }

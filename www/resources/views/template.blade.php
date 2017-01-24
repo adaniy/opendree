@@ -76,20 +76,20 @@
 	<script src="{{ asset('js/repository.js') }}"></script>
 
 	{{-- on ne permet le chargement des fonctions JS des statistiques uniquement dans la page concernée --}}
-	@if(Request::segment(1) == "action" && empty(Request::segment(2)))
+	@if(Request::segment(1) == "action")
 	    <script src="{{ asset("js/Chart.bundle.min.js") }}"></script>
 	    <script src="{{ asset("js/chart/utils.js") }}"></script>
 	    <script src="{{ asset("js/chart/action.js") }}"></script>
 	@endif
 
 	{{-- on ne permet le chargement des fonctions JS des budgets uniquement dans la page concernée --}}
-	@if(Request::segment(1) == "budget" && empty(Request::segment(2)))
+	@if(Request::segment(1) == "budget")
 	    <script src="{{ asset("js/budget/gestion.js") }}"></script>
 	    <script src="{{ asset("js/budget/board.js") }}"></script>
 	@endif
 
 	{{-- on ne permet le chargement des fonctions JS des budgets uniquement dans la page concernée --}}
-	@if(Request::segment(1) == "dashboard" && empty(Request::segment(2)))
+	@if(Request::segment(1) == "dashboard")
 	    <script src="{{ asset("js/dashboard/index.js") }}"></script>
 	@endif
     </body>

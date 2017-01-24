@@ -11,19 +11,20 @@
 @section('content')
     <div class="dashboard">
 	@include('dashboard.menu')
-
+	
 	<div class="col-md-10 content">
-	    <div class="title">Janvier 2017</div>
+	    <div class="title">{{ $dashboardClass->getDate($year, $month) }}</div>
 	    <div class="col-md-12">
-		<div class="data col-md-3 amounts" data-attribute="1">
+		@foreach($dashboardCategories->get() as $categories)
+		<div class="data col-md-3 amounts">
 		    <div class="header">
-			Autorisations de voirie
+			{{ $categories->name }}
 		    </div>
-		    <div class="middle">173,560.45 €</div>
-		    <div class="footer" type="button" data-toggle="collapse" data-target="#collapseVoirie" aria-expanded="false" aria-controls="collapseVoirie">
+		    <div class="middle">{{ $dashboardClass->getAmount($categories->id) }}</div>
+		    <div class="footer" type="button" data-toggle="collapse" data-target="#collapse-{{ str_slug($categories->name, '-') }}" aria-expanded="false" aria-controls="collapse-{{ str_slug($categories->name, '-') }}">
 			<span class="glyphicon glyphicon-option-horizontal show-more"></span>
 		    
-			<div class="collapse" id="collapseVoirie">
+			<div class="collapse" id="collapse-{{ str_slug($categories->name, '-') }}">
 			    <div class="previous">
 				<div class="title">Mois année précédente</div>
 				<div class="value">187,240.00 €</div>
@@ -36,16 +37,18 @@
 
 			    <div class="previous">
 				<div class="title">Cumul année précédente</div>
-				<div class="value">187,240.00 €</div>
+				<div class="value"->187,240.00 €</div>
 			    </div>
 			</div>
 		    </div>
 		</div>
+		@endforeach
 	    </div>
 
 	    <div class="col-md-12">
-		<div class="data col-md-3 services" data-attribute="1">
-		    <div class="header">DPC</div>
+		@foreach($service->get() as $services)
+		<div class="data col-md-3 services">
+		    <div class="header">{{ $services->name }}</div>
 
 		    <div class="middle small">
 			<li><span class="glyphicon glyphicon-user"></span> 48 agents</li>
@@ -53,6 +56,7 @@
 			<li><span class="glyphicon glyphicon-time"></span> 140 heures sup'</li>
 		    </div>
 		</div>
+		@endforeach
 	    </div>
 	</div>
     </div>
