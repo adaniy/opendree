@@ -1,0 +1,9 @@
+{
+  "name": "GMC",
+  "version": "2.0",
+  "main": "main.js",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-connect-php": "0.0.8"
+  }
+}
