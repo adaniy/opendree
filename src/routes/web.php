@@ -87,8 +87,6 @@ Route::get("budget/total/{id}", "BudgetController@getTotal");
 Route::get("budget/depense/{id}", "BudgetController@getDepense");
 Route::get("budget/ajout/depense/{id}", "BudgetController@addDepense");
 Route::get("budget/delete/depense/{id}", "BudgetController@deleteDepense");
-
-Route::get("budget/delete/service/{id}", "BudgetController@deleteService");
 Route::get("budget/board", "BudgetController@board");
 
 Route::get("dashboard", "DashboardController@index");

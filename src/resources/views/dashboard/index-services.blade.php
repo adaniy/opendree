@@ -15,9 +15,7 @@
 	<div class="col-md-10 content">
 	    @foreach($service->get() as $services)
 		<div class="col-lg-8 col-sm-7">
-		    
 		    <div class="data services">
-
 			<div class="middle toggle-panel">
 			    {{ $services->name }}
 			</div>
@@ -27,16 +25,16 @@
 		<div class="col-lg-4 col-sm-4">
 		    <div class="buttons">
 			<div class="col-lg-6 col-sm-6">
-			    <button class="btn btn-xs btn-success btn-crud">modifier</button>
+			    <button class="btn btn-xs btn-success btn-crud" id="edit-service">modifier</button>
 			</div>
 			<div class="col-lg-6 col-sm-6">
-			    <button class="btn btn-xs btn-danger btn-crud">supprimer</button>
+			    <button class="btn btn-xs btn-danger btn-crud" id="delete-service">supprimer</button>
 			</div>
 		    </div>
 		</div>
 	    @endforeach
 	    <div class="col-md-12">
-		<div class="data add-service">
+		<div class="data">
 		    <div class="middle add-service"><span class="glyphicon glyphicon-plus"></span></div>
 		</div>
 	    </div>

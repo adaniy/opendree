@@ -1,11 +1,10 @@
 const {app, BrowserWindow} = require('electron')
-var port = 8042;
-var path = require("path");
-var os = require("os");
-connect = require("gulp-connect-php");
+const port = 8042;
+const path = require("path");
+const connect = require("gulp-connect-php");
 
 // on utilise les fichiers binaires php uniquement sur Windows
-if(os.platform() === 'win32') {
+if(process.platform === 'win32') {
     var con = connect.server({
 	port: port,
 	hostname: "127.0.0.1",
@@ -32,17 +31,20 @@ let win
 
 function createWindow () {
     win = new BrowserWindow( {
+	show: false,
 	width: 800,
 	height: 600,
-	backgroundColor: "#66CD00",
 	webPreferences: {
 	    nodeIntegration: false,
-	    "page-visibility": true
 	}
     })
 
+    //win.setMenu(null) <- A DE-COMMENTER EN PRODUCTION
     win.loadURL('http://127.0.0.1:8042/dashboard')
 
+    win.once('ready-to-show', () => {
+	win.show()
+    })
 
     win.on('closed', () => {
 	win = null

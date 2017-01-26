@@ -30,15 +30,13 @@ $(document).on('click', '.services .edit-amount-service', function () {
     });
 });
 
-$(document).on('click', '.toggle-panel', function () {
-    $(this).parent().find('.panel-buttons').fadeToggle();
-});
-
 $(document).on('click', '.edit-service', function () {
     
 });
 
 $(document).on('click', '.add-service', function () {
+    var actual = $(this);
+
     $.ajax({
 	type: "GET",
 	url: "/dashboard/add/service"
@@ -46,7 +44,8 @@ $(document).on('click', '.add-service', function () {
 	var response = $.parseJSON(msg);
 
 	if(response.status == 'success') {
-	    // -_- \\
+	    var toInsert = '<div class="col-lg-8 col-sm-7"><div class="data services"><div class="middle toggle-panel">'+ response.name +'</div></div></div><div class="col-lg-4 col-sm-4"><div class="buttons"><div class="col-lg-6 col-sm-6"><button class="btn btn-xs btn-success btn-crud" id="edit-service">modifier</button></div><div class="col-lg-6 col-sm-6"><button class="btn btn-xs btn-danger btn-crud" id="delete-service">supprimer</button></div></div></div>';
+	    actual.parent().parent().before(toInsert);
 	}
     });
 });
