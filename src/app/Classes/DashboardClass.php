@@ -264,8 +264,11 @@ class DashboardClass extends TempsClass
         // TERMINER LA VERIFICATION \\
         // pour vérifier, on fait une liste des congés de l'agent
         if($this->dashboardHoliday->where('agent_id', $idAgent)->count() > 0) {
-            if($this->dashboardHoliday->where('agent_id', $idAgent)
-               ->where('fin', '>', $debut)
+            if($this->dashboardHoliday
+               ->where([
+                   ['fin', '>=', $debut], // si la fin actuelle est supérieure au début, on ne permet pas l'ajout
+                   ['agent_id', $idAgent]
+               ])
                ->count() == 0) {
                 if($this->dashboardHoliday->save()) {
                     $response = [
@@ -442,10 +445,10 @@ class DashboardClass extends TempsClass
         return $this->carbon->parse($this->dashboard->where('date', $date)->first()->date)->format('m');;
     }
 
-    public function getAmount($idCategory)
+    public function getAmount($idCategory, $year, $month)
     {
-        if($this->dashboardAmount->where('category_id', $idCategory)->count() > 0) {
-            $amount = $this->dashboardAmount->where('category_id', $idCategory)->first()->amount;
+        if($this->dashboardAmount->where('category_id', $idCategory)->whereYear('date', $year)->whereMonth('date', $month)->count() > 0) {
+            $amount = $this->dashboardAmount->where('category_id', $idCategory)->whereYear('date', $year)->whereMonth('date', $month)->first()->amount;
 
             if($this->dashboardCategories->find($idCategory)->type == 'money') {
                 return number_format($amount, 2).' €';
@@ -457,11 +460,10 @@ class DashboardClass extends TempsClass
         }
     }
 
-    public function getAmountRaw($idCategory)
+    public function getAmountRaw($idCategory, $year, $month)
     {
-        if($this->dashboardAmount->where('category_id', $idCategory)->count() > 0) {
-            $amount = $this->dashboardAmount->where('category_id', $idCategory)->first()->amount;
-
+        if($this->dashboardAmount->where('category_id', $idCategory)->whereYear('date', $year)->count() > 0) {
+            $amount = $this->dashboardAmount->where('category_id', $idCategory)->whereYear('date', $year)->whereMonth('date', $month)->first()->amount;
             return $amount;
         } else {
             return 0;
@@ -480,9 +482,30 @@ class DashboardClass extends TempsClass
         return $calendar;
     }
 
-    public function getPlurality($test, $idCorS, $year, $month)
+    public function getPluralityAmount($idCategory, $amount, $type) // $amount est le montant actuel
     {
-        
-        
+        if($this->dashboardAmount->where('category_id', $idCategory)->count() > 0) {
+            $idCategory = $this->dashboardAmount->where('category_id', $idCategory)->first()->category_id;
+            $date = $this->dashboardAmount->where('category_id', $idCategory)->first()->date;
+
+            if($type == 'month-last-year') { // mois année précédente
+
+            } elseif($type == 'last-years') { // cumul années précédentes
+                $plurality = 0;
+
+                foreach($this->dashboardAmount->where([
+                    ['category_id', $idCategory],
+                    ['date', '<', $date]
+                ])->get() as $amounts) {
+                    $plurality += $amounts->amount;
+                }
+
+                return $plurality;
+            } elseif($type == 'year') { // cumul année
+                
+            } else {
+                return null;
+            }
+        } else { return null; }
     }
 }
