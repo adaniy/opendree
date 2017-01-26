@@ -1,13 +1,20 @@
 <div class="col-md-2 menu">
     <button href="/dashboard/" class="btn btn-menu btn-home"><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> tableau de bord</button>
-    <button href="/dashboard/categories/" class="btn btn-menu btn-year" type="button" data-toggle="collapse" data-target="#collapseAmounts" aria-expanded="false" aria-controls="collapseAmount">
+    <button href="/dashboard/services/" class="btn btn-menu btn-year">
+	<div class="pull-right"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></div>
+	Services
+    </button>
+    <button href="/dashboard/agents/" class="btn btn-menu btn-year">
+	<div class="pull-right"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></div>
+	Agents
+    </button>
+    <button href="/dashboard/categories/" class="btn btn-menu btn-year">
 	<div class="pull-right"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></div>
 	Catégories
     </button>
-    
-    <button href="/dashboard/services/" class="btn btn-menu btn-year" type="button" data-toggle="collapse" data-target="#collapseAmounts" aria-expanded="false" aria-controls="collapseAmount">
+    <button href="/dashboard/holidays/" class="btn btn-menu btn-year">
 	<div class="pull-right"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></div>
-	Services
+	Congés
     </button>
     <br /><br />
     @foreach($dashboard->orderBy('date', 'DESC')->groupBy(DB::raw('date(date, "start of year")'))->get() as $dashboards)

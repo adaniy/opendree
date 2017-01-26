@@ -44,6 +44,12 @@ function unformat_number(number) {
     return number.replace(/ /g, '');
 }
 
+function unformat_amount(amount) {
+    amount.replace(/ /g, '');
+    amount.replace(/€/g,'');
+    return amount;
+}
+
 function autoHeight(element) {
     if($(window).height() > 400)
 	$(element).css('min-height', $(window).height() - 65 +'px'); // on soustrait la hauteur de l'écran à la hauteur du menu

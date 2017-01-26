@@ -94,6 +94,12 @@ Route::get("dashboard/categories", "DashboardController@indexCategories");
 Route::get("dashboard/add/categories", "DashboardController@addCategories");
 Route::get("dashboard/services", "DashboardController@indexServices");
 Route::get("dashboard/add/service", "DashboardController@addService");
+Route::get("dashboard/agents", "DashboardController@indexAgents");
+Route::get("dashboard/delete/agent/{id}", "DashboardController@deleteAgent");
+Route::get("dashboard/holidays", "DashboardController@indexHolidays");
+Route::get("dashboard/delete/service/{id}", "DashboardController@deleteService");
+Route::get("dashboard/add/category", "DashboardController@addCategory");
+Route::get("dashboard/delete/category/{id}", "DashboardController@deleteCategory");
 Route::get("dashboard/{year}/{month}", "DashboardController@access");
 Route::get("dashboard/{year}", "DashboardController@accessYear");
 
@@ -109,8 +115,15 @@ Route::post("action/edit/date-butoir", "ActionController@editActionDateButoir");
 Route::post("action/ajout", "ActionController@ajoutAction");
 
 Route::post("budget/edit", "BudgetController@edit");
-Route::post("budget/service/edit", "BudgetController@editService");
 Route::post("budget/edit/depense", "BudgetController@editDepense");
+
+Route::post("dashboard/add/agent", "DashboardController@addAgent");
+Route::post("dashboard/add/holiday", "DashboardController@addHoliday");
+Route::post("dashboard/edit/service", "DashboardController@editService");
+
+Route::post("dashboard/edit/category", "DashboardController@editCategory");
+Route::post("dashboard/edit/amount", "DashboardController@editAmount");
+Route::post("dashboard/edit/amount/service", "DashboardController@editAmountService");
 
 // rafraichissement csrf
 Route::get('refresh-csrf', function(){

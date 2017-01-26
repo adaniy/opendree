@@ -834,10 +834,34 @@ nav.head .menu {
     background: red;
 }
 
-.Dashboard .content .side-menu {
-    float: right;
-    position: relative;
-    top: 5px;
-    left: 4px;
-    z-index: 0;
+.dashboard .content .table-agents {
+    margin: 0;
+}
+
+.dashboard .content .table-agents th,td {
+    text-transform: uppercase;
+    vertical-align: middle;
+    border-left: 5px solid rgba(0, 0, 0, 0.0); border-right: 5px solid rgba(0, 0, 0, 0.0);
+}
+
+.dashboard .content .table-agents td {
+    text-align: center;
+}
+
+.dashboard .content .table-holiday-add {
+    width: 100%;
+}
+
+.dashboard .content .table-holiday-add td,th {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.dashboard .content .add-agent {
+
+    border-radius: 1px;
+
+    text-align: center;
+    transition: .5s;
+    background: white;
 }

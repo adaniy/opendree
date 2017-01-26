@@ -13,4 +13,9 @@ class Service extends Model
     {
         return $this->hasMany('App\Budget');
     }
+
+    public function agents()
+    {
+        return $this->hasMany('App\DashboardAgent');
+    }
 }

@@ -93,57 +93,94 @@ class TempsClass
 	public function parseMois($month)
 	{
 		switch($month) {
-			case 1:
-				return "Janvier";
+        case 1:
+            return "Janvier";
 			break;
 
-			case 2:
-				return "Février";
+        case 2:
+            return "Février";
 			break;
 
-			case 3:
-				return "Mars";
+        case 3:
+            return "Mars";
 			break;
 
-			case 4:
-				return "Avril";
+        case 4:
+            return "Avril";
 			break;
 
-			case 5:
-				return "Mai";
+        case 5:
+            return "Mai";
 			break;
 
-			case 6:
-				return "Juin";
+        case 6:
+            return "Juin";
 			break;
 
-			case 7:
-				return "Juillet";
+        case 7:
+            return "Juillet";
 			break;
 
-			case 8:
-				return "Août";
+        case 8:
+            return "Août";
 			break;
 
-			case 9:
-				return "Septembre";
+        case 9:
+            return "Septembre";
 			break;
 
-			case 10:
-				return "Octobre";
+        case 10:
+            return "Octobre";
 			break;
 
-			case 11:
-				return "Novembre";
+        case 11:
+            return "Novembre";
 			break;
 
-			case 12:
-				return "Décembre";
+        case 12:
+            return "Décembre";
 			break;
 
-			default:
-				return "???";
+        default:
+            return "???";
 			break;
 		}
+    }
+
+    public function parseJour($dayOfWeek)
+    {
+        switch($dayOfWeek) {
+        case 0:
+            return "Dimanche";
+			break;
+
+        case 1:
+            return "Lundi";
+			break;
+
+        case 2:
+            return "Mardi";
+			break;
+
+        case 3:
+            return "Mercredi";
+			break;
+
+        case 4:
+            return "Jeudi";
+			break;
+
+        case 5:
+            return "Vendredi";
+			break;
+
+        case 6:
+            return "Samedi";
+			break;
+
+        default:
+            return "???";
+            break;
+        }
 	}
 }

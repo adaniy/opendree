@@ -16,19 +16,17 @@
 	    @foreach($service->get() as $services)
 		<div class="col-lg-8 col-sm-7">
 		    <div class="data services">
-			<div class="middle toggle-panel">
-			    {{ $services->name }}
-			</div>
+			<div class="middle">{{ $services->name }}</div>
 		    </div>
 		</div>
 
 		<div class="col-lg-4 col-sm-4">
 		    <div class="buttons">
 			<div class="col-lg-6 col-sm-6">
-			    <button class="btn btn-xs btn-success btn-crud" id="edit-service">modifier</button>
+			    <button class="btn btn-xs btn-success btn-crud" id="edit-service" data-attribute="{{ $services->id }}">modifier</button>
 			</div>
 			<div class="col-lg-6 col-sm-6">
-			    <button class="btn btn-xs btn-danger btn-crud" id="delete-service">supprimer</button>
+			    <button class="btn btn-xs btn-danger btn-crud" id="delete-service" data-attribute="{{ $services->id }}">supprimer</button>
 			</div>
 		    </div>
 		</div>
