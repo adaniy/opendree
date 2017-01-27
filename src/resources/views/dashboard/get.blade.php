@@ -5,7 +5,7 @@
 @endsection
 
 @section('meta')
-
+    <meta name="date" content="{{ $dashboardClass->getDateRaw($year, $month) }}">
 @endsection
 
 @section('content')
@@ -17,13 +17,13 @@
 		    <div class="col-md-3 amounts" data-attribute="{{ $categories->id }}">
 			<div class="data">
 			    <div class="header">{{ $categories->name }}</div>
-			    <div class="middle edit-amount" data-amount="{{ $dashboardClass->getAmountRaw($categories->id, $year, $month) }}" data-category="{{ $categories->id }}" data-dashboard="{{ $dashboardClass->getIdMonth($year, $month) }}">{{ $dashboardClass->getAmount($categories->id, $year, $month) }}</div>
-			    <div class="footer" type="button" data-toggle="collapse" data-target="#collapse-{{ str_slug($categories->name, '-') }}" aria-expanded="false" aria-controls="collapse-{{ str_slug($categories->name, '-') }}">
+			    <div class="middle edit-amount" data-amount="{{ $dashboardClass->getAmountRaw($categories->id, $dashboardClass->getIdMonth($year, $month)) }}" data-category="{{ $categories->id }}" data-dashboard="{{ $dashboardClass->getIdMonth($year, $month) }}">{{ $dashboardClass->getAmount($categories->id, $dashboardClass->getIdMonth($year, $month)) }}</div>
+			    <div class="footer" type="button" data-toggle="collapse" data-target="#collapse-{{ $categories->id }}" aria-expanded="false" aria-controls="collapse-{{ $categories->id }}">
 				<span class="glyphicon glyphicon-option-horizontal show-more"></span>
-				<div class="collapse" id="collapse-{{ str_slug($categories->name, '-') }}">
+				<div class="collapse" id="collapse-{{ $categories->id }}">
 				    <div class="previous">
 					<div class="title">Mois année précédente</div>
-					<div class="value">187,240.00 €</div>
+					<div class="value">{{ $dashboardClass->getPluralityAmount($categories->id, $dashboardClass->getAmountRaw($categories->id, $dashboardClass->getIdMonth($year, $month)), $dashboardClass->getDateRaw($year, $month), 'month-last-year') }}</div>
 				    </div>
 
 				    <div class="previous">
@@ -32,8 +32,8 @@
 				    </div>
 
 				    <div class="previous">
-					<div class="title">Cumul années précédentes</div>
-					<div class="value">{{ $dashboardClass->getPluralityAmount($categories->id, $dashboardClass->getAmountRaw($categories->id, $year, $month), 'last-years') }}</div>
+					<div class="title">Cumul année précédente</div>
+					<div class="value">{{ $dashboardClass->getPluralityAmount($categories->id, $dashboardClass->getAmountRaw($categories->id, $dashboardClass->getIdMonth($year, $month)), $dashboardClass->getDateRaw($year, $month), 'last-year') }}</div>
 				    </div>
 				</div>
 			    </div>

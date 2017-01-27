@@ -18,11 +18,11 @@
     </button>
     <br /><br />
     @foreach($dashboard->orderBy('date', 'DESC')->groupBy(DB::raw('date(date, "start of year")'))->get() as $dashboards)
-    <button class="btn btn-menu btn-year" type="button" data-toggle="collapse" data-target="#collapse{{ $dashboardClass->getYear($dashboards->date) }}" aria-expanded="false" aria-controls="collapse{{ $dashboardClass->getYear($dashboards->date) }}">
+    <button class="btn btn-menu btn-year" type="button" data-toggle="collapse" data-target="#collapse{{ $dashboardClass->getYear($dashboards->date) }}" aria-controls="collapse{{ $dashboardClass->getYear($dashboards->date) }}">
 	<div class="pull-right"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></div>
 	    Année {{ $dashboardClass->getYear($dashboards->date) }}
     </button>
-    <div class="collapse" id="collapse{{ $dashboardClass->getYear($dashboards->date) }}">
+    <div class="collapse @if(isset($year)) {{ $dashboardClass->isActual($year, $dashboardClass->getYear($dashboards->date)) }} @endif" id="collapse{{ $dashboardClass->getYear($dashboards->date) }}">
 	<button href="{{ url('dashboard/'.$dashboardClass->getYear($dashboards->date)) }}" class="btn btn-menu btn-month">
 	    <div class="pull-right"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></div>
 	    Toute l'année
@@ -52,3 +52,4 @@
 	</div>
     </button>
 </div>
+

@@ -4,6 +4,7 @@ $(document).on('click', '.amounts .middle', function () {
     var dashboard_id = $(this).data('dashboard');
     var category_id = $(this).data('category');
     var name = $('.amounts[data-attribute="'+ category_id +'"]').find('.header').text();
+    var date = $('meta[name="date"]').attr('content');
     var old = actual.data('amount');
     console.log(name)
 
@@ -21,6 +22,7 @@ $(document).on('click', '.amounts .middle', function () {
 		    data: {
 			'dashboard_id': dashboard_id,
 			'category_id': category_id,
+			'date': date,
 			amount: result
 		    }
 		}).done( function(msg) {
@@ -197,7 +199,7 @@ $(document).on('click', '.add-service', function () {
 });
 
 $(document).on('click', 'button#edit-category', function () {
-    var id = $(this).data('attribute');
+    var id = $(this).data('attribute'); 
     var old = $(this).parent().parent().parent().prev().children().children().text();
     var oldType = $(this).data('type');
 
@@ -206,7 +208,7 @@ $(document).on('click', 'button#edit-category', function () {
     else var options = '<option value="amount">Nombre simple</option><option value="money">Monétaire</option>';
 
     
-    var form = '<form class="form edit-category"><input type="hidden" name="id" value="'+ id +'"><div class="form-group"><label for="name">Nom de la catégorie :</label><input type="text" class="form-control" name="name" value="'+ old +'"></div><div class="form-group"><label for="type">Type de montant associé :</label><select class="form-control" name="type">'+ options +'</select></div></form>';
+    var form = '<form class="form edit-category"><input type="hidden" name="date" value="'+ date +'"><input type="hidden" name="id" value="'+ id +'"><div class="form-group"><label for="name">Nom de la catégorie :</label><input type="text" class="form-control" name="name" value="'+ old +'"></div><div class="form-group"><label for="type">Type de montant associé :</label><select class="form-control" name="type">'+ options +'</select></div></form>';
 
     bootbox.confirm(form, function(result) {
 	if(result) {

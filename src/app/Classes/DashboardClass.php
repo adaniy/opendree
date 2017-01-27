@@ -225,7 +225,8 @@ class DashboardClass extends TempsClass
         if($this->dashboardCategories->find($id)) {
             $this->dashboardCategories->where('id', $id)->update([
                 'name' => $name,
-                'type' => $type
+                'type' => $type,
+                "date" => $date
             ]);
             
             $response = [
@@ -308,6 +309,7 @@ class DashboardClass extends TempsClass
         $categoryId = $request->get('category_id');
         $amount = $request->get('amount');
         $type = $this->dashboardCategories->find($categoryId)->type;
+        $date = $request->get('date');
 
         if($this->dashboardCategories->find($categoryId)->type == 'money') {
             $amountDisplay = number_format($request->get('amount'), 2).' €';
@@ -340,7 +342,7 @@ class DashboardClass extends TempsClass
                $this->dashboardAmount->dashboard_id = $dashboardId;
                $this->dashboardAmount->category_id = $categoryId;
                $this->dashboardAmount->amount = $amount;
-               $this->dashboardAmount->date = Carbon::now();
+               $this->dashboardAmount->date = $date;
 
                if($this->dashboardAmount->save()) {
                    $response = [
@@ -420,6 +422,11 @@ class DashboardClass extends TempsClass
         return $mois.' '.$year;
     }
 
+    public function getDateRaw($year, $month)
+    {
+        return Carbon::create($year, $month, 01);
+    }
+
     public function getIdMonth($year, $month)
     {
         return $this->dashboard->whereYear('date', $year)->whereMonth('date', $month)->first()->id;
@@ -445,10 +452,10 @@ class DashboardClass extends TempsClass
         return $this->carbon->parse($this->dashboard->where('date', $date)->first()->date)->format('m');;
     }
 
-    public function getAmount($idCategory, $year, $month)
+    public function getAmount($idCategory, $idDashboard)
     {
-        if($this->dashboardAmount->where('category_id', $idCategory)->whereYear('date', $year)->whereMonth('date', $month)->count() > 0) {
-            $amount = $this->dashboardAmount->where('category_id', $idCategory)->whereYear('date', $year)->whereMonth('date', $month)->first()->amount;
+        if($this->dashboardAmount->where('category_id', $idCategory)->where('dashboard_id', $idDashboard)->count() > 0) {
+            $amount = $this->dashboardAmount->where('category_id', $idCategory)->where('dashboard_id', $idDashboard)->first()->amount;
 
             if($this->dashboardCategories->find($idCategory)->type == 'money') {
                 return number_format($amount, 2).' €';
@@ -460,10 +467,10 @@ class DashboardClass extends TempsClass
         }
     }
 
-    public function getAmountRaw($idCategory, $year, $month)
+    public function getAmountRaw($idCategory, $idDashboard)
     {
-        if($this->dashboardAmount->where('category_id', $idCategory)->whereYear('date', $year)->count() > 0) {
-            $amount = $this->dashboardAmount->where('category_id', $idCategory)->whereYear('date', $year)->whereMonth('date', $month)->first()->amount;
+        if($this->dashboardAmount->where('category_id', $idCategory)->where('dashboard_id', $idDashboard)->count() > 0) {
+            $amount = $this->dashboardAmount->where('category_id', $idCategory)->where('dashboard_id', $idDashboard)->first()->amount;
             return $amount;
         } else {
             return 0;
@@ -482,21 +489,23 @@ class DashboardClass extends TempsClass
         return $calendar;
     }
 
-    public function getPluralityAmount($idCategory, $amount, $type) // $amount est le montant actuel
+    public function getPluralityAmount($idCategory, $amount, $date, $type)
     {
         if($this->dashboardAmount->where('category_id', $idCategory)->count() > 0) {
-            $idCategory = $this->dashboardAmount->where('category_id', $idCategory)->first()->category_id;
-            $date = $this->dashboardAmount->where('category_id', $idCategory)->first()->date;
-
             if($type == 'month-last-year') { // mois année précédente
+                $plurality = 0;
+                
+                if($this->dashboardAmount->whereYear('date', (string) Carbon::parse($date)->subYear()->year)->whereMonth('date', (string) $date->month)->where('category_id', $idCategory)->count() > 0) {
+                    $plurality = $this->dashboardAmount->whereYear('date', (string) Carbon::parse($date)->subYear()->year)->whereMonth('date', (string) $date->month)->where('category_id', $idCategory)->first()->amount;
+                }
 
-            } elseif($type == 'last-years') { // cumul années précédentes
+                return $plurality;
+            } elseif($type == 'last-year') { // cumul année précédente
                 $plurality = 0;
 
-                foreach($this->dashboardAmount->where([
-                    ['category_id', $idCategory],
-                    ['date', '<', $date]
-                ])->get() as $amounts) {
+                foreach($this->dashboardAmount->whereYear('date', (string) Carbon::parse($date)->subYear()->year)
+                        ->where('category_id', $idCategory)
+                        ->get() as $amounts) {
                     $plurality += $amounts->amount;
                 }
 
@@ -507,5 +516,14 @@ class DashboardClass extends TempsClass
                 return null;
             }
         } else { return null; }
+    }
+
+    public function isActual($yearActual, $yearData)
+    {
+        if($yearActual == $yearData) {
+            return 'in';
+        } else {
+            return '';
+        }
     }
 }
