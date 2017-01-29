@@ -22,13 +22,13 @@
 	<div class="pull-right"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></div>
 	    Année {{ $dashboardClass->getYear($dashboards->date) }}
     </button>
-    <div class="collapse @if(isset($year)) {{ $dashboardClass->isActual($year, $dashboardClass->getYear($dashboards->date)) }} @endif" id="collapse{{ $dashboardClass->getYear($dashboards->date) }}">
-	<button href="{{ url('dashboard/'.$dashboardClass->getYear($dashboards->date)) }}" class="btn btn-menu btn-month">
+    <div class="collapse @if(isset($year)) {{ $dashboardClass->isActualYear($year, $dashboardClass->getYear($dashboards->date)) }} @endif" id="collapse{{ $dashboardClass->getYear($dashboards->date) }}">
+	<button href="{{ url('dashboard/'.$dashboardClass->getYear($dashboards->date)) }}" class="btn btn-menu btn-month @if(isset($year) && !isset($month)) {{ $dashboardClass->isActualYearButton($year, $dashboardClass->getYear($dashboards->date)) }} @endif">
 	    <div class="pull-right"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></div>
 	    Toute l'année
 	</button>
 	@foreach($dashboard->orderBy('date', 'ASC')->whereYear('date', (string) $dashboardClass->getYear($dashboards->date))->get() as $months)
-	<button href="{{ url('dashboard/'.$dashboardClass->getYear($dashboards->date).'/'.$dashboardClass->getMonthNumber($months->date)) }}" class="btn btn-menu btn-month">
+	<button href="{{ url('dashboard/'.$dashboardClass->getYear($dashboards->date).'/'.$dashboardClass->getMonthNumber($months->date)) }}" class="btn btn-menu btn-month @if(isset($month)) {{ $dashboardClass->isActualMonth($month, $year, $dashboardClass->getMonthRaw($months->date), $dashboardClass->getYear($dashboards->date)) }} @endif">
 	    <div class="pull-right"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></div>
 	    {{ $dashboardClass->getMonth($months->date) }}
 	</button>

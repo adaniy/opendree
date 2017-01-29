@@ -1,59 +1,113 @@
 @extends('template')
 
-@section('contenu')
-    <h3><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span> Liste des réunions</h3>
-    <p id="decal" class="text-muted">Cliquez sur l'id d'une réunion pour y accéder.</p>
-    <hr />
-    <br />
-    <div class="col-md-12">
-        <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span> <b>Recherche</b> 
-        <p class="text-muted">N'importe quel champs peut être remplis pour effectuer une recherche. Ils seront tous pris en compte.</p>
-        <form class="form-inline" action="{{ url('reunion') }}" method="POST">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <div class="form-group">
-                <input type="text" name="id" class="form-control" id="id" placeholder="N° réunion">
-            </div>
+@section('head')
+    Réunions
+@endsection
 
-            <div class="form-group">
-                <input type="text" name="sujet" class="form-control" id="sujet" placeholder="Sujet de la réunion">
+@section('content')
+    <div class="reunions">
+        <div class="col-md-12">
+            <div class="top">
+                <div class="buttons pull-right"><button class="btn btn-xs btn-success btn-tree" id="add-reunion">Ajouter une réunion</button></div>
+                <div class="display pull-right"><button class="btn btn-xs btn-default live"><span class="glyphicon glyphicon-th-large"></span></button> <button class="btn btn-xs btn-default live"><span class="glyphicon glyphicon-th-list"></span></button></div>
+                <div class="amount">29 Réunions</div>
+                <div class="search"><span class="glyphicon glyphicon-search"></span> Recherche</div>
             </div>
-            <div class="form-group">
-                <input type="text" name="date" class="form-control" id="date" placeholder="Date de la réunion">
+        </div>
+
+        <div class="col-md-12">
+            <div class="bottom">
+                @foreach($reunion as $reunions)
+                    <div class="col-md-3 block" data-attribute="{{ $reunions->id }}">
+                        <div class="head">
+                            <div class="pull-right">
+                                <button class="btn btn-xs btn-success live" id="edit-reunion" data-toggle="modal" data-target="#edit-reunion-{{ $reunions->id }}"><span class="glyphicon glyphicon-edit"></span></button> <button class="btn btn-xs btn-danger live" id="delete-reunion" data-attribute="{{ $reunions->id }}"><span class="glyphicon glyphicon-remove"></span></button>
+                            </div>
+                            <div class="modal fade" id="edit-reunion-{{ $reunions->id }}" tabindex="-1" role="dialog" aria-labelledby="edit-reunion-{{ $reunions->id }}-Label">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="edit-reunion-{{ $reunions->id }}-Label">Modification de la réunion #{{ $reunions->id }}</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="form" id="reunion">
+                                                <div class="form-group">
+                                                    <label for="sujet">Sujet de la réunion</label>
+                                                    <input type="text" class="form-control" name="sujet" value="{{ $reunions->sujet }}" />
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="sujet">Date de la réunion</label>
+                                                    <br />
+                                                    <div class="col-md-8">
+                                                        <input type="date" class="form-control" name="date_date" value="{{ $reunionClass->getDateDate($reunions->id) }}" />
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <input type="time" class="form-control" name="date_time" value="{{ $reunionClass->getDateTime($reunions->id) }}" />
+                                                    </div>
+
+                                                </div>
+                                                <br /><br />
+                                                <div class="form-group">
+                                                    <label for="sujet">Date de la prochaine réunion</label>
+                                                    <br />
+                                                    <div class="col-md-8">
+                                                        <input type="date" class="form-control" name="date_prochain_date" value="{{ $reunionClass->getDateProchainDate($reunions->id) }}" />
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <input type="time" class="form-control" name="date_prochain_time" value="{{ $reunionClass->getDateProchainTime($reunions->id) }}" />
+                                                    </div>
+                                                    <br /><br />
+                                                    <div class="form-group pull-right">
+                                                        <input type="submit" class="btn btn-success" value="Enregistrer" />
+                                                    </div>
+                                                    <br /><br /><hr />
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-xs btn-warning live" type="button" data-toggle="tooltip" data-placement="bottom" title="Version imprimable"><span class="glyphicon glyphicon-print"></span></button>
+                        </div>
+
+                        <div class="body">
+                            <div class="name">{{ $reunions->sujet }}</div>
+                            <div class="subjects">
+                                <div class="text-center">
+                                    <div class="date">Mercredi 10 Janvier 2016 à 12h00</div>
+                                </div>
+
+                                <li type="button" data-toggle="collapse" data-target="#collapseID" aria-expanded="false" aria-controls="collapseID">Sujet abordé</li>
+                                <div class="collapse details-collapse" id="collapseID">
+                                    <div class="details">
+                                        <div class="title"><span class="glyphicon glyphicon-chevron-right"></span> Observations</div>
+                                        <div class="content">
+                                            Lorem ipsum dolor sit amet
+                                        </div>
+                                    </div>
+
+                                    <div class="details">
+                                        <div class="title"><span class="glyphicon glyphicon-chevron-right"></span> Actions à entreprendre</div>
+                                        <div class="content">
+                                            Lorem ipsum dolor sit amet
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="foot">
+                            <button class="btn btn-xs btn-success live" data-attribute="1" id="participants" type="button" data-toggle="popover" title="Liste des participants" data-html="true"><span class="glyphicon glyphicon-user"></span></button>
+                        </div>
+                    </div>
             </div>
-            <button type="submit" class="btn btn-info">Rechercher</button>
-        </form>
+                @endforeach
+        </div>
     </div>
-    <br /><br /><br /><br />
-    <hr />
-    <div id="decal" class="pull-left"><a href="{{ url('reunion/ajout') }}" class="btn btn-sm btn-info">Créer une réunion</a></div>
-    <div id="decal" class="pull-right">{!! $reunion->links() !!}</div>
-    <br /><br />
-    @if($reunion->count() > 0)
-    <table class="table table-striped table-bordered table-hover">
-    <tr>
-        <th class="col-lg-1 col-sm-1">N°</th>
-        <th class="col-lg-6 col-sm-6">Sujet</th>
-        <th class="col-lg-1 col-sm-1">Nb participants</th>
-        <th class="col-lg-2 col-sm-2">Date</th>
-        <th class="col-lg-2 col-sm-2">Action</th>
-    </tr>
-    @foreach($reunion as $reunions)
-        <tr>
-            <td><a href="{{ url('reunion/'.$reunions->id) }}"><span class="glyphicon glyphicon-link"></span>{{ $reunions->id }}</a></td>
-            <td class="sujet">{{ $reunions->sujet }}</td>
-            <td>{{ $reunionClass->nbParticipant($reunions->id) }}</td>
-            <td>{{ $temps->parseDateTime($reunions->date) }}</td>
-            <td><a href="{{ url('reunion/modifier/'.$reunions->id) }}" class="btn btn-xs btn-success">Modifier</a> <a href="{{ url('reunion/supprimer/'.$reunions->id) }}" class="btn btn-xs btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réunion ?');">Supprimer</a></td>
-        </tr>
-    @endforeach
-    </table>
-    @else
-        <hr />
-        <div id="decal"><b>Il n'existe aucune réunion dans la base de donnée actuellement.</b></div>
-    @endif
-    <script>
-        function reload() {
-            location.reload();
-        }
-    </script>
 @endsection

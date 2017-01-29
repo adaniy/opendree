@@ -18,6 +18,8 @@ class CreateReunionTable extends Migration
             $table->char("sujet");
             $table->dateTime("date");
             $table->dateTime("date_prochain");
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

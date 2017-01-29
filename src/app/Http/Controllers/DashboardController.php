@@ -26,6 +26,11 @@ class DashboardController extends Controller
             "access"
         ]);
     }
+
+    public function statsYear($year, DashboardClass $dashboardClass)
+    {
+        return $dashboardClass->statsYear($year);
+    }
     
     public function index(Dashboard $dashboard, DashboardAmount $dashboardAmount, DashboardService $dashboardService, Service $service, DashboardCategories $dashboardCategories, Carbon $carbon, DashboardClass $dashboardClass)
     {
@@ -189,5 +194,10 @@ class DashboardController extends Controller
     public function addHoliday(DashboardRequest $request, DashboardClass $dashboardClass)
     {
         return $dashboardClass->addHoliday($request);
+    }
+
+    public function deleteHoliday($id, DashboardClass $dashboardClass)
+    {
+        return $dashboardClass->deleteHoliday($id);
     }
 }

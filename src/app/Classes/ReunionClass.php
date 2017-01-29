@@ -9,125 +9,164 @@ use App\Reunion;
 use App\ReunionParticipant;
 use App\ReunionSujet;
 
-class ReunionClass
+use App\Classes\TempsClass;
+
+class ReunionClass extends TempsClass
 {
-	public function nbParticipant($id)
-	{
-		$reunionParticipant = new ReunionParticipant();
+    public function __construct()
+    {
+        $this->reunion = new Reunion;
+        $this->reunionParticipant = new ReunionParticipant;
+        $this->reunionSujet = new ReunionSujet;
 
-		return $reunionParticipant->where('reunion_id', $id)->count();
-	}
+        $this->carbon = new Carbon;
+    }
 
-	public function insert($request)
-	{
-		$sujet = $request->input('sujet');
-		$date = $request->input('date');
-		$date_prochain = $request->input('date_prochain');
+    public function nbParticipant($id)
+    {
+        return $this->reunionParticipant->where('reunion_id', $id)->count();
+    }
 
-		$reunion = new Reunion();
-		$reunion->sujet = $sujet;
-		$reunion->date = $date;
-		$reunion->date_prochain = $date_prochain;
-		if($reunion->save()) {
-			return redirect('reunion')->with('valide', "La réunion a bien été créée.");
-		} else {
-			return redirect('reunion')->with('erreur', "La réunion n'a pas pu être créée.");
-		}
-	}
+    /**
+     * Ajoute une réunion avec des valeurs par défaut.
+     * @param void
+     * @return json.status = "success"
+     * @exception json.status = "error"
+     * @see Reunion()
+     */
+    public function add()
+    {
+        $default = [
+            "sujet" => "Nouvelle réunion",
+            "date" => Carbon::now(),
+            "date_prochain" => ""
+        ];
 
-	public function edit($request, $id)
-	{
-		$sujet = $request->input('sujet');
-		$date = $request->input('date');
-		$date_prochain = $request->input('date_prochain');
+        $this->reunion->sujet = $default['sujet'];
+        $this->reunion->date = $default['date'];
+        $this->reunion->date_prochain = $default['date_prochain'];
 
-		$reunion = new Reunion();
+        if($this->reunion->save()) {
+            $response = [
+                "status" => "success",
+                "message" => "Une réunion vien d'être créé."
+            ];
+        } else {
+            $response = [
+                "status" => "error"
+            ];
+        }
 
-		if($reunion->where('id', $id)->update([
-			'sujet' => $sujet,
-			'date' => $date,
-			'date_prochain' => $date_prochain
-		])) {
-			return redirect('reunion')->with('valide', "La réunion a bien été modifiée.");
-		} else {
-			return redirect('reunion')->with('erreur', "La réunion n'a pas pu être modifiée.");
-		}
-	}
+        return json_encode($response);
+    }
 
-	public function delete($id)
-	{
-		$reunion= new Reunion();
-		$reunion->find($id)->delete();
 
-		return back()->with('valide', "La participant a bien été supprimée.");
-	}
 
-	public function deleteParticipant($id)
-	{
-		$reunionParticipant = new ReunionParticipant();
-		$reunionParticipant->find($id)->delete();
+    /**
+     * Supprime une réunion.
+     * @param $id
+     * @return json.status = "success"
+     * @exception json.status = "error"
+     * @see Reunion(); softDeletes()
+     */
+    public function delete($id)
+    {
+        if($this->reunion->find($id)) {
+            $this->reunion->find($id)->delete();
 
-		return back()->with('valide', "Le participant a bien été supprimé.");
-	}
+            $response = [
+                "status" => "success",
+                "message" => "La réunion selectionnée a bien été supprimée.",
+                "id" => $id,
+            ];
+        } else {
+            $response = [
+                "status" => "success"
+            ];
+        }
 
-	public function deleteSujet($id)
-	{
-		$reunionSujet = new ReunionSujet();
-		$reunionSujet->find($id)->delete();
+        return json_encode($response);
+    }
 
-		return back()->with('valide', "Le sujet a bien été supprimé.");
-	}
+    /**
+     * Retourne la date d'une réunion, partie "date"
+     * @param $id
+     * @return $date
+     * @exception null
+     * @see TempsClass() ; Carbon() ; HTML5's input date
+     */
+    public function getDateDate($id)
+    {
+        if($this->reunion->find($id)) {
+            return $this->carbon->parse($this->reunion->find($id)->date)->format("Y-m-d");
+        } else {
+            return null;
+        }
 
-	public function insertSujet($request)
-	{
-		$sujet = $request->input('sujet');
-		$observation = $request->input('observation');
-		$action = $request->input('action');
+        return $date;
+    }
 
-		$reunionSujet = new ReunionSujet();
-		$reunionSujet->reunion_id = $request->id;
-		$reunionSujet->sujet = $sujet;
-		$reunionSujet->observation = $observation;
-		$reunionSujet->action = $action;
-		if($reunionSujet->save()) {
-			return redirect('reunion/'.$request->id)->with('valide', "Le sujet de réunion a bien été créé.");
-		} else {
-			return redirect('reunion/'.$request->id)->with('erreur', "Le sujet de réunion n'a pas pu être créé.");
-		}
-	}
+    /**
+     * Retourne la date d'une réunion, partie "time"
+     * @param $id
+     * @return $date
+     * @exception null
+     * @see TempsClass() ; Carbon() ; HTML5's input date
+     */
+    public function getDateTime($id)
+    {
+        if($this->reunion->find($id)) {
+            return $this->carbon->parse($this->reunion->find($id)->date)->format("H:i");
+        } else {
+            return null;
+        }
 
-	public function editSujet($request, $id)
-	{
-		$sujet = $request->input('sujet');
-		$observation = $request->input('observation');
-		$action = $request->input('action');
+        return $date;
+    }
 
-		$reunionSujet = new ReunionSujet();
+    /**
+     * Retourne la date prochaine d'une réunion, partie "date"
+     * @param $id
+     * @return $date
+     * @exception null || empty
+     * @see TempsClass() ; Carbon() ; HTML5's input date
+     */
+    public function getDateProchainDate($id)
+    {
+        if($this->reunion->find($id)) {
+            /** S'il n'y a pas de date prochaine, on ne renvoie rien */
+            if(!empty($this->reunion->find($id)->date_prochain)) {
+                return $this->carbon->parse($this->reunion->find($id)->date_prochain)->format("Y-m-d");
+            } else {
+                return '';
+            }
+        } else {
+            return null;
+        }
 
-		if($reunionSujet->where('id', $id)->update([
-			'sujet' => $sujet,
-			'observation' => $observation,
-			'action' => $action
-		])) {
-			return redirect('reunion/'.$reunionSujet->find($id)->reunion_id)->with('valide', "Le sujet de réunion a bien été modifié.");
-		} else {
-			return redirect('reunion/'.$reunionSujet->find($id)->reunion_id)->with('erreur', "Le sujet de réunion n'a pas pu être modifié.");
-		}
-	}
+        return $date;
+    }
 
-	public function insertParticipant($request)
-	{
-		$nom = $request->input('nom');
-		$type = $request->input('type');
+    /**
+     * Retourne la date prochaine d'une réunion, partie "time"
+     * @param $id
+     * @return $date
+     * @exception null
+     * @see TempsClass() ; Carbon() ; HTML5's input date
+     */
+    public function getDateProchainTime($id)
+    {
+        if($this->reunion->find($id)) {
+            /** S'il n'y a pas de date prochaine, on ne renvoie rien */
+            if(!empty($this->reunion->find($id)->date_prochain)) {
+                return $this->carbon->parse($this->reunion->find($id)->date_prochain)->format("H:i");
+            } else {
+                return '';
+            }
+        } else {
+            return null;
+        }
 
-		$reunionParticipant = new ReunionParticipant();
-		$reunionParticipant->reunion_id = $request->id;
-		$reunionParticipant->nom = $nom;
-		$reunionParticipant->type = $type;
-		if($reunionParticipant->save()) {
-			return redirect('reunion/'.$request->id)->with('valide', "Le participant a bien été ajouté.");
-		} else {
-			return redirect('reunion/'.$request->id)->with('erreur', "Le participant n'a pas pu être ajouté.");
-		}
-	}
+        return $date;
+    }
 }
