@@ -999,7 +999,7 @@ nav.header .menu .modules .bottom {
     padding: 10px 0 5px 0;
 }
 
-.reunions .bottom .block .body .subjects li {
+.reunions .bottom .block li {
     list-style: none;
     font-size: 16px;
 
@@ -1008,18 +1008,18 @@ nav.header .menu .modules .bottom {
     border-bottom: 1px solid rgba(0,0,0,0.0);
 }
 
-.reunions .bottom .block .body .subjects li:hover {
+.reunions .bottom .block li:hover {
     color: #B62700;
     border-color: #AB6300;
 
     cursor: pointer;
 }
 
-.reunions .bottom .block .body .subjects .details-collapse {
+.reunions .bottom .block .details-collapse {
     border-top: 1px solid #D4C882;
 }
 
-.reunions .bottom .block .body .subjects .details {
+.reunions .bottom .block .details {
     box-shadow: 0 0 2px grey;
     border-radius: 5px;
 
@@ -1029,22 +1029,22 @@ nav.header .menu .modules .bottom {
     transition: .3s;
 }
 
-.reunions .bottom .block .body .subjects .details:hover {
+.reunions .bottom .block .details:hover {
     box-shadow: 0 0 5px rgba(100, 200, 200, 0.8);
 }
 
-.reunions .bottom .block .body .subjects .details .title {
+.reunions .bottom .block .details .title {
     font-size: 16px;
     text-transform: uppercase;
 
     margin: 5px 0 5px 0;
 }
 
-.reunions .bottom .block .body .subjects .details .content {
+.reunions .bottom .block .details .content {
     
 }
 
-.reunions .bottom .block .body .date {
+.reunions .bottom .block .date {
     font-size: 12px;
     color: rgba(140, 140, 140, 1.0);
 }

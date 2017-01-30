@@ -117,8 +117,8 @@
                 @yield('content')
             </div>
         </div>
-
-        <script src="{{ asset('js/jquery-1.11.3.min.js') }}"></script>
+	{{-- on charge jquery à l'aide de node.JS --}}
+        <script src="{{ asset('js/jquery-1.11.3.min.js') }}" onload="$ = jQuery = module.exports;"></script>
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('js/bootbox.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap-notify.min.js') }}"></script>
@@ -140,10 +140,14 @@
         {{-- on ne permet le chargement des fonctions JS des budgets uniquement dans la page concernée --}}
         @if(Request::segment(1) == "dashboard")
             <script src="{{ asset("js/dashboard/index.js") }}"></script>
-            @if(is_numeric(Request::segment(2)) && !is_numeric(Request::segment(3)))
+            @if(is_numeric(Request::segment(2)) && empty(Request::segment(3)))
+                <script src="{{ asset("js/Chart.bundle.min.js") }}"></script>
+                <script src="{{ asset("js/chart/dashboard-year.js") }}"></script>
+            @endif
+
+            @if(empty(Request::segment(2) && empty(Request::segment(3))))
                 <script src="{{ asset("js/Chart.bundle.min.js") }}"></script>
                 <script src="{{ asset("js/chart/dashboard.js") }}"></script>
-                <script src="{{ asset("js/chart/utils.js") }}"></script>
             @endif
         @endif
 

@@ -79,8 +79,13 @@ Route::post("budget/edit/depense", "BudgetController@editDepense");
  * Get requests
  * Post requests
  */
+/** Get */
 Route::get("dashboard", "DashboardController@index");
 Route::get("dashboard/stats/year/{year}", "DashboardController@statsYear");
+Route::get("dashboard/stats/comparison/year/{year}", "DashboardController@statsYearComparison");
+Route::get("dashboard/stats", "DashboardController@stats");
+Route::get("dashboard/stats/raw", "DashboardController@statsRaw");
+Route::get("dashboard/stats/comparison", "DashboardController@statsComparison");
 Route::get("dashboard/categories", "DashboardController@indexCategories");
 Route::get("dashboard/add/categories", "DashboardController@addCategories");
 Route::get("dashboard/services", "DashboardController@indexServices");
@@ -96,7 +101,7 @@ Route::get("dashboard/{year}/{month}", "DashboardController@access");
 Route::get("dashboard/{year}", "DashboardController@accessYear");
 Route::get("dashboard/add/{year}", "DashboardController@add");
 Route::get("dashboard/add/{year}/month", "DashboardController@addMonth");
-
+/** Post */
 Route::post("dashboard/add/agent", "DashboardController@addAgent");
 Route::post("dashboard/add/holiday", "DashboardController@addHoliday");
 Route::post("dashboard/edit/service", "DashboardController@editService");

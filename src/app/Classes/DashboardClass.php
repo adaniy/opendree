@@ -2,6 +2,7 @@
 namespace App\Classes;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use Carbon\Carbon;
 
@@ -36,7 +37,6 @@ class DashboardClass extends TempsClass
      * @param $year
      * @return json
      * @exception json
-     * @see json_encode ; chart.js ; Dashboard()
      */
     public function statsYear($year)
     {
@@ -59,7 +59,7 @@ class DashboardClass extends TempsClass
 
         /** Cette boucle doit être identique avec l'autre, dans la boucle des mois */
         foreach($dashboardCategories as $categories) {
-            $color = '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+            $color = $categories->color;
             /** On fait une liste des mois avec des données à l'intérieur */
             $data = [];
 
@@ -109,6 +109,159 @@ class DashboardClass extends TempsClass
                 array_push($resultat['line']['month'], $month);
             }
         }
+
+        return json_encode($resultat);
+    }
+
+    /**
+     * Retourne les données de manière asynchrone des tableaux de bord, par année
+     * Sert à remplir les données du graphique Pie
+     * @param $year
+     * @return json
+     * @exception json
+     */
+    public function statsYearComparison($year)
+    {
+        $resultat = [
+            'status' => 'success',
+            'pie' => [
+                'labels' => [],
+                'data' => []
+            ]
+        ];
+
+        $data = [];
+        $colors = [];
+
+        /** On récupère les catégories */
+        foreach($this->dashboardCategories->get() as $categories) {
+            $color = $categories->color;
+            array_push($data, DashboardClass::getPluralityAmount($categories->id, 0, $this->carbon->create($year, 1, 1), 'year'));
+            array_push($colors, $color);
+
+            /** On ajoute les catégories */
+            array_push($resultat['pie']['labels'], $categories->name);
+
+            /** Pour chaque catégorie, on execute leur pluralité annuelle */
+
+        }
+
+        $resultat['pie']['data'] = $data;
+        $resultat['pie']['backgroundColor'] = $colors;
+        $resultat['pie']['hoverBackgroundColor'] = $colors;
+
+        return json_encode($resultat);
+    }
+
+    /**
+     * Retourne les données de manière asynchrone des tableaux de bord, depuis le début des temps
+     * Sert à remplir les données du graphique Pie
+     * @return json
+     */
+    public function stats()
+    {
+        $dashboardPeriod = $this->dashboardAmount->orderBy('id', 'ASC')->groupBy(DB::raw('date(date, "start of year")'))->get();
+        $dashboardCategories = $this->dashboardCategories->orderBy('name', 'ASC')->get();
+
+        $resultat = array(
+            'status' => 'success',
+            'line' => array(
+                'year' => array(),
+                'categories' => array(
+                    'id' => array(),
+                    'year' => array(),
+                    'values' => array()
+                ),
+                'nbCategory' => array()
+            )
+        );
+
+        /** Cette boucle doit être identique avec l'autre, dans la boucle des mois */
+        foreach($dashboardCategories as $categories) {
+            $color = $categories->color;
+            /** On fait une liste des mois avec des données à l'intérieur */
+            $data = [];
+
+            foreach($dashboardPeriod as $dashboardPeriods) {
+                $year = $this->carbon->parse($dashboardPeriods->date)->year;
+
+                /** On fait une liste des années disponible */
+                if($this->dashboardAmount->whereYear('date', (string) $year)->where('category_id', $categories->id)->count() > 0) {
+                    $data[] = DashboardClass::getPluralityAmount($categories->id, 0, $dashboardPeriods->date, 'year');
+                }
+
+            }
+
+            array_push($resultat['line']['categories']['values'], [
+                'label' => $categories->name,
+                'fill' => false,
+                'lineTension' => 0.2,
+                'backgroundColor' => $color,
+                'borderColor' => $color,
+                'borderCapStyle' => 'butt',
+                'borderDash' => [],
+                'borderDashOffet' => 0.0,
+                'borderJoinStyle' => 'miter',
+                'pointBorderColor' => $color,
+                'pointBackgroundColor' => "#fff",
+                'pointBorderWidth' => 1,
+                'pointHoverRadius' => 5,
+                'pointHoverBackgroundColor' => $color,
+                'pointHoverBorderColor' => $color,
+                'pointHoverBorderWidth' => 2,
+                'pointRadius' => 1,
+                'pointHitRadius' => 10,
+                'data' => $data,
+                'stepSize' => 1,
+                'spanGaps' => false
+            ]);
+        }
+
+        foreach($dashboardPeriod as $dashboardPeriods) {
+            $year = $this->carbon->parse($dashboardPeriods->date)->year;
+
+            if(!in_array($year, $resultat['line']['year'], true)) {
+                /** Faire une boucle pour récupérer toute les catégories */
+                array_push($resultat['line']['year'], $year);
+            }
+        }
+
+        return json_encode($resultat);
+    }
+
+    /**
+     * Retourne les données de manière asynchrone des tableaux de bord, par année
+     * Sert à remplir les données du graphique Pie
+     * @param $year
+     * @return json
+     * @exception json
+     */
+    public function statsComparison()
+    {
+        $resultat = [
+            'status' => 'success',
+            'pie' => [
+                'labels' => [],
+                'data' => []
+            ]
+        ];
+
+        $data = [];
+        $colors = [];
+
+        /** On récupère les catégories */
+        foreach($this->dashboardCategories->get() as $categories) {
+            $color = $categories->color;
+            array_push($data, DashboardClass::getPluralityAmount($categories->id, 0, null, 'all-time'));
+            array_push($colors, $color);
+
+            /** On ajoute les catégories */
+            array_push($resultat['pie']['labels'], $categories->name);
+        }
+
+        $resultat['pie']['data'] = $data;
+        $resultat['pie']['backgroundColor'] = $colors;
+        $resultat['pie']['hoverBackgroundColor'] = $colors;
 
         return json_encode($resultat);
     }
@@ -277,11 +430,13 @@ class DashboardClass extends TempsClass
     {
         $default = [
             'name' => 'nouvelle catégorie',
-            'type' => 'amount'
+            'type' => 'amount',
+            'color' => '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT)
         ];
 
         $this->dashboardCategories->name = $default['name'];
         $this->dashboardCategories->type = $default['type'];
+        $this->dashboardCategories->color = $default['color'];
 
         if($this->dashboardCategories->save()) {
             $response = [
@@ -637,16 +792,23 @@ class DashboardClass extends TempsClass
             } elseif($type == 'year') { // cumul année
                 $plurality = 0;
 
-                if($this->dashboardAmount->whereYear('date', (string) Carbon::parse($date)->subYear()->year)->where('category_id', $idCategory)->count() > 0) {
-                    $plurality = $this->dashboardAmount->whereYear('date', (string) Carbon::parse($date)->subYear()->year)->where('category_id', $idCategory)->first()->amount;
+                foreach($this->dashboardAmount->whereYear('date', (string) Carbon::parse($date)->year)->where('category_id', $idCategory)->get() as $amounts) {
+                    $plurality += $amounts->amount;
                 }
 
                 return $plurality;
             } elseif($type == 'month') { // cumul mois
                 $plurality = 0;
-
                 if($this->dashboardAmount->whereYear('date', (string) $date->year)->whereMonth('date', (string) $date->format("m"))->where('category_id', $idCategory)->count() > 0) {
                     $plurality = $this->dashboardAmount->whereYear('date', (string) $date->year)->whereMonth('date', $date->format("m"))->where('category_id', $idCategory)->first()->amount;
+                }
+
+                return $plurality;
+            } elseif($type == 'all-time') {
+                $plurality = 0;
+
+                foreach($this->dashboardAmount->where('category_id', $idCategory)->get() as $amounts) {
+                    $plurality += $amounts->amount;
                 }
 
                 return $plurality;

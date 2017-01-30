@@ -31,6 +31,26 @@ class DashboardController extends Controller
     {
         return $dashboardClass->statsYear($year);
     }
+
+    public function statsYearComparison($year, DashboardClass $dashboardClass)
+    {
+        return $dashboardClass->statsYearComparison($year);
+    }
+
+    public function stats(DashboardClass $dashboardClass)
+    {
+        return $dashboardClass->stats();
+    }
+
+    public function statsRaw(DashboardClass $dashboardClass)
+    {
+        return $dashboardClass->statsRaw();
+    }
+
+    public function statsComparison(DashboardClass $dashboardClass)
+    {
+        return $dashboardClass->statsComparison();
+    }
     
     public function index(Dashboard $dashboard, DashboardAmount $dashboardAmount, DashboardService $dashboardService, Service $service, DashboardCategories $dashboardCategories, Carbon $carbon, DashboardClass $dashboardClass)
     {

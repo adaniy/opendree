@@ -63,6 +63,24 @@
                                                         <input type="submit" class="btn btn-success" value="Enregistrer" />
                                                     </div>
                                                     <br /><br /><hr />
+                                                    <button class="btn btn-xs btn-danger live pull-left"><span class="glyphicon glyphicon-remove"></span></button> <button class="btn btn-xs btn-success live pull-left"><span class="glyphicon glyphicon-edit"></span></button> <li type="button" data-toggle="collapse" data-target="#collapseEditID" aria-expanded="false" aria-controls="collapseEditID">Sujet abordé</li>
+                                                    <div class="collapse details-collapse-edit" id="collapseEditID">
+                                                        <div class="details">
+                                                            <div class="title"><div class="pull-right"><button class="btn btn-xs btn-success live pull-left"><span class="glyphicon glyphicon-edit"></span></button></div><span class="glyphicon glyphicon-chevron-right"></span> Observations</div>
+                                                            <div class="content">
+                                                                Lorem ipsum dolor sit amet
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="details">
+                                                            <div class="title"><div class="pull-right"><button class="btn btn-xs btn-success live pull-left"><span class="glyphicon glyphicon-edit"></span></button></div><span class="glyphicon glyphicon-chevron-right"></span> Actions à entreprendre</div>
+                                                            <div class="content">
+                                                                Lorem ipsum dolor sit amet
+                                                            </div>
+                                                        </div>
+							
+                                                    </div>
+						    <div class="text-center"><button class="btn btn-xs btn-warning btn-tree"><span class="glyphicon glyphicon-plus"></span></button></div>
                                                 </div>
                                             </form>
                                         </div>
