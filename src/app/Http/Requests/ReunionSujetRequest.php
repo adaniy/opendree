@@ -24,9 +24,10 @@ class ReunionSujetRequest extends FormRequest
     public function rules()
     {
         return [
-            'sujet' => 'required',
-            'observation' => '',
-            'action' => ''
+            'id' => 'filled|numeric',
+            'sujet' => 'filled|min:1',
+            'observation' => 'filled|min:1',
+            'action' => 'filled|min:1'
         ];
     }
 }

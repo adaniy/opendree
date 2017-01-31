@@ -12,12 +12,12 @@ class Reunion extends Model
 	protected $table = "reunion";
 	protected $fillable = ['sujet', 'date', 'date_prochain'];
 
-    public function participant() 
+    public function participants() 
     {
     	return $this->hasMany("App\ReunionParticipant");
     }
 
-    public function sujet() 
+    public function sujets() 
     {
     	return $this->hasMany("App\ReunionSujet");
     }

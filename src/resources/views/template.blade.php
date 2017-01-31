@@ -8,14 +8,14 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/override.css') }}" rel="stylesheet">
-        <title>GDMC</title>
+        <title>OpenDREE</title>
 
         @yield('meta')
     </head>
     <body>
         <nav class="header col-md-12 col-xs-12">
             <div class="title">
-                <div class="name">GDMC</div><div class="separation"> <span class="glyphicon glyphicon-menu-right"></span> </div> <div class="module"> @yield('head') </div>
+                <div class="name">OpenDREE</div><div class="separation"> <span class="glyphicon glyphicon-menu-right"></span> </div> <div class="module"> @yield('head') </div>
             </div>
 
             <div class="menu">

@@ -36,8 +36,33 @@ class ReunionController extends Controller
         return $reunionClass->add();
     }
 
+    public function addSujet($id, ReunionClass $reunionClass)
+    {
+        return $reunionClass->addSujet($id);
+    }
+
+    public function editSujet(ReunionSujetRequest $request, ReunionClass $reunionClass)
+    {
+        return $reunionClass->editSujet($request);
+    }
+
+    public function editObservation(ReunionSujetRequest $request, ReunionClass $reunionClass)
+    {
+        return $reunionClass->editObservation($request);
+    }
+
+    public function editAction(ReunionSujetRequest $request, ReunionClass $reunionClass)
+    {
+        return $reunionClass->editAction($request);
+    }
+
     public function delete($id, ReunionClass $reunionClass)
     {
         return $reunionClass->delete($id);
+    }
+
+    public function deleteSujet($id, ReunionClass $reunionClass)
+    {
+        return $reunionClass->deleteSujet($id);
     }
 }

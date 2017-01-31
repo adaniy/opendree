@@ -51,39 +51,40 @@
                                                 <br /><br />
                                                 <div class="form-group">
                                                     <label for="sujet">Date de la prochaine réunion</label>
-                                                    <br />
                                                     <div class="col-md-8">
                                                         <input type="date" class="form-control" name="date_prochain_date" value="{{ $reunionClass->getDateProchainDate($reunions->id) }}" />
                                                     </div>
+                                                </div>
+                                                <div class="form-group">
                                                     <div class="col-md-4">
                                                         <input type="time" class="form-control" name="date_prochain_time" value="{{ $reunionClass->getDateProchainTime($reunions->id) }}" />
                                                     </div>
-                                                    <br /><br />
-                                                    <div class="form-group pull-right">
-                                                        <input type="submit" class="btn btn-success" value="Enregistrer" />
-                                                    </div>
-                                                    <br /><br /><hr />
-                                                    <button class="btn btn-xs btn-danger live pull-left"><span class="glyphicon glyphicon-remove"></span></button> <button class="btn btn-xs btn-success live pull-left"><span class="glyphicon glyphicon-edit"></span></button> <li type="button" data-toggle="collapse" data-target="#collapseEditID" aria-expanded="false" aria-controls="collapseEditID">Sujet abordé</li>
-                                                    <div class="collapse details-collapse-edit" id="collapseEditID">
+                                                </div>
+                                                <br /><br />
+                                                <div class="form-group pull-right">
+                                                    <input type="submit" class="btn btn-success" value="Enregistrer" />
+                                                </div>
+                                            </form>
+                                            <br /><br /><hr />
+                                            @foreach($reunions->sujets as $sujets)
+                                                <div class="wrap-sujets">
+                                                    <div class="pull-left buttons"><button class="btn btn-xs btn-danger live" id="delete-sujet" data-attribute="{{ $sujets->id }}"><span class="glyphicon glyphicon-remove"></span></button> <button class="btn btn-xs btn-success live" id="edit-sujet" data-attribute="{{ $sujets->id }}"><span class="glyphicon glyphicon-edit"></span></button></div><li type="button" data-toggle="collapse" data-target="#collapseEdit{{ $sujets->id }}" aria-expanded="false" aria-controls="collapseEdit{{ $sujets->id }}">{{ $sujets->sujet }}</li>
+                                                    <div class="collapse details-collapse-edit" id="collapseEdit{{ $sujets->id }}">
                                                         <div class="details">
-                                                            <div class="title"><div class="pull-right"><button class="btn btn-xs btn-success live pull-left"><span class="glyphicon glyphicon-edit"></span></button></div><span class="glyphicon glyphicon-chevron-right"></span> Observations</div>
-                                                            <div class="content">
-                                                                Lorem ipsum dolor sit amet
-                                                            </div>
+                                                            <div class="title"><div class="pull-right"><button class="btn btn-xs btn-success live" id="edit-observation" data-attribute="{{ $sujets->id }}""><span class="glyphicon glyphicon-edit"></span></button></div><span class="glyphicon glyphicon-chevron-right"></span> Observations</div>
+                                                            <div class="content">{!! $sujets->observation !!}</div>
                                                         </div>
 
                                                         <div class="details">
-                                                            <div class="title"><div class="pull-right"><button class="btn btn-xs btn-success live pull-left"><span class="glyphicon glyphicon-edit"></span></button></div><span class="glyphicon glyphicon-chevron-right"></span> Actions à entreprendre</div>
-                                                            <div class="content">
-                                                                Lorem ipsum dolor sit amet
-                                                            </div>
+                                                            <div class="title"><div class="pull-right"><button class="btn btn-xs btn-success live pull-left" id="edit-action" data-attribute="{{ $sujets->id }}"><span class="glyphicon glyphicon-edit"></span></button></div><span class="glyphicon glyphicon-chevron-right"></span> Actions à entreprendre</div>
+                                                            <div class="content">{!! $sujets->action !!}</div>
                                                         </div>
-							
                                                     </div>
-						    <div class="text-center"><button class="btn btn-xs btn-warning btn-tree"><span class="glyphicon glyphicon-plus"></span></button></div>
                                                 </div>
-                                            </form>
+                                            @endforeach
+                                            <div class="text-center"><button class="btn btn-xs btn-warning btn-tree" id="add-sujet" data-attribute="{{ $reunions->id }}"><span class="glyphicon glyphicon-plus"></span></button></div>
                                         </div>
+
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
                                         </div>

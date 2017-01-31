@@ -27,11 +27,17 @@ Route::get("election/brut/supprimer/{id}","ElectionController@supprimer");
  * Get requests
  * Post requests
  */
-
+/** Get */
 Route::get("reunion", "ReunionController@index");
 Route::get("reunion/add", "ReunionController@add");
+Route::get("reunion/add/sujet/{id}", "ReunionController@addSujet");
 Route::get("reunion/delete/{id}", "ReunionController@delete");
+Route::get("reunion/delete/sujet/{id}", "ReunionController@deleteSujet");
 
+/** Post */
+Route::post("reunion/edit/sujet", "ReunionController@editSujet");
+Route::post("reunion/edit/observation", "ReunionController@editObservation");
+Route::post("reunion/edit/action", "ReunionController@editAction");
 /**
  * ----> Module Action <----
  * -------------------------
@@ -81,6 +87,8 @@ Route::post("budget/edit/depense", "BudgetController@editDepense");
  */
 /** Get */
 Route::get("dashboard", "DashboardController@index");
+Route::get("dashboard/print", "DashboardController@indexPrint");
+Route::get("dashboard/print/{year}", "DashboardController@accessYearPrint");
 Route::get("dashboard/stats/year/{year}", "DashboardController@statsYear");
 Route::get("dashboard/stats/comparison/year/{year}", "DashboardController@statsYearComparison");
 Route::get("dashboard/stats", "DashboardController@stats");

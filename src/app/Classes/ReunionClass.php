@@ -60,7 +60,130 @@ class ReunionClass extends TempsClass
         return json_encode($response);
     }
 
+    /**
+     * Ajoute un sujet dans une réunion
+     * @param $id
+     * @return json.status = "success"
+     * @exception json.status = "error"
+     * @see Reunion();
+     */
+    public function addSujet($id)
+    {
+        $default = [
+            "sujet" => "Nouveau sujet",
+            "observation" => "Observation associée",
+            "action" => "Action à entreprendre associée"
+        ];
 
+        if($this->reunion->find($id)) {
+            $this->reunionSujet->reunion_id = $id;
+            $this->reunionSujet->sujet = $default['sujet'];
+            $this->reunionSujet->observation = $default['observation'];
+            $this->reunionSujet->action = $default['action'];
+
+            $this->reunionSujet->save();
+
+            $resultat = [
+                "status" => "success"
+            ];
+        } else {
+            $resultat = [
+                "status" => "error"
+            ];
+        }
+
+        return json_encode($resultat);
+    }
+
+    /**
+     * Modification du sujet d'une réunion
+     * @param $request
+     * @return json.status = "success"
+     * @exception json.status = "error"
+     * @see ReunionSujetRequest() ; Middlewares
+     */
+    public function editSujet($request)
+    {
+        $id = $request->get("id");
+        $sujet = $request->get("sujet");
+
+        if($this->reunionSujet->find($id)) {
+            $this->reunionSujet->where('id', $id)->update([
+                'sujet' => $sujet
+            ]);
+
+            $resultat = [
+                "status" => "success",
+                "sujet" => $sujet
+            ];
+        } else {
+            $resultat = [
+                "status" => "error"
+            ];
+        }
+
+        return json_encode($resultat);
+    }
+
+    /**
+     * Modification de l'observation d'un sujet de réunion.
+     * @param $request
+     * @return json.status = "success"
+     * @exception json.status = "error"
+     * @see ReunionSujetRequest() ; Middlewares
+     */
+    public function editObservation($request)
+    {
+        $id = $request->get("id");
+        $observation = $request->get("observation");
+
+        if($this->reunionSujet->find($id)) {
+            $this->reunionSujet->where('id', $id)->update([
+                'observation' => $observation
+            ]);
+
+            $resultat = [
+                "status" => "success",
+                "observation" => $observation
+            ];
+        } else {
+            $resultat = [
+                "status" => "error"
+            ];
+        }
+
+        return json_encode($resultat);
+    }
+
+    /**
+     * Modification de l'action d'un sujet de réunion.
+     * @param $request
+     * @return json.status = "success"
+     * @exception json.status = "error"
+     * @see ReunionSujetRequest() ; Middlewares
+     */
+    public function editAction($request)
+    {
+        $id = $request->get("id");
+        $action = $request->get("action");
+
+        if($this->reunionSujet->find($id)) {
+            $this->reunionSujet->where('id', $id)->update([
+                'action' => $action
+            ]);
+
+            $resultat = [
+                "status" => "success",
+                "action" => $action
+            ];
+        } else {
+            $resultat = [
+                "status" => "error"
+            ];
+        }
+
+        return json_encode($resultat);
+    }
 
     /**
      * Supprime une réunion.
@@ -81,7 +204,33 @@ class ReunionClass extends TempsClass
             ];
         } else {
             $response = [
-                "status" => "success"
+                "status" => "error"
+            ];
+        }
+
+        return json_encode($response);
+    }
+
+    /**
+     * Supprime un sujet de réunion.
+     * @param $id
+     * @return json.status = "success"
+     * @exception json.status = "error"
+     * @see Reunion();
+     */
+    public function deleteSujet($id)
+    {
+        if($this->reunionSujet->find($id)) {
+            $this->reunionSujet->find($id)->delete();
+
+            $response = [
+                "status" => "success",
+                "message" => "Le sujet selectionné a bien été supprimée.",
+                "id" => $id,
+            ];
+        } else {
+            $response = [
+                "status" => "error"
             ];
         }
 

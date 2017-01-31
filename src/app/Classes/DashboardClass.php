@@ -792,10 +792,17 @@ class DashboardClass extends TempsClass
             } elseif($type == 'year') { // cumul année
                 $plurality = 0;
 
+                /** Modifier parse par create($date, 1, 1)->year */
+                
                 foreach($this->dashboardAmount->whereYear('date', (string) Carbon::parse($date)->year)->where('category_id', $idCategory)->get() as $amounts) {
                     $plurality += $amounts->amount;
                 }
-
+                
+                /*
+                foreach($this->dashboardAmount->whereYear('date', (string) Carbon::create($date, 1, 1)->year)->where('category_id', $idCategory)->get() as $amounts) {
+                    $plurality += $amounts->amount;
+                }
+                */
                 return $plurality;
             } elseif($type == 'month') { // cumul mois
                 $plurality = 0;

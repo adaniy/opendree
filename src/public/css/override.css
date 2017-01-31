@@ -682,6 +682,19 @@ nav.header .menu .modules .bottom {
 }
 
 .dashboard .table {
+
+}
+
+.dashboard .table td,th {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.dashboard .table td.category {
+    text-align: left;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: none;
 }
 
 .dashboard .menu {
@@ -957,6 +970,49 @@ nav.header .menu .modules .bottom {
     padding: 0;
 }
 
+.reunions .bottom .buttons {
+    margin: 0 10px 0 0;
+}
+
+.reunions .bottom .edit-sujet .form-control {
+    border: 0;
+    box-shadow: none;
+    background: none;
+    border-radius: 0;
+
+    font-size: 16px;
+    color: rgba(200, 60, 10, 1.0);
+
+    margin: 0;
+    padding: 0;
+}
+
+.reunions .bottom .edit-observation .form-control {
+    border: 0;
+    box-shadow: none;
+    background: none;
+    border-radius: 0;
+
+    font-size: 14px;
+    color: rgba(200, 60, 10, 1.0);
+
+    margin: 0;
+    padding: 0;
+}
+
+.reunions .bottom .edit-action .form-control {
+    border: 0;
+    box-shadow: none;
+    background: none;
+    border-radius: 0;
+
+    font-size: 14px;
+    color: rgba(200, 60, 10, 1.0);
+
+    margin: 0;
+    padding: 0;
+}
+
 .reunions .bottom .block .head {
     background: #ffffff;
     background: -moz-linear-gradient(top,  #ffffff 0%, #e5e5e5 100%);
@@ -1025,7 +1081,7 @@ nav.header .menu .modules .bottom {
 
     padding: 5px;
     margin: 5px;
-    
+
     transition: .3s;
 }
 
@@ -1041,7 +1097,7 @@ nav.header .menu .modules .bottom {
 }
 
 .reunions .bottom .block .details .content {
-    
+
 }
 
 .reunions .bottom .block .date {

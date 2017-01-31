@@ -1,7 +1,7 @@
 @extends('template')
 
 @section('head')
-    Tableau de bord / Année {{ $year }}
+    Tableau de bord / Année {{ $year }} / <button class="btn btn-xs btn-default live" href="{{ url('/dashboard/print/'.$year) }}">version imprimable</button>
 @endsection
 
 @section('meta')
@@ -28,37 +28,35 @@
 		</div>
             </div>
 
-            <div class="col-md-12">
-                <h3>Calendrier des congés</h3>
-                @foreach($service->get() as $services)
-                    <div class="col-md-12 inner">
-                        <div class="category" role="tab" id="heading{{ $services->id }}" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $services->id }}" aria-expanded="false" aria-controls="collapse{{ $services->id }}"><span class="glyphicon glyphicon-chevron-right"></span> {{ $services->name }}</div>
-                        <div id="collapse{{ $services->id }}" class="collapse" role="tabpanel" aria-labelledby="heading{{ $services->id }}">
-                            <table class="table table-bordered table-hover table-holiday">
+	    <div class="col-md-12">
+                <h3>Statistique annuelle des recettes</h3>
+                <div class="inner">
+                    @if($dashboardAmount->count() > 0)
+                        <table class="table table-hover table-striped table-bordered table-dashboard">
+                            <tr>
+                                <th class="col-md-11">Année</th>
+                                @for($x = 1; $x <= 12; $x++)
+                                    <th>{{ $temps->parseMois($carbon->create($year, $x, 1)->month) }}</th>
+                                @endfor
+                            </tr>
+                            @foreach($dashboardCategories->orderBy('id')->get() as $categories)
                                 <tr>
-                                    <th class="col-md-12">Date</th>
-                                    {{-- Doit être synchronisé avec le foreach() des <td> --}}
-                                    @foreach($dashboardAgent->orderBy('id', 'ASC')->where('service_id', $services->id)->get() as $agents)
-                                        <th class="agent"><div data-toggle="tooltip" data-placement="bottom" title="{{ $agents->name }}">{{ $agents->id }}</div></th>
-                                    @endforeach
+                                    <td class="category">{{ $categories->name }}</td>
+				    @for($x = 1; $x <= 12; $x++)
+                                        @if($categories->type == 'money')
+                                            <td>{{ number_format($dashboardClass->getPluralityAmount($categories->id, 0, $x, 'month'), 2) }} €</td>
+                                        @else
+					    <td>{{ $dashboardClass->getPluralityAmount($categories->id, 0, $carbon->create($year, $x, 1), 'month') }}</td>
+                                        @endif
+                                    @endfor
                                 </tr>
-                                @foreach($dashboardClass->holidayCalendar($year, 1) as $calendar)
-                                    <tr>
-                                        <td>{{ $dashboardClass->temps->parseJour($carbon->parse($calendar)->dayOfWeek) }} {{ $carbon->parse($calendar)->day }} {{ $dashboardClass->temps->parseMois($carbon->parse($calendar)->month) }}</td>
-                                        {{-- Doit être synchronisé avec le foreach() des <th> --}}
-                                        @foreach($dashboardAgent->orderBy('id', 'ASC')->where('service_id', $services->id)->get() as $agents)
-                                            @if($dashboardClass->isInHoliday($agents->id, $carbon->parse($calendar)))
-                                                <td class="valide" data-attribute="{{ $dashboardClass->isInHolidayId($agents->id, $carbon->parse($calendar)) }}" data-container="body" data-toggle="popover" data-placement="left" title="{{ $agents->name }}" data-content="En congé du {{ $dashboardClass->temps->parseJour($carbon->parse($dashboardClass->isInHolidayDates($agents->id, $carbon->parse($calendar))['debut'])->dayOfWeek) }} {{ $carbon->parse($dashboardClass->isInHolidayDates($agents->id, $carbon->parse($calendar))['debut'])->day }} {{ $dashboardClass->temps->parseMois($carbon->parse($dashboardClass->isInHolidayDates($agents->id, $carbon->parse($calendar))['debut'])->month) }} (inclu) au {{ $dashboardClass->temps->parseJour($carbon->parse($dashboardClass->isInHolidayDates($agents->id, $carbon->parse($calendar))['fin'])->dayOfWeek) }} {{ $carbon->parse($dashboardClass->isInHolidayDates($agents->id, $carbon->parse($calendar))['fin'])->day }} {{ $dashboardClass->temps->parseMois($carbon->parse($dashboardClass->isInHolidayDates($agents->id, $carbon->parse($calendar))['fin'])->month) }} (non inclu)." data-trigger="hover">&nbsp;</td>
-                                            @else
-                                                <td>&nbsp;</td>
-                                            @endif
-                                        @endforeach
-                                    </tr>
-                                @endforeach
-                            </table>
-                        </div>
-                    </div>
-                @endforeach
+                            @endforeach
+                            </tr>
+                        </table>
+                    @else
+                        <b>Il n'y a pas de données à afficher.</b>
+                    @endif
+                </div>
             </div>
         </div>
     </div>

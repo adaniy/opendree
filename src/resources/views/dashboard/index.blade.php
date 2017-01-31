@@ -46,9 +46,9 @@
                                     <td>{{ $categories->name }}</td>
                                     @foreach($dashboardAmount->orderBy('date', 'ASC')->groupBy(DB::raw('date(date, "start of year")'))->get() as $amounts)
                                         @if($categories->type == 'money')
-                                            <td>{{ number_format($dashboardClass->getPluralityAmount($categories->id, 0, $carbon->parse($amounts->date)->year, 'all-time'), 2) }} €</td>
+                                            <td>{{ number_format($dashboardClass->getPluralityAmount($categories->id, 0, $carbon->parse($amounts->date)->year, 'year'), 2) }} €</td>
                                         @else
-                                            <td>{{ $dashboardClass->getPluralityAmount($categories->id, 0, $carbon->parse($amounts->date)->year, 'all-time') }}</td>
+                                            <td>{{ $dashboardClass->getPluralityAmount($categories->id, 0, $carbon->parse($amounts->date)->year, 'year') }}</td>
                                         @endif
                                     @endforeach
                                 </tr>

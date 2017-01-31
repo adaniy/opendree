@@ -7,6 +7,7 @@ use App\Http\Requests\DashboardRequest;
 
 use Carbon\Carbon;
 
+use App\Classes\TempsClass;
 use App\Classes\DashboardClass;
 
 use App\Dashboard;
@@ -135,7 +136,7 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function accessYear($year, Dashboard $dashboard, DashboardAgent $dashboardAgent, DashboardHoliday $dashboardHoliday, DashboardAmount $dashboardAmount, DashboardService $dashboardService, Service $service, DashboardCategories $dashboardCategories, Carbon $carbon, DashboardClass $dashboardClass)
+    public function accessYear($year, Dashboard $dashboard, DashboardAgent $dashboardAgent, DashboardHoliday $dashboardHoliday, DashboardAmount $dashboardAmount, DashboardService $dashboardService, Service $service, DashboardCategories $dashboardCategories, Carbon $carbon, TempsClass $temps, DashboardClass $dashboardClass)
     {
         return view('dashboard.get-year')->with([
             "dashboard" => $dashboard,
@@ -147,6 +148,24 @@ class DashboardController extends Controller
             "dashboardClass" => $dashboardClass,
             "service" => $service,
             "carbon" => $carbon,
+            "temps" => $temps,
+            "year" => $year
+        ]);
+    }
+
+    public function accessYearPrint($year, Dashboard $dashboard, DashboardAgent $dashboardAgent, DashboardHoliday $dashboardHoliday, DashboardAmount $dashboardAmount, DashboardService $dashboardService, Service $service, DashboardCategories $dashboardCategories, Carbon $carbon, TempsClass $temps, DashboardClass $dashboardClass)
+    {
+        return view('dashboard.get-year-print')->with([
+            "dashboard" => $dashboard,
+            "dashboardAgent" => $dashboardAgent,
+            "dashboardHoliday" => $dashboardHoliday,
+            "dashboardAmount" => $dashboardAmount,
+            "dashboardService" => $dashboardService,
+            "dashboardCategories" => $dashboardCategories,
+            "dashboardClass" => $dashboardClass,
+            "service" => $service,
+            "carbon" => $carbon,
+            "temps" => $temps,
             "year" => $year
         ]);
     }
