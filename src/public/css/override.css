@@ -51,6 +51,11 @@ button.live {
     padding: 3px 7px 3px 7px;
 }
 
+button.live-small {
+    padding: 1px 3px 1px 3px;
+    font-size: 10px !important;
+}
+
 button.btn-tree {
     padding: 5px 10px 5px 10px;
     font-size: 13px;
@@ -987,6 +992,19 @@ nav.header .menu .modules .bottom {
     padding: 0;
 }
 
+.reunions .bottom .edit-participant .form-control {
+    border: 0;
+    box-shadow: none;
+    background: none;
+    border-radius: 0;
+
+    font-size: 16px;
+    color: rgba(200, 60, 10, 1.0);
+
+    margin: 0;
+    padding: 0;
+}
+
 .reunions .bottom .edit-observation .form-control {
     border: 0;
     box-shadow: none;
@@ -1055,7 +1073,7 @@ nav.header .menu .modules .bottom {
     padding: 10px 0 5px 0;
 }
 
-.reunions .bottom .block li {
+.reunions .bottom .block li.sujets {
     list-style: none;
     font-size: 16px;
 
@@ -1064,11 +1082,20 @@ nav.header .menu .modules .bottom {
     border-bottom: 1px solid rgba(0,0,0,0.0);
 }
 
-.reunions .bottom .block li:hover {
+.reunions .bottom .block li.sujets:hover {
     color: #B62700;
     border-color: #AB6300;
 
     cursor: pointer;
+}
+
+.reunions .bottom .block li.participants {
+    list-style: none;
+    font-size: 16px;
+
+    margin: 5px 0 5px 0;
+    padding: 5px 2px 5px 2px;
+    transition: .3s;
 }
 
 .reunions .bottom .block .details-collapse {

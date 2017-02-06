@@ -24,7 +24,7 @@
                                 <button class="btn btn-xs btn-success live" id="edit-reunion" data-toggle="modal" data-target="#edit-reunion-{{ $reunions->id }}"><span class="glyphicon glyphicon-edit"></span></button> <button class="btn btn-xs btn-danger live" id="delete-reunion" data-attribute="{{ $reunions->id }}"><span class="glyphicon glyphicon-remove"></span></button>
                             </div>
                             <div class="modal fade" id="edit-reunion-{{ $reunions->id }}" tabindex="-1" role="dialog" aria-labelledby="edit-reunion-{{ $reunions->id }}-Label">
-                                <div class="modal-dialog" role="document">
+                                <div class="modal-dialog modal-lg" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -46,7 +46,6 @@
                                                     <div class="col-md-4">
                                                         <input type="time" class="form-control" name="date_time" value="{{ $reunionClass->getDateTime($reunions->id) }}" />
                                                     </div>
-
                                                 </div>
                                                 <br /><br />
                                                 <div class="form-group">
@@ -65,10 +64,13 @@
                                                     <input type="submit" class="btn btn-success" value="Enregistrer" />
                                                 </div>
                                             </form>
-                                            <br /><br /><hr />
+                                            <br /><br />
+					    <hr />
+                                            <h4>Sujets abordés</h4>
+                                            <hr />
                                             @foreach($reunions->sujets as $sujets)
                                                 <div class="wrap-sujets">
-                                                    <div class="pull-left buttons"><button class="btn btn-xs btn-danger live" id="delete-sujet" data-attribute="{{ $sujets->id }}"><span class="glyphicon glyphicon-remove"></span></button> <button class="btn btn-xs btn-success live" id="edit-sujet" data-attribute="{{ $sujets->id }}"><span class="glyphicon glyphicon-edit"></span></button></div><li type="button" data-toggle="collapse" data-target="#collapseEdit{{ $sujets->id }}" aria-expanded="false" aria-controls="collapseEdit{{ $sujets->id }}">{{ $sujets->sujet }}</li>
+                                                    <div class="pull-left buttons"><button class="btn btn-xs btn-danger live" id="delete-sujet" data-attribute="{{ $sujets->id }}"><span class="glyphicon glyphicon-remove"></span></button> <button class="btn btn-xs btn-success live" id="edit-sujet" data-attribute="{{ $sujets->id }}"><span class="glyphicon glyphicon-edit"></span></button></div><li type="button" class="sujets" data-toggle="collapse" data-target="#collapseEdit{{ $sujets->id }}" aria-expanded="false" aria-controls="collapseEdit{{ $sujets->id }}">{{ $sujets->sujet }}</li>
                                                     <div class="collapse details-collapse-edit" id="collapseEdit{{ $sujets->id }}">
                                                         <div class="details">
                                                             <div class="title"><div class="pull-right"><button class="btn btn-xs btn-success live" id="edit-observation" data-attribute="{{ $sujets->id }}""><span class="glyphicon glyphicon-edit"></span></button></div><span class="glyphicon glyphicon-chevron-right"></span> Observations</div>
@@ -82,9 +84,74 @@
                                                     </div>
                                                 </div>
                                             @endforeach
+                                            <hr />
                                             <div class="text-center"><button class="btn btn-xs btn-warning btn-tree" id="add-sujet" data-attribute="{{ $reunions->id }}"><span class="glyphicon glyphicon-plus"></span></button></div>
-                                        </div>
+                                            <hr />
+                                            <h4>Liste des participants</h4>
+                                            <hr />
+                                            <span class="glyphicon glyphicon-chevron-right"></span> <b>Secrétaire(s)</b>
+                                            <hr />
+                                            <div class="wrap-secretaire">
+                                                @foreach($reunionParticipant->where([
+                                                    ['reunion_id', $reunions->id],
+                                                    ['type', 'secretaire']
+                                                    ])->get() as $participants)
+                                                    <div class="wrap-participants">
+                                                        <div class="wrap-participants"><div class="pull-left buttons"><button class="btn btn-xs btn-danger live" id="delete-participant" data-attribute="{{ $participants->id }}"><span class="glyphicon glyphicon-remove"></span></button></div><li class="participants">{{ $participants->nom }}</li></div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            <hr />
+                                            <span class="glyphicon glyphicon-chevron-right"></span> <b>Présent(s)</b>
+                                            <hr />
+                                            <div class="wrap-present">
+                                                @foreach($reunionParticipant->where([
+                                                    ['reunion_id', $reunions->id],
+                                                    ['type', 'present']
+                                                    ])->get() as $participants)
+                                                    <div class="wrap-participants">
+                                                        <div class="wrap-participants"><div class="pull-left buttons"><button class="btn btn-xs btn-danger live" id="delete-participant" data-attribute="{{ $participants->id }}"><span class="glyphicon glyphicon-remove"></span></button></div><li class="participants">{{ $participants->nom }}</li></div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            <hr />
+                                            <span class="glyphicon glyphicon-chevron-right"></span> <b>Absent(s) excusé(s)</b>
+                                            <hr />
+                                            <div class="wrap-absent">
+                                                @foreach($reunionParticipant->where([
+                                                    ['reunion_id', $reunions->id],
+                                                    ['type', 'absent']
+                                                    ])->get() as $participants)
+                                                    <div class="wrap-participants">
+                                                        <div class="wrap-participants"><div class="pull-left buttons"><button class="btn btn-xs btn-danger live" id="delete-participant" data-attribute="{{ $participants->id }}"><span class="glyphicon glyphicon-remove"></span></button></div><li class="participants">{{ $participants->nom }}</li></div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            <hr />
+                                            <form class="form" id="participant" data-attribute="{{ $reunions->id }}">
+                                                <input type="hidden" name="id" value="{{ $reunions->id }}" />
+                                                <table>
+                                                    <tr>
+                                                        <td class="col-md-4">
+                                                            <select name="type" class="form-control">
+                                                                <option value="null" disabled selected>Type</option>
+                                                                <option value="present">Présent</option>
+                                                                <option value="absent">Absent excusé</option>
+                                                                <option value="secretaire">Secrétaire</option>
+                                                            </select>
+                                                        </td>
 
+                                                        <td class="col-md-4">
+                                                            <input type="text" class="form-control" name="nom" placeholder="Nom du participant" />
+                                                        </td>
+
+                                                        <td class="col-md-2">
+                                                            <input type="submit" value="Ajouter" class="btn btn-xs btn-success live-small" />
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </form>
+                                        </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
                                         </div>

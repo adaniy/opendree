@@ -21,14 +21,15 @@ use App\Classes\TempsClass;
 class ReunionController extends Controller
 {
     private $nbParPage = 20;
-    
-    public function index(Reunion $reunion, ReunionClass $reunionClass)
+
+    public function index(Reunion $reunion, ReunionParticipant $reunionParticipant, ReunionClass $reunionClass)
     {
-    	return view("reunion.index")->with([
-    		'reunion' => $reunion->orderBy('id', 'desc')->paginate($this->nbParPage),
-    		'reunionClass' => $reunionClass,
-    		'carbon' => new Carbon()
-    	]);
+        return view("reunion.index")->with([
+            'reunion' => $reunion->orderBy('id', 'desc')->paginate($this->nbParPage),
+            'reunionParticipant' => $reunionParticipant,
+            'reunionClass' => $reunionClass,
+            'carbon' => new Carbon()
+        ]);
     }
 
     public function add(ReunionClass $reunionClass)
@@ -39,6 +40,11 @@ class ReunionController extends Controller
     public function addSujet($id, ReunionClass $reunionClass)
     {
         return $reunionClass->addSujet($id);
+    }
+
+    public function addParticipant(ReunionParticipantRequest $request, ReunionClass $reunionClass)
+    {
+        return $reunionClass->addParticipant($request);
     }
 
     public function editSujet(ReunionSujetRequest $request, ReunionClass $reunionClass)
@@ -56,6 +62,11 @@ class ReunionController extends Controller
         return $reunionClass->editAction($request);
     }
 
+    public function editParticipant(ReunionParticipantRequest $request, ReunionClass $reunionClass)
+    {
+        return $reunionClass->editParticipant($request);
+    }
+
     public function delete($id, ReunionClass $reunionClass)
     {
         return $reunionClass->delete($id);
@@ -64,5 +75,10 @@ class ReunionController extends Controller
     public function deleteSujet($id, ReunionClass $reunionClass)
     {
         return $reunionClass->deleteSujet($id);
+    }
+
+    public function deleteParticipant($id, ReunionClass $reunionClass)
+    {
+        return $reunionClass->deleteParticipant($id);
     }
 }

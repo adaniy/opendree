@@ -24,8 +24,9 @@ class ReunionParticipantRequest extends FormRequest
     public function rules()
     {
         return [
-            'nom' => 'required',
-            'type' => 'required|in:present,absent,secretaire',
+            'id' => 'required|numeric',
+            'nom' => 'required|min:1',
+            'type' => 'required|in:present,absent,secretaire'
         ];
     }
 }

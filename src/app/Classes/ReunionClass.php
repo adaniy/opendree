@@ -84,7 +84,47 @@ class ReunionClass extends TempsClass
             $this->reunionSujet->save();
 
             $resultat = [
-                "status" => "success"
+                "status" => "success",
+                "id" => $this->reunionSujet->id,
+                "sujet" => $default['sujet'],
+                "observation" => $default['observation'],
+                "action" => $default['action']
+            ];
+        } else {
+            $resultat = [
+                "status" => "error"
+            ];
+        }
+
+        return json_encode($resultat);
+    }
+
+    /**
+     * Ajoute un participant dans une réunion
+     * @param $request
+     * @return json.status = "success"
+     * @exception json.status = "error"
+     * @see Reunion(); ReunionParticipant; Request()
+     */
+    public function addParticipant($request)
+    {
+        $id = $request->get('id');
+        $type = $request->get('type');
+        $nom = $request->get('nom');
+
+        if($this->reunion->find($id)) {
+            $this->reunionParticipant->reunion_id = $id;
+            $this->reunionParticipant->type = $type;
+            $this->reunionParticipant->nom = $nom;
+
+            $this->reunionParticipant->save();
+
+            $resultat = [
+                "status" => "success",
+                "id" => $this->reunionParticipant->id,
+                "reunion_id" => $id,
+                "type" => $type,
+                "nom" => $nom
             ];
         } else {
             $resultat = [
@@ -226,6 +266,32 @@ class ReunionClass extends TempsClass
             $response = [
                 "status" => "success",
                 "message" => "Le sujet selectionné a bien été supprimée.",
+                "id" => $id,
+            ];
+        } else {
+            $response = [
+                "status" => "error"
+            ];
+        }
+
+        return json_encode($response);
+    }
+
+    /**
+     * Supprime le participant d'une réunion.
+     * @param $id
+     * @return json.status = "success"
+     * @exception json.status = "error"
+     * @see ReunionParticipant()
+     */
+    public function deleteParticipant($id)
+    {
+        if($this->reunionParticipant->find($id)) {
+            $this->reunionParticipant->find($id)->delete();
+
+            $response = [
+                "status" => "success",
+                "message" => "Le participant selectionné a bien été supprimée.",
                 "id" => $id,
             ];
         } else {

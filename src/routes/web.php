@@ -33,11 +33,14 @@ Route::get("reunion/add", "ReunionController@add");
 Route::get("reunion/add/sujet/{id}", "ReunionController@addSujet");
 Route::get("reunion/delete/{id}", "ReunionController@delete");
 Route::get("reunion/delete/sujet/{id}", "ReunionController@deleteSujet");
+Route::get("reunion/delete/participant/{id}", "ReunionController@deleteParticipant");
 
 /** Post */
+Route::post("reunion/add/participant", "ReunionController@addParticipant");
 Route::post("reunion/edit/sujet", "ReunionController@editSujet");
 Route::post("reunion/edit/observation", "ReunionController@editObservation");
 Route::post("reunion/edit/action", "ReunionController@editAction");
+Route::post("reunion/edit/participant", "ReunionController@editparticipant");
 /**
  * ----> Module Action <----
  * -------------------------
