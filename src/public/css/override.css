@@ -1,3 +1,8 @@
+/** Hacks for vue + blade */
+[v-cloak] {
+    display: none;
+}
+
 html {
     position: relative;
 

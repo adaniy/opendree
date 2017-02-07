@@ -122,6 +122,8 @@
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('js/bootbox.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap-notify.min.js') }}"></script>
+	<script src="{{ asset('js/vue.js') }}"></script>
+	<script src="{{ asset('js/moment-with-locales.min.js') }}"></script>
         <script src="{{ asset('js/repository.js') }}"></script>
 
         {{-- on ne permet le chargement des fonctions JS des statistiques uniquement dans la page concernée --}}
@@ -152,7 +154,7 @@
         @endif
 
         @if(Request::segment(1) == "reunion")
-            <script src="{{ asset("js/reunion/main.js") }}"></script>
+            <script src="{{ asset("js/reunion.js") }}"></script>
         @endif
     </body>
 </html>

@@ -1,7 +1,6 @@
 <?php
-/** Routes de développement */
 Route::get('/', function() {
-	return view('index');
+    return view('index');
 });
 
 Route::get("test", function() {
@@ -12,6 +11,15 @@ Route::get("login", function() {
     return view('login');
 });
 
+/**
+ * AJAX
+ * Model local scopes
+ */
+Route::get("reunion/get", function () {
+    return App\Reunion::all();
+});
+
+/** Routes de développement */
 Route::get("election","ElectionController@index");
 Route::get("election/printable","ElectionController@printable");
 Route::post("election","ElectionController@insert");
