@@ -24,9 +24,10 @@ class ReunionRequest extends FormRequest
     public function rules()
     {
         return [
-            'sujet' => 'required',
-            'date' => 'required|date_format:d/m/Y H:i:s',
-            'date_prochain' => 'date_format:d/m/Y H:i:s'
+            'id' => 'filled|numeric',
+            'sujet' => 'filled|min:1',
+            'date' => 'filled|date_format:d/m/Y H:i:s',
+            'date_prochain' => 'filled|date_format:d/m/Y H:i:s'
         ];
     }
 }

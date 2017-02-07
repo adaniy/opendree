@@ -15,9 +15,7 @@ Route::get("login", function() {
  * AJAX
  * Model local scopes
  */
-Route::get("reunion/get", function () {
-    return App\Reunion::all();
-});
+
 
 /** Routes de développement */
 Route::get("election","ElectionController@index");
@@ -37,6 +35,7 @@ Route::get("election/brut/supprimer/{id}","ElectionController@supprimer");
  */
 /** Get */
 Route::get("reunion", "ReunionController@index");
+Route::get("reunion/get", "ReunionController@get");
 Route::get("reunion/add", "ReunionController@add");
 Route::get("reunion/add/sujet/{id}", "ReunionController@addSujet");
 Route::get("reunion/delete/{id}", "ReunionController@delete");
@@ -45,6 +44,7 @@ Route::get("reunion/delete/participant/{id}", "ReunionController@deleteParticipa
 
 /** Post */
 Route::post("reunion/add/participant", "ReunionController@addParticipant");
+Route::post("reunion/edit", "ReunionController@edit");
 Route::post("reunion/edit/sujet", "ReunionController@editSujet");
 Route::post("reunion/edit/observation", "ReunionController@editObservation");
 Route::post("reunion/edit/action", "ReunionController@editAction");

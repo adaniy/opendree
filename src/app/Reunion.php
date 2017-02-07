@@ -8,17 +8,24 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Reunion extends Model
 {
     use SoftDeletes;
-    
-	protected $table = "reunion";
-	protected $fillable = ['sujet', 'date', 'date_prochain'];
 
-    public function participants() 
+    protected $table = "reunion";
+    protected $fillable = ['sujet', 'date', 'date_prochain'];
+
+    public function participants()
     {
-    	return $this->hasMany("App\ReunionParticipant");
+        return $this->hasMany("App\ReunionParticipant");
     }
 
-    public function sujets() 
+    public function sujets()
     {
-    	return $this->hasMany("App\ReunionSujet");
+        return $this->hasMany("App\ReunionSujet");
+    }
+
+    public function updateSujet($query, $sujet)
+    {
+        return $query->update([
+            "sujet" => $sujet
+        ]);
     }
 }

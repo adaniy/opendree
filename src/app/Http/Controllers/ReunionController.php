@@ -32,6 +32,11 @@ class ReunionController extends Controller
         ]);
     }
 
+    public function get()
+    {
+        return Reunion::all();
+    }
+
     public function add(ReunionClass $reunionClass)
     {
         return $reunionClass->add();
@@ -45,6 +50,26 @@ class ReunionController extends Controller
     public function addParticipant(ReunionParticipantRequest $request, ReunionClass $reunionClass)
     {
         return $reunionClass->addParticipant($request);
+    }
+
+    public function edit(ReunionRequest $request)
+    {
+        $id = $request->get('id');
+        $sujet = $request->get('sujet');
+        $reunion = Reunion::find($id);
+
+        if($reunion) {
+            $reunion->sujet = $sujet;
+            $reunion->save();
+
+            $response = [
+                "status" => "success"
+            ];
+        } else {
+            $response = [];
+        }
+
+        return json_encode($response);
     }
 
     public function editSujet(ReunionSujetRequest $request, ReunionClass $reunionClass)
@@ -67,9 +92,19 @@ class ReunionController extends Controller
         return $reunionClass->editParticipant($request);
     }
 
-    public function delete($id, ReunionClass $reunionClass)
+    public function delete($id)
     {
-        return $reunionClass->delete($id);
+        $reunion = Reunion::find($id);
+
+        if($reunion->delete()) {
+            $response = [
+                "status" => "success"
+            ];
+        } else {
+            $response = [];
+        }
+
+        return json_encode($response);
     }
 
     public function deleteSujet($id, ReunionClass $reunionClass)

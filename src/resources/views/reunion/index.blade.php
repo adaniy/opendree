@@ -28,16 +28,16 @@
                     <div>
                         <div v-for="reunion in reunions">
                             <div class="col-md-3">
-				<div class="col-md-12 block">
+                                <div class="col-md-12 block">
                                     <div class="head">
                                         <div class="pull-right">
-                                            <button class="btn btn-xs btn-success live" id="edit-reunion"><span class="glyphicon glyphicon-edit"></span></button> <button class="btn btn-xs btn-danger live" id="delete-reunion"><span class="glyphicon glyphicon-remove"></span></button>
+                                            <button class="btn btn-xs btn-success live" id="edit-reunion"><span class="glyphicon glyphicon-edit"></span></button> <button v-on:click="deleteReunion(reunion)" class="btn btn-xs btn-danger live" id="delete-reunion"><span class="glyphicon glyphicon-remove"></span></button>
                                         </div>
 
                                         <button class="btn btn-xs btn-warning live" type="button" data-toggle="tooltip" data-placement="bottom" title="Version imprimable"><span class="glyphicon glyphicon-print"></span></button>
                                     </div>
                                     <div class="body">
-                                        <div class="name">@{{ reunion.sujet }}</div>
+                                        <div class="name" v-on:click="editReunionSujet(reunion)">@{{ reunion.sujet }}</div>
                                         <div class="subjects">
                                             <div class="text-center">
                                                 <div class="date">@{{ reunion.date | moment }}</div>
