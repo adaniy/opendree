@@ -14,7 +14,7 @@ Vue.component('list', {
                 this.reunions = reunions;
             }.bind(this));
 
-            setTimeout(this.getReunions, 1000);
+            setTimeout(this.getReunions, 800);
         },
         deleteReunion: function(reunion) {
             var id = reunion.id;
@@ -56,8 +56,8 @@ Vue.component('list', {
 
             bootbox.prompt({
                 title: "Modification du sujet de la réunion #"+ id +".",
-		type: "text",
-		value: sujet,
+                type: "text",
+                value: sujet,
                 callback: function (event) {
                     if(event) {
                         $.ajax({

@@ -31,7 +31,7 @@
                                 <div class="col-md-12 block">
                                     <div class="head">
                                         <div class="pull-right">
-                                            <button class="btn btn-xs btn-success live" id="edit-reunion"><span class="glyphicon glyphicon-edit"></span></button> <button v-on:click="deleteReunion(reunion)" class="btn btn-xs btn-danger live" id="delete-reunion"><span class="glyphicon glyphicon-remove"></span></button>
+                                            <button v-on:click="deleteReunion(reunion)" class="btn btn-xs btn-danger live" id="delete-reunion"><span class="glyphicon glyphicon-remove"></span></button>
                                         </div>
 
                                         <button class="btn btn-xs btn-warning live" type="button" data-toggle="tooltip" data-placement="bottom" title="Version imprimable"><span class="glyphicon glyphicon-print"></span></button>
