@@ -18,7 +18,7 @@
                 <div class="top">
                     <div class="buttons pull-right"><button class="btn btn-xs btn-success btn-tree" id="add-reunion">Ajouter une réunion</button></div>
                     <div class="display pull-right"><button class="btn btn-xs btn-default live"><span class="glyphicon glyphicon-th-large"></span></button> <button class="btn btn-xs btn-default live"><span class="glyphicon glyphicon-th-list"></span></button></div>
-                    <div class="amount">29 Réunions</div>
+                    <div class="amount"><amount></amount></div>
                     <div class="search"><span class="glyphicon glyphicon-search"></span> Recherche</div>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                                             <div class="text-center">
                                                 <div class="date">@{{ reunion.date | moment }}</div>
                                             </div>
-
+                                            <subjects parent="1"></subjects>
                                             <li type="button" data-toggle="collapse" data-target="#collapseID" aria-expanded="false" aria-controls="collapseID">Sujet abordé</li>
                                             <div class="collapse details-collapse" id="collapseID">
                                                 <div class="details">

@@ -36,6 +36,7 @@ Route::get("election/brut/supprimer/{id}","ElectionController@supprimer");
 /** Get */
 Route::get("reunion", "ReunionController@index");
 Route::get("reunion/get", "ReunionController@get");
+Route::get("reunion/get/amount", "ReunionController@getAmount");
 Route::get("reunion/add", "ReunionController@add");
 Route::get("reunion/add/sujet/{id}", "ReunionController@addSujet");
 Route::get("reunion/delete/{id}", "ReunionController@delete");

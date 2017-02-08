@@ -37,6 +37,11 @@ class ReunionController extends Controller
         return Reunion::all();
     }
 
+    public function getAmount()
+    {
+        return Reunion::count();
+    }
+
     public function add(ReunionClass $reunionClass)
     {
         return $reunionClass->add();

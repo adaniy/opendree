@@ -1,3 +1,4 @@
+/** Component of the reunion listing */
 Vue.component('list', {
     template: '#reunion-template',
     data: function () {
@@ -95,7 +96,40 @@ Vue.component('list', {
     filters: {
         moment: function (date) {
             moment.locale('fr');
-            return moment(date).format('dddd Do MMMM YYYY à h:mm:ss a');
+            return moment(date).format('dddd Do MMMM YYYY à HH:mm:ss');
+        }
+    }
+});
+
+/** Component of the reunion's discussed subjects */
+Vue.component('subjects', {
+    props: ['parent'],
+    data: function() {
+	return {
+	    subjects: []
+	}
+    },
+    template: "<div><strong>{{ this.parent }}</strong></div>"
+});
+
+/** Component of the reunion amount */
+Vue.component('amount', {
+    data: function () {
+        return {
+            amount: 0
+        }
+    },
+    template: "<strong v-cloak>{{ this.amount }} réunion(s)</strong>",
+    created: function () {
+        this.getAmount();
+    },
+    methods: {
+        getAmount : function () {
+            $.getJSON("/reunion/get/amount", function (amount) {
+                this.amount = amount;
+            }.bind(this));
+
+            setTimeout(this.getAmount, 5000);
         }
     }
 });
