@@ -17,15 +17,10 @@ class Reunion extends Model
         return $this->hasMany("App\ReunionParticipant");
     }
 
-    public function sujets()
+    public function subjects()
     {
         return $this->hasMany("App\ReunionSujet");
     }
 
-    public function updateSujet($query, $sujet)
-    {
-        return $query->update([
-            "sujet" => $sujet
-        ]);
-    }
+
 }

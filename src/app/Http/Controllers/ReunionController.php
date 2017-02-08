@@ -37,6 +37,31 @@ class ReunionController extends Controller
         return Reunion::all();
     }
 
+    public function getSubjects($id)
+    {
+        return Reunion::find($id)->subjects;
+    }
+
+    public function addSubject($id)
+    {
+        $reunionSujet = new ReunionSujet;
+
+        $reunionSujet->reunion_id = $id;
+        $reunionSujet->sujet = "Nouveau sujet";
+        $reunionSujet->observation = "Observation";
+        $reunionSujet->action = "Action";
+
+        if($reunionSujet->save()) {
+            $response = [
+                "status" => "success"
+            ];
+        } else {
+            $response = [];
+        }
+
+        return json_encode($response);
+    }
+
     public function getAmount()
     {
         return Reunion::count();
@@ -77,19 +102,66 @@ class ReunionController extends Controller
         return json_encode($response);
     }
 
-    public function editSujet(ReunionSujetRequest $request, ReunionClass $reunionClass)
+    public function editSubject(ReunionSujetRequest $request)
     {
-        return $reunionClass->editSujet($request);
+        $id = $request->get('id');
+        $sujet = $request->get('sujet');
+        $reunionSujet = ReunionSujet::find($id);
+
+        if($reunionSujet) {
+            $reunionSujet->sujet = $sujet;
+            $reunionSujet->save();
+
+            $response = [
+                "status" => "success"
+            ];
+        } else {
+            $response = [];
+        }
+
+        return json_encode($response);
     }
 
-    public function editObservation(ReunionSujetRequest $request, ReunionClass $reunionClass)
+    public function editObservation(ReunionSujetRequest $request)
     {
-        return $reunionClass->editObservation($request);
+        $id = $request->get("id");
+        $observation = $request->get("observation");
+
+        $subject = ReunionSujet::find($id);
+
+        if($subject) {
+            $subject->observation = $observation;
+            $subject->save();
+
+            $response = [
+                "status" => "success"
+            ];
+        } else {
+            $response = [];
+        }
+
+        return json_encode($response);
     }
 
-    public function editAction(ReunionSujetRequest $request, ReunionClass $reunionClass)
+    public function editAction(ReunionSujetRequest $request)
     {
-        return $reunionClass->editAction($request);
+        $id = $request->get("id");
+        $action = $request->get("action");
+
+        $subject = ReunionSujet::find($id);
+
+        if($subject) {
+            $subject->action = $action;
+            $subject->save();
+
+            $response = [
+                "status" => "success"
+            ];
+        } else {
+            $response = [];
+        }
+
+        return json_encode($response);
     }
 
     public function editParticipant(ReunionParticipantRequest $request, ReunionClass $reunionClass)
@@ -112,9 +184,21 @@ class ReunionController extends Controller
         return json_encode($response);
     }
 
-    public function deleteSujet($id, ReunionClass $reunionClass)
+    public function deleteSubject($id)
     {
-        return $reunionClass->deleteSujet($id);
+        $subject = ReunionSujet::find($id);
+
+        if($subject) {
+            $subject->delete();
+
+            $response = [
+                "status" => "success"
+            ];
+        } else {
+            $response = [];
+        }
+
+        return json_encode($response);
     }
 
     public function deleteParticipant($id, ReunionClass $reunionClass)

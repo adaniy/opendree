@@ -3,6 +3,18 @@
     display: none;
 }
 
+/** Vue */
+.slide-fade-enter-active {
+    transition: all .3s ease;
+}
+.slide-fade-leave-active {
+    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to {
+    transform: translateX(10px);
+    opacity: 0;
+}
+
 html {
     position: relative;
 
@@ -54,6 +66,11 @@ button.close:focus {
 
 button.live {
     padding: 3px 7px 3px 7px;
+}
+
+button.live-medium {
+    padding: 0.5px 2px 0.5px 2px;
+    margin: 0;
 }
 
 button.live-small {
@@ -1064,7 +1081,7 @@ nav.header .menu .modules .bottom {
 }
 
 .reunions .bottom .block .body .name {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     color: rgba(80, 80, 80, 1.0);
 
@@ -1081,14 +1098,16 @@ nav.header .menu .modules .bottom {
     list-style: none;
     font-size: 16px;
 
-    padding: 5px 2px 5px 2px;
-    transition: .3s;
-    border-bottom: 1px solid rgba(0,0,0,0.0);
+    padding: 0;
+    margin: 0;
 }
 
-.reunions .bottom .block li.sujets:hover {
-    color: #B62700;
-    border-color: #AB6300;
+.editable {
+    transition: .3s;
+}
+
+.editable:hover {
+    color: #B62700 !important;
 
     cursor: pointer;
 }
