@@ -22,7 +22,6 @@ Route::get("election","ElectionController@index");
 Route::get("election/printable","ElectionController@printable");
 Route::post("election","ElectionController@insert");
 
-
 Route::get("election/brut","ElectionController@indexBrut");
 Route::post("election/brut","ElectionController@rechercheBrut");
 Route::get("election/brut/supprimer/{id}","ElectionController@supprimer");
@@ -36,6 +35,9 @@ Route::get("election/brut/supprimer/{id}","ElectionController@supprimer");
 /** Get */
 Route::get("reunion", "ReunionController@index");
 Route::get("reunion/get/page/{page?}", "ReunionController@get");
+Route::get("reunion/get/present/{id}", "ReunionController@getPresent");
+Route::get("reunion/get/absent/{id}", "ReunionController@getAbsent");
+Route::get("reunion/get/secretaire/{id}", "ReunionController@getSecretaire");
 Route::get("reunion/get/max-page", "ReunionController@getMaxPage");
 Route::get("reunion/nullify-date-prochain/{id}", "ReunionController@nullifyDateProchain");
 Route::get("reunion/get/subjects/{id}", "ReunionController@getSubjects");

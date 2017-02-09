@@ -13,7 +13,6 @@
         <div class="reunions">
             <div class="col-md-12">
                 <div class="top">
-
                     <div class="buttons pull-right"><button class="btn btn-xs btn-success btn-tree" v-on:click="addReunion()">Ajouter une réunion</button></div>
                     <div class="display pull-right"><div class="pagination-number text-muted"><i v-if="this.loading" class="fa fa-spinner fa-spin fa-6x fa-fw"></i> <button class="btn btn-xs btn-primary btn-page" v-if="this.page.actual - 2 >= 1" v-on:click="firstPage()"><span class="glyphicon glyphicon-step-backward"></span></button> <button class="btn btn-xs btn-primary btn-page" v-if="this.page.actual - 1 >= 1" v-on:click="previousPage()"><span class="glyphicon glyphicon-chevron-left"></span></button> <strong>@{{ this.page.actual }}</strong> sur @{{ this.page.max }} <button class="btn btn-xs btn-primary btn-page" v-if="this.page.actual + 1 <= this.page.max" v-on:click="nextPage()"><span class="glyphicon glyphicon-chevron-right"></span></button> <button class="btn btn-xs btn-primary btn-page" v-if="this.page.actual + 2 <= this.page.max" v-on:click="lastPage()"><span class="glyphicon glyphicon-step-forward"></span></button></div></div>
                     <div class="amount"><amount></amount></div>
@@ -52,9 +51,19 @@
                                             </div>
                                             <br />
                                             <hr />
-                                            <subjects v-bind:parent="reunion.id"></subjects>
-                                            <hr />
-                                            <div class="text-center"><button v-on:click="addSubject(reunion)" class="btn btn-xs btn-warning live"><span class="glyphicon glyphicon-plus-sign"></span></button></div>
+
+                                            <participants v-bind:parent="reunion.id"></participants>
+
+
+                                            <div class="col-md-12">
+                                                <hr />
+                                                <subjects v-bind:parent="reunion.id"></subjects>
+                                                <hr />
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="text-center"><button v-on:click="addSubject(reunion)" class="btn btn-xs btn-warning live"><span class="glyphicon glyphicon-plus-sign"></span></button></div>
+                                                <br />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -64,10 +73,66 @@
                 </div>
     </template>
 
+    <template id="participant-template">
+        <div>
+            <div class="col-md-6">
+                <div class="participant-title">Présent(s)</div>
+                <div v-if="presents.length == 0">
+                    <strong>Aucune donnée.</strong>
+                </div>
+                <div v-for="present in presents">
+                    <li class="participant"><span class="glyphicon glyphicon-remove editable"></span> Test</li>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="participant-title">Absent(s) excusé(s)</div>
+                <div v-if="absents.length == 0">
+                    <strong>Aucune donnée.</strong>
+                </div>
+                <div v-for="absent in absents">
+                    <li class="participant"><span class="glyphicon glyphicon-remove editable"></span> Test</li>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <br />
+                <div class="participant-title">Secrétaire(s)</div>
+                <div v-if="secretaires.length == 0">
+                    <strong>Aucune donnée.</strong>
+                </div>
+                <div v-for="secretaire in secretaires">
+                    <li class="participant"><span class="glyphicon glyphicon-remove editable"></span> Test</li>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <hr />
+                <form class="form">
+                    <div class="form-group col-md-7">
+                        <input type="text" class="form-control" name="nom" placeholder="Nom du participant" />
+                    </div>
+
+                    <div class="form-group col-md-5">
+                        <select name="type" class="form-control">
+                            <option>Présent</option>
+                            <option>Secrétaire</option>
+                            <option>Absent</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-12 text-right">
+                        <input type="submit" class="btn btn-xs btn-success" value="Insérer" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </template>
+
     <template id="subject-template">
         <div>
             <div v-if="subjects.length == 0">
-		<strong>Il n'y a aucun sujet débattu dans cette réunion, pour l'instant.</strong>
+                <strong>Il n'y a aucun sujet débattu dans cette réunion, pour l'instant.</strong>
             </div>
             <div v-for="subject in subjects">
                 <div class="pull-right">

@@ -1,5 +1,5 @@
 /** Constant variables */
-const rate = 500;
+const rate = 2000;
 
 /** Hack for textarea auto size */
 $(function () {
@@ -58,7 +58,7 @@ Vue.component('list', {
             setTimeout(this.getMaxPage, rate);
         },
         addReunion: function () {
-	    this.loading = true;
+            this.loading = true;
 
             $.ajax({
                 type: "GET",
@@ -91,7 +91,7 @@ Vue.component('list', {
 
                 callback: function(event) {
                     if(event) {
-			this.loading = true;
+                        this.loading = true;
 
                         $.ajax({
                             type: "GET",
@@ -129,7 +129,7 @@ Vue.component('list', {
                 value: sujet,
                 callback: function (event) {
                     if(event) {
-			this.loading = true;
+                        this.loading = true;
                         $.ajax({
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                             type: "POST",
@@ -170,7 +170,7 @@ Vue.component('list', {
 
             bootbox.confirm(form, function(result) {
                 if(result) {
-		    this.loading = true;
+                    this.loading = true;
                     var date = $(document).find('.edit-date').find('input[type="date"]').val();
                     var hour = $(document).find('.edit-date').find('input[type="time"]').val();
 
@@ -221,7 +221,7 @@ Vue.component('list', {
 
             bootbox.confirm(form, function(result) {
                 if(result) {
-		    this.loading = true;
+                    this.loading = true;
                     var date = $(document).find('.edit-date').find('input[type="date"]').val();
                     var hour = $(document).find('.edit-date').find('input[type="time"]').val();
 
@@ -268,7 +268,7 @@ Vue.component('list', {
             });
         },
         nullifyDateProchain: function(reunion) {
-	    this.loading = true;
+            this.loading = true;
             var id = reunion.id;
 
             $.ajax({
@@ -294,7 +294,7 @@ Vue.component('list', {
             });
         },
         addSubject: function(reunion) {
-	    this.loading = true;
+            this.loading = true;
             var id = reunion.id;
 
             $.ajax({
@@ -326,6 +326,35 @@ Vue.component('list', {
             moment.locale('fr');
             return moment(date).format('dddd Do MMMM YYYY à HH:mm');
         }
+    }
+});
+
+/** Component of the reunion's participants */
+Vue.component('participants', {
+    template: "#participant-template",
+    props: ['parent'],
+    data: function() {
+	return {
+	    presents: [],
+	    absents: [],
+	    secretaires: []
+	}
+    },
+    created: function() {
+	this.getPresents();
+	this.getAbsents();
+	this.getSecretaires();
+    },
+    methods: {
+	getPresents: function() {
+	    
+	},
+	getAbsents: function () {
+	    
+	},
+	getSecretaires: function () {
+	    
+	}
     }
 });
 

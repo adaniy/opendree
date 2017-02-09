@@ -77,6 +77,30 @@ class ReunionController extends Controller
         return Reunion::count();
     }
 
+    public function getPresent($id)
+    {
+        return ReunionParticipant::where([
+            ['reunion_id', $id],
+            ['type', 'present']
+        ])->get();
+    }
+
+    public function getAbsent($id)
+    {
+        return ReunionParticipant::where([
+            ['reunion_id', $id],
+            ['type', 'absent']
+        ])->get();
+    }
+
+    public function getSecretaire($id)
+    {
+        return ReunionParticipant::where([
+            ['reunion_id', $id],
+            ['type', 'secretaire']
+        ])->get();
+    }
+
     public function add()
     {
         $reunion = new Reunion;
