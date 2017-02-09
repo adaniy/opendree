@@ -8,6 +8,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/override.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
         <title>OpenDREE</title>
 
         @yield('meta')
@@ -117,13 +118,13 @@
                 @yield('content')
             </div>
         </div>
-	{{-- on charge jquery à l'aide de node.JS --}}
+        {{-- on charge jquery à l'aide de node.JS --}}
         <script src="{{ asset('js/jquery-1.11.3.min.js') }}" onload="$ = jQuery = module.exports;"></script>
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('js/bootbox.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap-notify.min.js') }}"></script>
-	<script src="{{ asset('js/vue.js') }}"></script>
-	<script src="{{ asset('js/moment-with-locales.min.js') }}"></script>
+        <script src="{{ asset('js/vue.js') }}"></script>
+        <script src="{{ asset('js/moment-with-locales.min.js') }}"></script>
         <script src="{{ asset('js/repository.js') }}"></script>
 
         {{-- on ne permet le chargement des fonctions JS des statistiques uniquement dans la page concernée --}}

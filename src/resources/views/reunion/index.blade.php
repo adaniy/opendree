@@ -11,13 +11,13 @@
 
     <template id="reunion-template">
         <div class="reunions">
-            <hr />
             <div class="col-md-12">
                 <div class="top">
+
                     <div class="buttons pull-right"><button class="btn btn-xs btn-success btn-tree" v-on:click="addReunion()">Ajouter une réunion</button></div>
-                    <div class="display pull-right"><button class="btn btn-xs btn-default live"><span class="glyphicon glyphicon-th-large"></span></button> <button class="btn btn-xs btn-default live"><span class="glyphicon glyphicon-th-list"></span></button></div>
+                    <div class="display pull-right"><div class="pagination-number text-muted"><i v-if="this.loading" class="fa fa-spinner fa-spin fa-6x fa-fw"></i> <button class="btn btn-xs btn-primary btn-page" v-if="this.page.actual - 2 >= 1" v-on:click="firstPage()"><span class="glyphicon glyphicon-step-backward"></span></button> <button class="btn btn-xs btn-primary btn-page" v-if="this.page.actual - 1 >= 1" v-on:click="previousPage()"><span class="glyphicon glyphicon-chevron-left"></span></button> <strong>@{{ this.page.actual }}</strong> sur @{{ this.page.max }} <button class="btn btn-xs btn-primary btn-page" v-if="this.page.actual + 1 <= this.page.max" v-on:click="nextPage()"><span class="glyphicon glyphicon-chevron-right"></span></button> <button class="btn btn-xs btn-primary btn-page" v-if="this.page.actual + 2 <= this.page.max" v-on:click="lastPage()"><span class="glyphicon glyphicon-step-forward"></span></button></div></div>
                     <div class="amount"><amount></amount></div>
-                    <div class="search"><span class="glyphicon glyphicon-search"></span> Recherche</div>
+                    <div class="search"><button class="btn btn-xs btn-primary btn-tree"><span class="glyphicon glyphicon-search"></span> recherche</button></div>
                 </div>
             </div>
 
@@ -25,7 +25,7 @@
                 <div class="bottom">
                     <div>
                         <div v-for="reunion in reunions">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="col-md-12 block">
                                     <div class="head">
                                         <div class="pull-right">
@@ -35,19 +35,19 @@
                                         <button class="btn btn-xs btn-warning live" type="button" data-toggle="tooltip" data-placement="bottom" title="Version imprimable"><span class="glyphicon glyphicon-print"></span></button>
                                     </div>
                                     <div class="body">
-                                        <div class="name editable" v-on:click="editReunion(reunion)">@{{ reunion.sujet }}</div>
+                                        <div class="name editable" v-on:click="editReunion(reunion)">#@{{ reunion.id }} - @{{ reunion.sujet }}</div>
                                         <div class="subjects">
                                             <div class="col-md-6">
                                                 <div class="text-left">
                                                     <div class="date">Date de la réunion</div>
-                                                    <div class="date editable">@{{ reunion.date | moment }}</div>
+                                                    <div class="date editable" v-on:click="editDateReunion(reunion)">@{{ reunion.date | moment }}</div>
                                                 </div>
                                             </div>
 
                                             <div class="col-md-6">
                                                 <div class="text-right">
                                                     <div class="date">Date de la prochaine réunion</div>
-                                                    <div class="date editable">Aucune</div>
+                                                    <div class="date"><span v-if="reunion.date_prochain"><span class="glyphicon glyphicon-remove editable" v-on:click="nullifyDateProchain(reunion)"></span> <span class="editable" v-on:click="editDateProchainReunion(reunion)">@{{ reunion.date_prochain | moment }}</span></span><span class="editable" v-on:click="editDateProchainReunion(reunion)" v-else>aucune</span></div>
                                                 </div>
                                             </div>
                                             <br />
@@ -66,6 +66,9 @@
 
     <template id="subject-template">
         <div>
+            <div v-if="subjects.length == 0">
+		<strong>Il n'y a aucun sujet débattu dans cette réunion, pour l'instant.</strong>
+            </div>
             <div v-for="subject in subjects">
                 <div class="pull-right">
                     <button class="btn btn-xs btn-default live-medium" type="button" data-toggle="collapse" v-bind:data-target="'#collapse'+subject.id" aria-expanded="false" v-bind:aria-controls="'collapse'+subject.id"><span class="glyphicon glyphicon-chevron-down"></span></button>

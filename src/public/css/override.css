@@ -64,12 +64,21 @@ button.close:focus {
     outline: none !important;
 }
 
+button.btn-page {
+    position: relative;
+    bottom: 2px;
+    padding: 2px 4px 2px 4px;
+    margin: 0;
+}
+
 button.live {
     padding: 3px 7px 3px 7px;
 }
 
 button.live-medium {
-    padding: 0.5px 2px 0.5px 2px;
+    position: relative;
+    bottom: 2px;
+    padding: 0.5px 4px 0.5px 4px;
     margin: 0;
 }
 
@@ -979,6 +988,12 @@ nav.header .menu .modules .bottom {
 .reunions .top .display {
     display: inline;
     padding: 0 10px 0 10px;
+}
+
+.reunions .top .pagination-number {
+    position: relative;
+    top: 7px;
+    font-size: 15px;
 }
 
 .reunions .top .buttons {

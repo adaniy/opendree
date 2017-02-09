@@ -17,7 +17,7 @@ class CreateReunionTable extends Migration
             $table->increments('id')->unsigned();
             $table->char("sujet");
             $table->dateTime("date");
-            $table->dateTime("date_prochain");
+            $table->dateTime("date_prochain")->nullable();
 
             $table->softDeletes();
             $table->timestamps();

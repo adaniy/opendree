@@ -26,8 +26,8 @@ class ReunionRequest extends FormRequest
         return [
             'id' => 'filled|numeric',
             'sujet' => 'filled|min:1',
-            'date' => 'filled|date_format:d/m/Y H:i:s',
-            'date_prochain' => 'filled|date_format:d/m/Y H:i:s'
+            'date' => 'filled|date_format:Y-m-d H:i:s',
+            'date_prochain' => 'filled|date_format:Y-m-d H:i:s'
         ];
     }
 }

@@ -20,7 +20,7 @@ use App\Classes\TempsClass;
 
 class ReunionController extends Controller
 {
-    private $nbParPage = 20;
+    private $nbParPage = 3;
 
     public function index(Reunion $reunion, ReunionParticipant $reunionParticipant, ReunionClass $reunionClass)
     {
@@ -32,9 +32,19 @@ class ReunionController extends Controller
         ]);
     }
 
-    public function get()
+    public function get($page)
     {
-        return Reunion::all();
+        $page--;
+        $skip = ($page * $this->nbParPage);
+
+        return Reunion::skip($skip)->take($this->nbParPage)->orderBy('id', 'DESC')->get();
+    }
+
+    public function getMaxPage()
+    {
+        $count = Reunion::count();
+
+        return ceil($count / $this->nbParPage) - 1;
     }
 
     public function getSubjects($id)
@@ -73,7 +83,7 @@ class ReunionController extends Controller
 
         $reunion->sujet = "Nouvelle réunion";
         $reunion->date = Carbon::now();
-        $reunion->date_prochain = null;
+        $reunion->date_prochain = "";
 
         if($reunion->save()) {
             $response = [
@@ -115,6 +125,48 @@ class ReunionController extends Controller
 
         return json_encode($response);
     }
+
+    public function editDate(ReunionRequest $request)
+    {
+        $id = $request->get('id');
+        $date = $request->get('date');
+        $reunion = Reunion::find($id);
+
+        if($reunion) {
+            $reunion->date = $date;
+            $reunion->save();
+
+            $response = [
+                "status" => "success"
+            ];
+        } else {
+            $response = [];
+        }
+
+        return json_encode($response);
+    }
+
+    public function editDateProchain(ReunionRequest $request)
+    {
+        $id = $request->get('id');
+        $date = $request->get('date_prochain');
+        $reunion = Reunion::find($id);
+
+        if($reunion) {
+            $reunion->date_prochain = $date;
+            $reunion->save();
+
+            $response = [
+                "status" => "success"
+            ];
+        } else {
+            $response = [];
+        }
+
+        return json_encode($response);
+    }
+
+
 
     public function editSubject(ReunionSujetRequest $request)
     {
@@ -181,6 +233,24 @@ class ReunionController extends Controller
     public function editParticipant(ReunionParticipantRequest $request, ReunionClass $reunionClass)
     {
         return $reunionClass->editParticipant($request);
+    }
+
+    public function nullifyDateProchain($id)
+    {
+        $reunion = Reunion::find($id);
+
+        if($reunion) {
+            $reunion->date_prochain = null;
+            $reunion->save();
+
+            $response = [
+                "status" => "success"
+            ];
+        } else {
+            $response = [];
+        }
+
+        return json_encode($response);
     }
 
     public function delete($id)

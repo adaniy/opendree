@@ -1,5 +1,5 @@
 /** Constant variables */
-const rate = 100000;
+const rate = 500;
 
 /** Hack for textarea auto size */
 $(function () {
@@ -13,32 +13,76 @@ Vue.component('list', {
     template: '#reunion-template',
     data: function () {
         return {
-            reunions: []
+            reunions: [],
+            page: {
+                actual: 1,
+                max: 1
+            },
+            loading: false
         }
     },
     created: function () {
         this.getReunions();
+        this.getMaxPage();
     },
     methods: {
         getReunions: function() {
-            $.getJSON("/reunion/get", function (reunions) {
+            $.getJSON("/reunion/get/page/" + this.page.actual, function (reunions) {
                 this.reunions = reunions;
+                this.loading = false;
             }.bind(this));
 
             setTimeout(this.getReunions, rate);
         },
-	addReunion: function () {
-	    $.ajax({
-		type: "GET",
-		url: "/reunion/add"
-	    }).done( function(msg) {
-		var response = $.parseJSON(msg);
+        nextPage: function () {
+            this.loading = true;
+            this.page.actual++;
+        },
+        previousPage: function () {
+            this.loading = true;
+            this.page.actual--;
+        },
+        lastPage: function () {
+            this.loading = true;
+            this.page.actual = this.page.max;
+        },
+        firstPage: function () {
+            this.loading = true;
+            this.page.actual = 1;
+        },
+        getMaxPage: function () {
+            $.getJSON("/reunion/get/max-page/", function (maxPage) {
+                this.page.max = maxPage;
+            }.bind(this));
 
-		if(response.status == "success") {
-		    console.log("added, now make a confirmation notify !");
-		}
-	    });
-	},
+            setTimeout(this.getMaxPage, rate);
+        },
+        addReunion: function () {
+	    this.loading = true;
+
+            $.ajax({
+                type: "GET",
+                url: "/reunion/add"
+            }).done( function(msg) {
+                var response = $.parseJSON(msg);
+
+                if(response.status == "success") {
+                    $.notify({
+                        title: '<strong>Requête executée avec succès.</strong><hr />',
+                        message: "Une réunion viens d'être créée. Vous pouvez librement la modifier."
+                    }, {
+                        type: "success"
+                    });
+                } else {
+                    $.notify({
+                        title: "<strong>La requête n'a pas pu être exécutée.</strong><hr />",
+                        message: "Une erreur est survenu lors de l'execution de la requête. Veuillez ré-essayer ultérieurement."
+                    }, {
+                        type: "danger"
+                    });
+                }
+            });
+        },
         deleteReunion: function(reunion) {
             var id = reunion.id;
 
@@ -47,6 +91,8 @@ Vue.component('list', {
 
                 callback: function(event) {
                     if(event) {
+			this.loading = true;
+
                         $.ajax({
                             type: "GET",
                             url: "/reunion/delete/" + id
@@ -83,6 +129,7 @@ Vue.component('list', {
                 value: sujet,
                 callback: function (event) {
                     if(event) {
+			this.loading = true;
                         $.ajax({
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                             type: "POST",
@@ -114,7 +161,140 @@ Vue.component('list', {
                 }
             });
         },
+        editDateReunion: function(reunion) {
+            var id = reunion.id;
+            var date = moment(reunion.date).format("YYYY-MM-DD");
+            var hour = moment(reunion.date).format("HH:mm");
+
+            var form = '<h4>Modification de la date de la réunion #'+ reunion.id +'</h4><hr /><form class="form edit-date"><div class="form-group col-md-7"><label for="date">Date :</label><br /><input type="date" class="form-control" value="'+ date +'" /></div><div class="form-group col-md-5"><label for="date">Heure :</label><br /><input type="time" class="form-control" value="'+ hour +'" /></div></form><br /><br /><br />';
+
+            bootbox.confirm(form, function(result) {
+                if(result) {
+		    this.loading = true;
+                    var date = $(document).find('.edit-date').find('input[type="date"]').val();
+                    var hour = $(document).find('.edit-date').find('input[type="time"]').val();
+
+                    /** Date finale a envoyer à la base de donnée, important d'ajouter manuellement les secondes à 0 pour éviter d'embrouiller l'utilisateur avec les secondes */
+                    var finalDate = date + ' ' + hour + ':00';
+
+                    $.ajax({
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        type: "POST",
+                        url: "/reunion/edit/date",
+                        data: {
+                            id: id,
+                            date: finalDate
+                        }
+                    }).done( function(msg) {
+                        var response = $.parseJSON(msg);
+
+                        if(response.status == "success") {
+                            $.notify({
+                                title: '<strong>Requête executée avec succès.</strong><hr />',
+                                message: 'La date de la réunion selectionnée a bien été modifiée.'
+                            }, {
+                                type: "success"
+                            });
+                        } else {
+                            $.notify({
+                                title: "<strong>La requête n'a pas pu être exécutée.</strong><hr />",
+                                message: "Une erreur est survenu lors de l'execution de la requête. Veuillez ré-essayer ultérieurement."
+                            }, {
+                                type: "danger"
+                            });
+                        }
+                    });
+                }
+            });
+        },
+        editDateProchainReunion: function(reunion) {
+            var id = reunion.id;
+            if(reunion.date_prochain) {
+                var date = moment(reunion.date_prochain).format("YYYY-MM-DD");
+                var hour = moment(reunion.date_prochain).format("HH:mm");
+            } else {
+                var date = "";
+                var hour = "";
+            }
+
+            var form = '<h4>Modification de la date de la prochaine réunion, de la réunion #'+ reunion.id +'</h4><hr /><form class="form edit-date"><div class="form-group col-md-7"><label for="date">Date :</label><br /><input type="date" class="form-control" value="'+ date +'" /></div><div class="form-group col-md-5"><label for="date">Heure :</label><br /><input type="time" class="form-control" value="'+ hour +'" /></div></form><br /><br /><br />';
+
+            bootbox.confirm(form, function(result) {
+                if(result) {
+		    this.loading = true;
+                    var date = $(document).find('.edit-date').find('input[type="date"]').val();
+                    var hour = $(document).find('.edit-date').find('input[type="time"]').val();
+
+                    /** Date finale a envoyer à la base de donnée, important d'ajouter manuellement les secondes à 0 pour éviter d'embrouiller l'utilisateur avec les secondes */
+                    var finalDate = date + ' ' + hour + ':00';
+
+                    if(finalDate >= reunion.date) {
+                        $.ajax({
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                            type: "POST",
+                            url: "/reunion/edit/dateprochain",
+                            data: {
+                                id: id,
+                                date_prochain: finalDate
+                            }
+                        }).done( function(msg) {
+                            var response = $.parseJSON(msg);
+
+                            if(response.status == "success") {
+                                $.notify({
+                                    title: '<strong>Requête executée avec succès.</strong><hr />',
+                                    message: 'La date de la prochaine réunion selectionnée a bien été modifiée.'
+                                }, {
+                                    type: "success"
+                                });
+                            } else {
+                                $.notify({
+                                    title: "<strong>La requête n'a pas pu être exécutée.</strong><hr />",
+                                    message: "Une erreur est survenu lors de l'execution de la requête. Veuillez ré-essayer ultérieurement."
+                                }, {
+                                    type: "danger"
+                                });
+                            }
+                        });
+                    } else {
+                        $.notify({
+                            title: "<strong>La requête n'a pas pu être exécutée.</strong><hr />",
+                            message: "La date de la prochaine réunion selectionnée ne peut pas être antérieure à la date de la réunion elle-même."
+                        }, {
+                            type: "danger"
+                        });
+                    }
+                }
+            });
+        },
+        nullifyDateProchain: function(reunion) {
+	    this.loading = true;
+            var id = reunion.id;
+
+            $.ajax({
+                type: "GET",
+                url: "reunion/nullify-date-prochain/" + id
+            }).done( function(msg) {
+                var response = $.parseJSON(msg);
+                if(response.status == "success") {
+                    $.notify({
+                        title: '<strong>Requête executée avec succès.</strong><hr />',
+                        message: 'La date de la prochaine réunion selectionnée a bien été supprimée.'
+                    }, {
+                        type: "success"
+                    });
+                } else {
+                    $.notify({
+                        title: "<strong>La requête n'a pas pu être exécutée.</strong><hr />",
+                        message: "Une erreur est survenu lors de l'execution de la requête. Veuillez ré-essayer ultérieurement."
+                    }, {
+                        type: "danger"
+                    });
+                }
+            });
+        },
         addSubject: function(reunion) {
+	    this.loading = true;
             var id = reunion.id;
 
             $.ajax({
@@ -144,7 +324,7 @@ Vue.component('list', {
     filters: {
         moment: function (date) {
             moment.locale('fr');
-            return moment(date).format('dddd Do MMMM YYYY à HH:mm:ss');
+            return moment(date).format('dddd Do MMMM YYYY à HH:mm');
         }
     }
 });

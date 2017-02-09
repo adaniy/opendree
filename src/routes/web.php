@@ -35,7 +35,9 @@ Route::get("election/brut/supprimer/{id}","ElectionController@supprimer");
  */
 /** Get */
 Route::get("reunion", "ReunionController@index");
-Route::get("reunion/get", "ReunionController@get");
+Route::get("reunion/get/page/{page?}", "ReunionController@get");
+Route::get("reunion/get/max-page", "ReunionController@getMaxPage");
+Route::get("reunion/nullify-date-prochain/{id}", "ReunionController@nullifyDateProchain");
 Route::get("reunion/get/subjects/{id}", "ReunionController@getSubjects");
 Route::get("reunion/get/amount", "ReunionController@getAmount");
 Route::get("reunion/add", "ReunionController@add");
@@ -47,6 +49,8 @@ Route::get("reunion/delete/participant/{id}", "ReunionController@deleteParticipa
 /** Post */
 Route::post("reunion/add/participant", "ReunionController@addParticipant");
 Route::post("reunion/edit", "ReunionController@edit");
+Route::post("reunion/edit/date", "ReunionController@editDate");
+Route::post("reunion/edit/dateprochain", "ReunionController@editDateProchain");
 Route::post("reunion/edit/subject", "ReunionController@editSubject");
 Route::post("reunion/edit/observation", "ReunionController@editObservation");
 Route::post("reunion/edit/action", "ReunionController@editAction");
