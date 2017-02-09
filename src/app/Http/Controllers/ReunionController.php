@@ -67,9 +67,23 @@ class ReunionController extends Controller
         return Reunion::count();
     }
 
-    public function add(ReunionClass $reunionClass)
+    public function add()
     {
-        return $reunionClass->add();
+        $reunion = new Reunion;
+
+        $reunion->sujet = "Nouvelle réunion";
+        $reunion->date = Carbon::now();
+        $reunion->date_prochain = null;
+
+        if($reunion->save()) {
+            $response = [
+                "status" => "success"
+            ];
+        } else {
+            $response = [];
+        }
+
+        return json_encode($response);
     }
 
     public function addSujet($id, ReunionClass $reunionClass)

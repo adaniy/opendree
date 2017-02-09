@@ -1,5 +1,3 @@
-
-
 @extends('template')
 
 @section('head')
@@ -16,7 +14,7 @@
             <hr />
             <div class="col-md-12">
                 <div class="top">
-                    <div class="buttons pull-right"><button class="btn btn-xs btn-success btn-tree" id="add-reunion">Ajouter une réunion</button></div>
+                    <div class="buttons pull-right"><button class="btn btn-xs btn-success btn-tree" v-on:click="addReunion()">Ajouter une réunion</button></div>
                     <div class="display pull-right"><button class="btn btn-xs btn-default live"><span class="glyphicon glyphicon-th-large"></span></button> <button class="btn btn-xs btn-default live"><span class="glyphicon glyphicon-th-list"></span></button></div>
                     <div class="amount"><amount></amount></div>
                     <div class="search"><span class="glyphicon glyphicon-search"></span> Recherche</div>

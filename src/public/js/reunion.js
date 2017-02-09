@@ -1,5 +1,5 @@
 /** Constant variables */
-const rate = 1000
+const rate = 100000;
 
 /** Hack for textarea auto size */
 $(function () {
@@ -27,6 +27,18 @@ Vue.component('list', {
 
             setTimeout(this.getReunions, rate);
         },
+	addReunion: function () {
+	    $.ajax({
+		type: "GET",
+		url: "/reunion/add"
+	    }).done( function(msg) {
+		var response = $.parseJSON(msg);
+
+		if(response.status == "success") {
+		    console.log("added, now make a confirmation notify !");
+		}
+	    });
+	},
         deleteReunion: function(reunion) {
             var id = reunion.id;
 
