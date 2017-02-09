@@ -81,12 +81,12 @@
                 <div class="collapse" v-bind:id="'collapse'+subject.id">
                     <div class="details">
                         <div class="title"><span class="glyphicon glyphicon-chevron-right"></span> Observations</div>
-                        <div class="content editable" v-on:click="editReunionObservation(subject)">@{{{ subject.observation | nl2br }}}</div>
+                        <div class="content editable" v-on:click="editReunionObservation(subject)" v-html="nl2br(escapeHtml(subject.observation))"></div>
                     </div>
 
                     <div class="details">
                         <div class="title"><span class="glyphicon glyphicon-chevron-right"></span> Actions à entreprendre</div>
-                        <div class="content editable" v-on:click="editReunionAction(subject)">@{{ subject.action }}</div>
+                        <div class="content editable" v-on:click="editReunionAction(subject)" v-html="nl2br(escapeHtml(subject.action))"></div>
                     </div>
                 </div>
             </div>

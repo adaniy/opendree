@@ -1,5 +1,12 @@
 /** Constant variables */
-const rate = 1000;
+const rate = 1000
+
+/** Hack for textarea auto size */
+$(function () {
+    $(document).on('ready change click keyup keydown paste cut', 'textarea', function () {
+        $(this).height(0).height(this.scrollHeight);
+    }).find('textarea').change();
+});
 
 /** Component of the reunion listing */
 Vue.component('list', {
@@ -193,10 +200,11 @@ Vue.component('subjects', {
         },
         editReunionObservation: function(subject) {
             var id = subject.id;
+            var sujet = subject.sujet;
             var observation = subject.observation;
 
             bootbox.prompt({
-                title: "Modification de l'observation du sujet débattu \""+ observation +"\"",
+                title: "Modification de l'observation du sujet débattu \""+ escapeHtml(sujet) +"\"",
                 inputType: "textarea",
                 value: observation,
                 callback: function (event) {
@@ -235,9 +243,10 @@ Vue.component('subjects', {
         editReunionAction: function(subject) {
             var id = subject.id;
             var action = subject.action;
+            var sujet = subject.sujet;
 
             bootbox.prompt({
-                title: "Modification de l'action du sujet débattu \""+ action +"\"",
+                title: "Modification de l'action du sujet débattu \""+ escapeHtml(sujet) +"\"",
                 inputType: "textarea",
                 value: action,
                 callback: function (event) {
@@ -278,7 +287,7 @@ Vue.component('subjects', {
             var sujet = subject.sujet;
 
             bootbox.confirm({
-                message: 'Voulez-vous vraiment supprimer le sujet débattu <strong>"'+ sujet +'"</strong> ?',
+                message: 'Voulez-vous vraiment supprimer le sujet débattu <strong>"'+ escapeHtml(sujet) +'"</strong> ?',
                 callback: function (event) {
                     if(event) {
                         $.ajax({
@@ -306,9 +315,7 @@ Vue.component('subjects', {
                     }
                 }
             });
-        }
-    },
-    filters: {
+        },
         nl2br: function (string) {
             return nl2br(string);
         },
