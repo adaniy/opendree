@@ -33,22 +33,21 @@ class ReunionController extends Controller
         ]);
     }
 
-    public function get($page)
+    public function get($page, $nom = "", $date = "")
     {
         $page--;
         $skip = ($page * $this->nbParPage);
 
-        return Reunion::skip($skip)->take($this->nbParPage)->orderBy('id', 'DESC')->get();
-    }
-
-    public function getSearch($page, $nom = "", $date = "")
-    {
-        $page--;
-        $skip = ($page * $this->nbParPage);
-
+        /*        if(!empty($nom) && !empty($date)) {
+        } elseif(!empty($nom)) {
+        } elseif(!empty($date)) {
+        } else {
+        }*/
         $response = [
             "status" => "success",
-            "reunions" => Reunion::where('sujet', 'like', '%'.$nom.'%')->skip($skip)->take($this->nbParPage)->orderBy('id', 'DESC')->get()
+            "reunions" => Reunion::where('sujet', 'like', "%$nom%")
+            ->where('date', 'like', "%$date%")
+            ->skip($skip)->take($this->nbParPage)->orderBy('id', 'DESC')->get()
         ];
 
         return json_encode($response);

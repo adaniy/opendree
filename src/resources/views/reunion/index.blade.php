@@ -17,16 +17,16 @@
                     <div class="display pull-right"><div class="pagination-number text-muted"><i v-if="this.loading" class="fa fa-spinner fa-spin fa-6x fa-fw"></i> <button class="btn btn-xs btn-primary btn-page" v-if="this.page.actual - 2 >= 1" v-on:click="firstPage()"><span class="glyphicon glyphicon-step-backward"></span></button> <button class="btn btn-xs btn-primary btn-page" v-if="this.page.actual - 1 >= 1" v-on:click="previousPage()"><span class="glyphicon glyphicon-chevron-left"></span></button> <strong>@{{ this.page.actual }}</strong> sur @{{ this.page.max }} <button class="btn btn-xs btn-primary btn-page" v-if="this.page.actual + 1 <= this.page.max" v-on:click="nextPage()"><span class="glyphicon glyphicon-chevron-right"></span></button> <button class="btn btn-xs btn-primary btn-page" v-if="this.page.actual + 2 <= this.page.max" v-on:click="lastPage()"><span class="glyphicon glyphicon-step-forward"></span></button></div></div>
                     <div class="amount"><amount></amount></div>
                     <div class="search">
-                        <button v-if="!search" class="btn btn-xs btn-primary btn-tree" v-on:click="search = !search"><span class="glyphicon glyphicon-search"></span> recherche</button>
-                        <button v-else class="btn btn-xs btn-warning btn-tree" v-on:click="search = !search"><span class="glyphicon glyphicon-search"></span> recherche</button>
+                        <button v-if="!search" class="btn btn-xs btn-primary btn-tree" @keydown="getReunions()" @click="search = !search"><span class="glyphicon glyphicon-search"></span> recherche</button>
+                        <button v-else class="btn btn-xs btn-warning btn-tree" @keydown="getReunions()" @click="search = !search"><span class="glyphicon glyphicon-search"></span> recherche</button>
                         <form class="form-search form-inline" v-if="search">
                             <div class="form-group">
-                                <input type="text" name="nom" class="form-control" placeholder="Nom de la réunion" v-model="regexp.nom" />
+                                <input type="text" name="nom" class="form-control" placeholder="Nom de la réunion" v-on:keydown="getReunions()" v-model="regexp.nom" />
                             </div>
 
                             <div class="form-group">
-                                <input type="text" name="nom" class="form-control" placeholder="Date de la réunion" v-model="regexp.date" />
-                                @{{ regexp.nom }}
+                                <input type="text" name="date" class="form-control" placeholder="Date de la réunion" v-on:keydown="getReunions()" v-model="regexp.date" />
+                                @{{ regexp.date }}
                             </div>
                         </form>
                     </div>
@@ -74,7 +74,7 @@
                                                 <hr />
                                             </div>
                                             <div class="col-md-12">
-                                                <div class="text-center"><button v-on:click="addSubject(reunion)" class="btn btn-xs btn-warning live"><span class="glyphicon glyphicon-plus-sign"></span></button></div>
+
                                                 <br />
                                             </div>
                                         </div>
@@ -170,6 +170,7 @@
                     </div>
                 </div>
             </div>
+            <div class="text-center"><button v-on:click="addSubject(subjects)" class="btn btn-xs btn-warning live"><span class="glyphicon glyphicon-plus-sign"></span></button></div>
         </div>
     </template>
 @endsection
