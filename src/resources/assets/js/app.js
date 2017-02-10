@@ -1,20 +1,28 @@
-
 /**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
+ * JavaScript controller of the whole application
+ * Also asynchronous routes using VueRouter
  */
+import Vue from 'vue/dist/vue.min.js';
+import VueRouter from 'vue-router/dist/vue-router.min.js';
+import Moment from 'moment';
+import 'bootstrap/dist/js/bootstrap.min.js';
 
-require('./bootstrap');
+Vue.use(VueRouter);
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+const reunion = require('./components/reunion.vue');
 
-Vue.component('example', require('./components/Example.vue'));
+const routes = [
+    /** Index */
+    { path: '/', component: reunion },
+];
+
+const router = new VueRouter({
+    routes
+});
 
 const app = new Vue({
-    el: '#app'
-});
+    components: {
+	
+    },
+    router
+}).$mount('#opendree');
