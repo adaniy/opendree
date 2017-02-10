@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ReunionRequest;
+use App\Http\Requests\ReunionSearchRequest;
 use App\Http\Requests\ReunionSujetRequest;
 use App\Http\Requests\ReunionParticipantRequest;
 use App\Http\Requests\ReunionRechercheRequest;
@@ -32,18 +33,25 @@ class ReunionController extends Controller
         ]);
     }
 
-    public function get($page, $regexpNom, $regexpDate)
+    public function get($page)
     {
         $page--;
         $skip = ($page * $this->nbParPage);
 
-        if($regexpNom OR $regexpDate) {
-            return Reunion::skip($skip)->take($this->nbParPage)->orderBy('id', 'DESC')->get();
-        } else {
-            return Reunion::skip($skip)->take($this->nbParPage)->where([
-                ['nom', 'LIKE', $regexpNom]
-            ])->orderBy('id', 'DESC')->get();
-        }
+        return Reunion::skip($skip)->take($this->nbParPage)->orderBy('id', 'DESC')->get();
+    }
+
+    public function getSearch($page, $nom = "", $date = "")
+    {
+        $page--;
+        $skip = ($page * $this->nbParPage);
+
+        $response = [
+            "status" => "success",
+            "reunions" => Reunion::where('sujet', 'like', '%'.$nom.'%')->skip($skip)->take($this->nbParPage)->orderBy('id', 'DESC')->get()
+        ];
+
+        return json_encode($response);
     }
 
     public function getMaxPage()

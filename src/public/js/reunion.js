@@ -1,4 +1,7 @@
-/** Constant variables */
+/** Constant variables
+ *
+ * Rate variable handles the rate speed of all asynchronous datas in this file
+ */
 const rate = 2000;
 
 /** Hack for textarea auto size */
@@ -33,18 +36,50 @@ Vue.component('list', {
     methods: {
         getReunions: function() {
             /** Si une recherche est entrée, on modifie la méthode d'obtention des données */
-            if(!this.search) {
-                $.getJSON("/reunion/get/" + this.page.actual + "/null/null/", function (reunions) {
-                    this.reunions = reunions;
-                    this.loading = false;
-                }.bind(this));
+            /*            if(!this.search) {
+                          $.getJSON("/reunion/get/page/" + this.page.actual, function (reunions) {
+                          this.reunions = reunions;
+                          this.loading = false;
+                          }.bind(this));
+                          } else {
+                          var nom = this.regexp.nom;
+                          var date = this.regexp.date;
+
+                          $.ajax({
+                          headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                          type: "POST",
+                          url: "/reunion/get/page/" + this.page.actual,
+                          data: {
+                          nom: nom,
+                          date: date
+                          }
+                          }).done( function(msg) {
+                          var response = $.parseJSON(msg);
+
+                          if(response.status == "success") {
+                          this.reunions = response.reunions;
+                          this.loading = false;
+                          }
+
+                          }.bind(this));
+                          }*/
+            if(this.regexp.nom != "") {
+                var url = "/reunion/get/page/" + this.page.actual + "/" + this.regexp.nom;
             } else {
-                $.getJSON("/reunion/get/" + this.page.actual + "/test/null/", function (reunions) {
-                    this.reunions = reunions;
-                    this.loading = false;
-                }.bind(this));
+                var url = "/reunion/get/page/" + this.page.actual;
             }
 
+            $.ajax({
+                type: "GET",
+                url: url
+            }).done( function(msg) {
+                var response = $.parseJSON(msg);
+
+                if(response.status == "success") {
+                    this.reunions = response.reunions;
+                    this.loading = false;
+                }
+            }.bind(this));
             setTimeout(this.getReunions, rate);
         },
         nextPage: function () {
