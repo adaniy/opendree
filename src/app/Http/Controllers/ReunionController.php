@@ -38,11 +38,6 @@ class ReunionController extends Controller
         $page--;
         $skip = ($page * $this->nbParPage);
 
-        /*        if(!empty($nom) && !empty($date)) {
-        } elseif(!empty($nom)) {
-        } elseif(!empty($date)) {
-        } else {
-        }*/
         $response = [
             "status" => "success",
             "reunions" => Reunion::where('sujet', 'like', "%$nom%")
