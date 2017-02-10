@@ -32,12 +32,18 @@ class ReunionController extends Controller
         ]);
     }
 
-    public function get($page)
+    public function get($page, $regexpNom, $regexpDate)
     {
         $page--;
         $skip = ($page * $this->nbParPage);
 
-        return Reunion::skip($skip)->take($this->nbParPage)->orderBy('id', 'DESC')->get();
+        if($regexpNom OR $regexpDate) {
+            return Reunion::skip($skip)->take($this->nbParPage)->orderBy('id', 'DESC')->get();
+        } else {
+            return Reunion::skip($skip)->take($this->nbParPage)->where([
+                ['nom', 'LIKE', $regexpNom]
+            ])->orderBy('id', 'DESC')->get();
+        }
     }
 
     public function getMaxPage()
@@ -125,9 +131,30 @@ class ReunionController extends Controller
         return $reunionClass->addSujet($id);
     }
 
-    public function addParticipant(ReunionParticipantRequest $request, ReunionClass $reunionClass)
+    public function addParticipant(ReunionParticipantRequest $request)
     {
-        return $reunionClass->addParticipant($request);
+        $id = $request->get('id');
+        $nom = $request->get('nom');
+        $type = $request->get('type');
+
+        $reunion = Reunion::find($id);
+        $reunionParticipant = new ReunionParticipant;
+
+        if($reunion) {
+            $reunionParticipant->reunion_id = $id;
+            $reunionParticipant->nom = $nom;
+            $reunionParticipant->type = $type;
+
+            $reunionParticipant->save();
+
+            $response = [
+                "status" => "success"
+            ];
+        } else {
+            $response = [];
+        }
+
+        return json_encode($response);
     }
 
     public function edit(ReunionRequest $request)
@@ -309,8 +336,20 @@ class ReunionController extends Controller
         return json_encode($response);
     }
 
-    public function deleteParticipant($id, ReunionClass $reunionClass)
+    public function deleteParticipant($id)
     {
-        return $reunionClass->deleteParticipant($id);
+        $participant = ReunionParticipant::find($id);
+
+        if($participant) {
+            $participant->delete();
+
+            $response = [
+                "status" => "success"
+            ];
+        } else {
+            $response = [];
+        }
+
+        return json_encode($response);
     }
 }

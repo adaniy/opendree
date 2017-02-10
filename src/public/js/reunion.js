@@ -18,6 +18,11 @@ Vue.component('list', {
                 actual: 1,
                 max: 1
             },
+            regexp: {
+                nom: "",
+                date: ""
+            },
+            search: false,
             loading: false
         }
     },
@@ -27,10 +32,18 @@ Vue.component('list', {
     },
     methods: {
         getReunions: function() {
-            $.getJSON("/reunion/get/page/" + this.page.actual, function (reunions) {
-                this.reunions = reunions;
-                this.loading = false;
-            }.bind(this));
+            /** Si une recherche est entrée, on modifie la méthode d'obtention des données */
+            if(!this.search) {
+                $.getJSON("/reunion/get/" + this.page.actual + "/null/null/", function (reunions) {
+                    this.reunions = reunions;
+                    this.loading = false;
+                }.bind(this));
+            } else {
+                $.getJSON("/reunion/get/" + this.page.actual + "/test/null/", function (reunions) {
+                    this.reunions = reunions;
+                    this.loading = false;
+                }.bind(this));
+            }
 
             setTimeout(this.getReunions, rate);
         },
@@ -51,9 +64,14 @@ Vue.component('list', {
             this.page.actual = 1;
         },
         getMaxPage: function () {
-            $.getJSON("/reunion/get/max-page/", function (maxPage) {
-                this.page.max = maxPage;
-            }.bind(this));
+            /** Si une recherche est entrée, on modifie la méthode de l'obtention du nombre de page maximum */
+            if(!this.search) {
+                $.getJSON("/reunion/get/max-page/", function (maxPage) {
+                    this.page.max = maxPage;
+                }.bind(this));
+            } else {
+
+            }
 
             setTimeout(this.getMaxPage, rate);
         },
@@ -68,14 +86,12 @@ Vue.component('list', {
 
                 if(response.status == "success") {
                     $.notify({
-                        title: '<strong>Requête executée avec succès.</strong><hr />',
                         message: "Une réunion viens d'être créée. Vous pouvez librement la modifier."
                     }, {
                         type: "success"
                     });
                 } else {
                     $.notify({
-                        title: "<strong>La requête n'a pas pu être exécutée.</strong><hr />",
                         message: "Une erreur est survenu lors de l'execution de la requête. Veuillez ré-essayer ultérieurement."
                     }, {
                         type: "danger"
@@ -101,14 +117,12 @@ Vue.component('list', {
 
                             if(response.status == "success") {
                                 $.notify({
-                                    title: '<strong>Requête executée avec succès.</strong><hr />',
                                     message: 'La réunion selectionnée a bien été supprimée de la base de donnée.'
                                 }, {
                                     type: "success"
                                 });
                             } else {
                                 $.notify({
-                                    title: "<strong>La requête n'a pas pu être exécutée.</strong><hr />",
                                     message: "Une erreur est survenu lors de l'execution de la requête. Veuillez ré-essayer ultérieurement."
                                 }, {
                                     type: "danger"
@@ -143,14 +157,12 @@ Vue.component('list', {
 
                             if(response.status == "success") {
                                 $.notify({
-                                    title: '<strong>Requête executée avec succès.</strong><hr />',
                                     message: 'La réunion selectionnée a bien été modifiée.'
                                 }, {
                                     type: "success"
                                 });
                             } else {
                                 $.notify({
-                                    title: "<strong>La requête n'a pas pu être exécutée.</strong><hr />",
                                     message: "Une erreur est survenu lors de l'execution de la requête. Veuillez ré-essayer ultérieurement."
                                 }, {
                                     type: "danger"
@@ -190,14 +202,12 @@ Vue.component('list', {
 
                         if(response.status == "success") {
                             $.notify({
-                                title: '<strong>Requête executée avec succès.</strong><hr />',
                                 message: 'La date de la réunion selectionnée a bien été modifiée.'
                             }, {
                                 type: "success"
                             });
                         } else {
                             $.notify({
-                                title: "<strong>La requête n'a pas pu être exécutée.</strong><hr />",
                                 message: "Une erreur est survenu lors de l'execution de la requête. Veuillez ré-essayer ultérieurement."
                             }, {
                                 type: "danger"
@@ -242,14 +252,12 @@ Vue.component('list', {
 
                             if(response.status == "success") {
                                 $.notify({
-                                    title: '<strong>Requête executée avec succès.</strong><hr />',
                                     message: 'La date de la prochaine réunion selectionnée a bien été modifiée.'
                                 }, {
                                     type: "success"
                                 });
                             } else {
                                 $.notify({
-                                    title: "<strong>La requête n'a pas pu être exécutée.</strong><hr />",
                                     message: "Une erreur est survenu lors de l'execution de la requête. Veuillez ré-essayer ultérieurement."
                                 }, {
                                     type: "danger"
@@ -258,7 +266,6 @@ Vue.component('list', {
                         });
                     } else {
                         $.notify({
-                            title: "<strong>La requête n'a pas pu être exécutée.</strong><hr />",
                             message: "La date de la prochaine réunion selectionnée ne peut pas être antérieure à la date de la réunion elle-même."
                         }, {
                             type: "danger"
@@ -278,14 +285,12 @@ Vue.component('list', {
                 var response = $.parseJSON(msg);
                 if(response.status == "success") {
                     $.notify({
-                        title: '<strong>Requête executée avec succès.</strong><hr />',
                         message: 'La date de la prochaine réunion selectionnée a bien été supprimée.'
                     }, {
                         type: "success"
                     });
                 } else {
                     $.notify({
-                        title: "<strong>La requête n'a pas pu être exécutée.</strong><hr />",
                         message: "Une erreur est survenu lors de l'execution de la requête. Veuillez ré-essayer ultérieurement."
                     }, {
                         type: "danger"
@@ -305,14 +310,12 @@ Vue.component('list', {
 
                 if(response.status == "success") {
                     $.notify({
-                        title: '<strong>Requête executée avec succès.</strong><hr />',
                         message: 'Un sujet débattu dans la réunion a bien été créé.'
                     }, {
                         type: "success"
                     });
                 } else {
                     $.notify({
-                        title: "<strong>La requête n'a pas pu être exécutée.</strong><hr />",
                         message: "Une erreur est survenu lors de l'execution de la requête. Veuillez ré-essayer ultérieurement."
                     }, {
                         type: "danger"
@@ -334,27 +337,100 @@ Vue.component('participants', {
     template: "#participant-template",
     props: ['parent'],
     data: function() {
-	return {
-	    presents: [],
-	    absents: [],
-	    secretaires: []
-	}
+        return {
+            presents: [],
+            absents: [],
+            secretaires: [],
+            nom: "",
+            type: ""
+        }
     },
     created: function() {
-	this.getPresents();
-	this.getAbsents();
-	this.getSecretaires();
+        this.getPresents();
+        this.getAbsents();
+        this.getSecretaires();
     },
     methods: {
-	getPresents: function() {
-	    
-	},
-	getAbsents: function () {
-	    
-	},
-	getSecretaires: function () {
-	    
-	}
+        getPresents: function() {
+            $.getJSON("/reunion/get/present/" + this.parent, function (participant) {
+                this.presents = participant;
+            }.bind(this));
+
+            setTimeout(this.getPresents, rate);
+        },
+        getAbsents: function () {
+            $.getJSON("/reunion/get/absent/" + this.parent, function (participant) {
+                this.absents = participant;
+            }.bind(this));
+
+            setTimeout(this.getAbsents, rate);
+        },
+        getSecretaires: function () {
+            $.getJSON("/reunion/get/secretaire/" + this.parent, function (participant) {
+                this.secretaires = participant;
+            }.bind(this));
+
+            setTimeout(this.getSecretaires, rate);
+        },
+        addParticipant: function (input) {
+            var id = input.target.id.value;
+            var nom = input.target.nom.value;
+            var type = input.target.type.value;
+
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                type: "POST",
+                url: "/reunion/add/participant",
+                data: {
+                    id: id,
+                    nom: nom,
+                    type: type
+                }
+            }).done( function(msg) {
+                var response = $.parseJSON(msg);
+
+                this.nom = "";
+                this.type = "";
+
+                if(response.status == "success") {
+                    $.notify({
+                        message: "Le participant entré a bien été inséré dans la base de donnée."
+                    }, {
+                        type: "success"
+                    });
+                } else {
+                    $.notify({
+                        message: "Une erreur est survenu lors de l'execution de la requête. Veuillez ré-essayer ultérieurement."
+                    }, {
+                        type: "danger"
+                    });
+                }
+            }.bind(this));
+        },
+        deleteParticipant: function(participant) {
+            var id = participant.id;
+
+            $.ajax({
+                type: "GET",
+                url: "/reunion/delete/participant/" + id
+            }).done( function(msg) {
+                var response = $.parseJSON(msg);
+
+                if(response.status == "success") {
+                    $.notify({
+                        message: "Le participant selectionné a bien été supprimé de la base de donnée."
+                    }, {
+                        type: "success"
+                    });
+                } else {
+                    $.notify({
+                        message: "Une erreur est survenu lors de l'execution de la requête. Veuillez ré-essayer ultérieurement."
+                    }, {
+                        type: "danger"
+                    });
+                }
+            });
+        }
     }
 });
 
@@ -401,14 +477,12 @@ Vue.component('subjects', {
 
                             if(response.status == "success") {
                                 $.notify({
-                                    title: '<strong>Requête executée avec succès.</strong><hr />',
                                     message: 'Le sujet débattu selectionné a bien été modifiée.'
                                 }, {
                                     type: "success"
                                 });
                             } else {
                                 $.notify({
-                                    title: "<strong>La requête n'a pas pu être exécutée.</strong><hr />",
                                     message: "Une erreur est survenu lors de l'execution de la requête. Veuillez ré-essayer ultérieurement."
                                 }, {
                                     type: "danger"
@@ -443,14 +517,12 @@ Vue.component('subjects', {
 
                             if(response.status == "success") {
                                 $.notify({
-                                    title: '<strong>Requête executée avec succès.</strong><hr />',
                                     message: "L'observation selectionné a bien été mise à jour."
                                 }, {
                                     type: "success"
                                 });
                             } else {
                                 $.notify({
-                                    title: "<strong>La requête n'a pas pu être exécutée.</strong><hr />",
                                     message: "Une erreur est survenu lors de l'execution de la requête. Veuillez ré-essayer ultérieurement."
                                 }, {
                                     type: "danger"
@@ -485,14 +557,12 @@ Vue.component('subjects', {
 
                             if(response.status == "success") {
                                 $.notify({
-                                    title: '<strong>Requête executée avec succès.</strong><hr />',
                                     message: "L'action selectionnée a bien été mise à jour."
                                 }, {
                                     type: "success"
                                 });
                             } else {
                                 $.notify({
-                                    title: "<strong>La requête n'a pas pu être exécutée.</strong><hr />",
                                     message: "Une erreur est survenu lors de l'execution de la requête. Veuillez ré-essayer ultérieurement."
                                 }, {
                                     type: "danger"
@@ -519,14 +589,12 @@ Vue.component('subjects', {
 
                             if(response.status == "success") {
                                 $.notify({
-                                    title: '<strong>Requête executée avec succès.</strong><hr />',
                                     message: 'Le sujet débattu selectionné a bien été supprimé.'
                                 }, {
                                     type: "success"
                                 });
                             } else {
                                 $.notify({
-                                    title: "<strong>La requête n'a pas pu être exécutée.</strong><hr />",
                                     message: "Une erreur est survenu lors de l'execution de la requête. Veuillez ré-essayer ultérieurement."
                                 }, {
                                     type: "danger"

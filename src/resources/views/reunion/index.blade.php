@@ -16,7 +16,20 @@
                     <div class="buttons pull-right"><button class="btn btn-xs btn-success btn-tree" v-on:click="addReunion()">Ajouter une réunion</button></div>
                     <div class="display pull-right"><div class="pagination-number text-muted"><i v-if="this.loading" class="fa fa-spinner fa-spin fa-6x fa-fw"></i> <button class="btn btn-xs btn-primary btn-page" v-if="this.page.actual - 2 >= 1" v-on:click="firstPage()"><span class="glyphicon glyphicon-step-backward"></span></button> <button class="btn btn-xs btn-primary btn-page" v-if="this.page.actual - 1 >= 1" v-on:click="previousPage()"><span class="glyphicon glyphicon-chevron-left"></span></button> <strong>@{{ this.page.actual }}</strong> sur @{{ this.page.max }} <button class="btn btn-xs btn-primary btn-page" v-if="this.page.actual + 1 <= this.page.max" v-on:click="nextPage()"><span class="glyphicon glyphicon-chevron-right"></span></button> <button class="btn btn-xs btn-primary btn-page" v-if="this.page.actual + 2 <= this.page.max" v-on:click="lastPage()"><span class="glyphicon glyphicon-step-forward"></span></button></div></div>
                     <div class="amount"><amount></amount></div>
-                    <div class="search"><button class="btn btn-xs btn-primary btn-tree"><span class="glyphicon glyphicon-search"></span> recherche</button></div>
+                    <div class="search">
+                        <button v-if="!search" class="btn btn-xs btn-primary btn-tree" v-on:click="search = !search"><span class="glyphicon glyphicon-search"></span> recherche</button>
+                        <button v-else class="btn btn-xs btn-warning btn-tree" v-on:click="search = !search"><span class="glyphicon glyphicon-search"></span> recherche</button>
+                        <form class="form-search form-inline" v-if="search">
+                            <div class="form-group">
+                                <input type="text" name="nom" class="form-control" placeholder="Nom de la réunion" v-model="regexp.nom" />
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" name="nom" class="form-control" placeholder="Date de la réunion" v-model="regexp.date" />
+                                @{{ regexp.nom }}
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
 
@@ -81,7 +94,7 @@
                     <strong>Aucune donnée.</strong>
                 </div>
                 <div v-for="present in presents">
-                    <li class="participant"><span class="glyphicon glyphicon-remove editable"></span> Test</li>
+                    <li class="participant"><span class="glyphicon glyphicon-remove editable" v-on:click="deleteParticipant(present)"></span> @{{ present.nom }}</li>
                 </div>
             </div>
 
@@ -91,7 +104,7 @@
                     <strong>Aucune donnée.</strong>
                 </div>
                 <div v-for="absent in absents">
-                    <li class="participant"><span class="glyphicon glyphicon-remove editable"></span> Test</li>
+                    <li class="participant"><span class="glyphicon glyphicon-remove editable" v-on:click="deleteParticipant(absent)"></span> @{{ absent.nom }}</li>
                 </div>
             </div>
 
@@ -102,22 +115,23 @@
                     <strong>Aucune donnée.</strong>
                 </div>
                 <div v-for="secretaire in secretaires">
-                    <li class="participant"><span class="glyphicon glyphicon-remove editable"></span> Test</li>
+                    <li class="participant"><span class="glyphicon glyphicon-remove editable" v-on:click="deleteParticipant(secretaire)"></span> @{{ secretaire.nom }}</li>
                 </div>
             </div>
 
             <div class="col-md-12">
                 <hr />
-                <form class="form">
+                <form class="form" v-on:submit.prevent="addParticipant">
+                    <input type="hidden" name="id" v-bind:value="parent" />
                     <div class="form-group col-md-7">
-                        <input type="text" class="form-control" name="nom" placeholder="Nom du participant" />
+                        <input type="text" class="form-control" v-model="nom" name="nom" placeholder="Nom du participant" />
                     </div>
 
                     <div class="form-group col-md-5">
-                        <select name="type" class="form-control">
-                            <option>Présent</option>
-                            <option>Secrétaire</option>
-                            <option>Absent</option>
+                        <select name="type" class="form-control" v-model="type">
+                            <option value="present">Présent</option>
+                            <option value="absent">Absent</option>
+                            <option value="secretaire">Secrétaire</option>
                         </select>
                     </div>
 
