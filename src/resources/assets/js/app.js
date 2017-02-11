@@ -4,16 +4,19 @@
  */
 import Vue from 'vue/dist/vue.min.js';
 import VueRouter from 'vue-router/dist/vue-router.min.js';
+import VTooltip from 'v-tooltip';
 import Moment from 'moment';
-import 'bootstrap/dist/js/bootstrap.min.js';
+import Axios from 'axios';
 
 Vue.use(VueRouter);
 
-const reunion = require('./components/reunion.vue');
+
+/** OpenDREE's modules */
+import reunion from './components/reunion.vue';
 
 const routes = [
     /** Index */
-    { path: '/', component: reunion },
+    { path: '/reunion', component: reunion },
 ];
 
 const router = new VueRouter({
@@ -21,8 +24,11 @@ const router = new VueRouter({
 });
 
 const app = new Vue({
+    data: {
+
+    },
     components: {
-	
+
     },
     router
 }).$mount('#opendree');

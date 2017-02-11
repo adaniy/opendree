@@ -23,19 +23,6 @@ class moduleDashboard
      */
     public function handle($request, Closure $next)
     {
-        $dashboard = new Dashboard;
-        $temps = new TempsClass;
-        $year = $request->year;
-        $month = $request->month;
-
-        if($dashboard->whereYear('date', $year)->count() > 0) {
-            if($dashboard->whereMonth('date', $month)->count() > 0) {
-                return $next($request);
-            } else {
-                return redirect('dashboard');
-            }
-        } else {
-            return redirect('dashboard');
-        }
+        return $next($request);
     }
 }

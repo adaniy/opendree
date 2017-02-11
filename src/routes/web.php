@@ -1,4 +1,4 @@
 <?php
 Route::get('/', function() {
-    return view('maineuhh');
+    return view('main');
 });

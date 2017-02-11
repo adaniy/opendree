@@ -41,7 +41,7 @@ function createWindow () {
     })
 
     //win.setMenu(null) <- A DE-COMMENTER EN PRODUCTION
-    win.loadURL('http://127.0.0.1:8042/dashboard')
+    win.loadURL('http://127.0.0.1:8042')
 
     win.once('ready-to-show', () => {
         win.show()

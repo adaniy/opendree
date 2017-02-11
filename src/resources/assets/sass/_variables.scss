@@ -1,38 +1,57 @@
+/**
+ * SASS Variables
+ * Repository of the whole variables used in the api
+ * Only non-constant values are stored in variables
+ */
 
-// Body
-$body-bg: #f5f8fa;
-
-// Borders
-$laravel-border-color: darken($body-bg, 10%);
-$list-group-border: $laravel-border-color;
-$navbar-default-border: $laravel-border-color;
-$panel-default-border: $laravel-border-color;
-$panel-inner-border: $laravel-border-color;
-
-// Brands
-$brand-primary: #3097D1;
-$brand-info: #8eb4cb;
-$brand-success: #2ab27b;
-$brand-warning: #cbb956;
-$brand-danger: #bf5329;
-
-// Typography
+/** Api global variables */
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
-$font-family-sans-serif: "Raleway", sans-serif;
-$font-size-base: 14px;
-$line-height-base: 1.6;
-$text-color: #636b6f;
+$body-font-family: "Raleway", sans-serif;
+$body-font-size: 14px;
+$separation: " - ";
 
-// Navbar
-$navbar-default-bg: #fff;
+$box-shadow: 1px 1px 2px grey;
 
-// Buttons
-$btn-default-color: $text-color;
+/** Fonts sizes */
+$big-font-size: 28px;
+$medium-font-size: 24px;
+$small-font-size: 18px;
+$normal-font-size: $body-font-size;
 
-// Inputs
-$input-border: lighten($text-color, 40%);
-$input-border-focus: lighten($brand-primary, 25%);
-$input-color-placeholder: lighten($text-color, 30%);
+/** Fonts colors */
+$neutral-dark: #1E2932;
 
-// Panels
-$panel-default-heading-bg: #fff;
+/** Hovers */
+$hover-color: #FFB555;
+
+/** Modals */
+$modal-wrap: rgba(0, 0, 0, 0.8);
+
+/** Blocks */
+$block-background: rgba(250, 250, 250, 0.9);
+$block-box-shadow: 1px 1px 2px rgba(200, 200, 200, 0.9);
+$block-border-radius: 5px;
+
+/** Lines */
+$line-color: rgba(100, 100, 100, 0.2);
+
+/** Buttons */
+$button-border-radius: 2px;
+$button-box-shadow: 0 0 1px grey;
+$button-lg: 10px 20px 10px 20px;
+$button-md: 6px 10px 6px 10px;
+$button-sm: 4px 8px 4px 8px;
+$button-xs: 1px 4px 1px 4px;
+
+/** Forms */
+$form-search-background: none;
+$form-search-border-radius: 0;
+
+/** Navigation header */
+$header-background: #494949;
+$header-text-color: white;
+
+$header-menu-text-color: white;
+
+/** Module reunion */
+$reunion-block-header-background: #F5F3E4;

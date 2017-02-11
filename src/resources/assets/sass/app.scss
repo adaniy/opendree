@@ -1,9 +1,316 @@
+/**
+ * SASS file
+ * Repository of the whole css rules for the api
+ */
 
-// Fonts
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+/** Loading font-awesome */
+$fa-font-path: "~font-awesome/fonts";
+@import "~font-awesome/scss/font-awesome";
 
-// Variables
+/** Loading variables */
 @import "variables";
 
-// Bootstrap
+/** Loading bootstrap */
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+/** Global */
+body {
+    font-family: $body-font-family;
+    font-size: $body-font-size;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+/** Buttons */
+.btn {
+    text-transform: uppercase;
+    font-weight: bold !important;
+
+    border-radius: $button-border-radius;
+    box-shadow: $button-box-shadow;
+
+    transition: 0.3s;
+}
+
+.btn-lg {
+    padding: $button-lg;
+}
+
+.btn-md {
+    padding: $button-md;
+}
+
+.btn-sm {
+    padding: $button-sm;
+}
+
+.btn-xs {
+    padding: $button-xs;
+}
+
+/** Search forms */
+.form-search {
+    .form-control {
+        background: $form-search-background;
+        transition: .3s;
+        border-radius: $form-search-border-radius;
+        border: 0;
+        border-bottom: 1px solid $line-color;
+        box-shadow: none;
+
+
+        &:focus {
+            border-color: $hover-color;
+        }
+    }
+}
+
+/** Navigation header */
+nav.header {
+    background: $header-background;
+    color: $header-text-color;
+    box-shadow: $box-shadow;
+
+    width: 100%;
+    text-align: right;
+    padding: 10px 20px 10px 20px;
+
+    .title {
+        float: left;
+        font-weight: bold;
+        font-size: $big-font-size;
+        text-transform: uppercase;
+
+        .name {
+            display: inline;
+        }
+
+        .separation {
+            display: inline;
+        }
+
+        .module {
+            &:before {
+                content: $separation;
+            }
+            display: inline;
+        }
+    }
+
+    .menu {
+        float: right;
+
+        .router-link-active {
+            color: $hover-color;
+        }
+
+        a {
+            &:hover {
+                color: $hover-color;
+            }
+
+            color: $header-menu-text-color;
+        }
+
+        .modules {
+            display: inline-block;
+            margin: 0 0 0 20px;
+
+            transition: .3s;
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+
+            border-bottom: 1px solid rgba(0,0,0,0.0);
+
+            .top {
+                text-align: center;
+            }
+
+            .bottom {
+                text-align: center;
+            }
+        }
+    }
+}
+
+/** Modal */
+.modal-enter {
+    opacity: 0;
+}
+
+.modal-leave-active {
+    opacity: 0;
+}
+
+.modal-mask {
+    display: table;
+    z-index: 9998;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    height: 100%;
+    width: 100%;
+
+    transition: opacity 0.3s ease;
+    background: $modal-wrap;
+
+    .modal-wrap {
+        display: table-cell;
+        vertical-align: middle;
+
+        .modal-block {
+            padding: 20px;
+            margin: 0 auto;
+            width: 50%;
+
+            border-radius: $block-border-radius;
+            box-shadow: $block-box-shadow;
+            background: $block-background;
+
+            .modal-buttons {
+                float: right;
+                position: relative;
+
+                bottom: 15px;
+                left: 15px;
+            }
+
+            .modal-title {
+                float: left;
+                position: relative;
+
+                font-size: $medium-font-size;
+            }
+
+            .modal-container {
+                margin: 30px 0 0 0;
+                padding: 10px 0;
+                border-top: 1px solid $line-color;
+            }
+
+            .modal-validation {
+                position: relative;
+                top: 30px;
+
+                text-align: right;
+
+                margin: 10px 0 0 0;
+                padding: 20px 0;
+                border-top: 1px solid $line-color;
+            }
+        }
+    }
+}
+
+/** Tooltip */
+.tooltip {
+    display: none;
+    opacity: 0;
+    transition: opacity .15s;
+    pointer-events: none;
+    padding: 4px;
+    z-index: 10000;
+
+    .tooltip-content {
+        background: black;
+        color: white;
+        border-radius: 16px;
+        padding: 5px 10px 4px;
+    }
+
+    &.tooltip-open-transitionend {
+        display: block;
+    }
+
+    &.tooltip-after-open {
+        opacity: 1;
+    }
+}
+
+/** Module reunion */
+.module-reunion {
+
+    .header {
+        padding: 10px;
+        border-bottom: 1px solid $line-color;
+
+        .search {
+            color: $neutral-dark;
+            font-weight: bold;
+            font-size: $small-font-size;
+            text-transform: uppercase;
+
+            .search-result {
+                display: inline-block;
+                margin: 0 20px 0 0;
+            }
+
+            .search-form {
+                display: inline-block;
+            }
+        }
+
+        .options {
+            display: inline-block;
+
+            .pagination {
+                margin: 0;
+                padding: 5px;
+
+                .number {
+                    display: inline-block;
+                    color: $neutral-dark;
+                }
+            }
+        }
+    }
+
+    .container {
+        margin-top: 20px;
+
+        .block {
+            display: inline-block;
+            padding: 0;
+            background: $block-background;
+            box-shadow: $block-box-shadow;
+            border-radius: $block-border-radius;
+
+            .block-header {
+                color: $neutral-dark;
+                font-size: $small-font-size;
+                font-weight: bold;
+
+                border-top-left-radius: $block-border-radius;
+                border-top-right-radius: $block-border-radius;
+
+                background: $reunion-block-header-background;
+
+                padding: 5px;
+
+                border-bottom: 1px solid $line-color;
+            }
+
+            .block-container {
+
+            }
+
+            .block-footer {
+
+            }
+
+            .category-title {
+                font-size: $small-font-size;
+                font-weight: bold;
+
+                border-bottom: 1px solid $line-color;
+            }
+        }
+    }
+}

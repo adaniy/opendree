@@ -14,6 +14,7 @@
             <nav class="header col-md-12 col-xs-12">
                 <div class="title">
                     <div class="name">OpenDREE</div>
+                    <div class="module"></div>
                 </div>
 
                 <div class="menu">
@@ -72,9 +73,7 @@
 
             <div class="container-fluid">
                 <div class="row">
-                    <router-view>
-			<modal></modal>
-		    </router-view>
+                    <router-view></router-view>
                 </div>
             </div>
 
