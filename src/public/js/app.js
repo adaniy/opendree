@@ -17475,6 +17475,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_min_js___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router_dist_vue_router_min_js___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_min_js___default.a.use(__WEBPACK_IMPORTED_MODULE_4_axios___default.a);
 
 /** OpenDREE's modules */
 
@@ -18627,6 +18628,127 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modal_reunion_edit_subject_vue__ = __webpack_require__(145);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modal_reunion_edit_subject_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__modal_reunion_edit_subject_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(122);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -18681,18 +18803,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-/** Inserting modals components */
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = {
     data: function data() {
         return {
-            modalEditSubjectShow: false
+            modalEditSubjectShow: false,
+            deployParticipant: false,
+            deployDetails: false
         };
     },
 
     components: {
         modalEditSubject: __WEBPACK_IMPORTED_MODULE_0__modal_reunion_edit_subject_vue___default.a
+    },
+    created: function created() {
+        this.getReunions();
+    },
+    methods: {
+        getReunions: function getReunions() {
+            __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/axios/reunion/get/1').then(function (response) {
+                console.log(response);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
     }
 };
 
@@ -19491,11 +19627,147 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "module-reunion"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "col-md-12 container"
   }, [_c('div', {
+    staticClass: "col-md-4"
+  }, [_c('table', {
+    staticClass: "block col-md-12"
+  }, [_c('tbody', [_vm._m(1), _vm._v(" "), _c('tr', {
+    on: {
+      "click": function($event) {
+        _vm.deployParticipant = !_vm.deployParticipant
+      }
+    }
+  }, [_c('td', {
+    staticClass: "block-deployable"
+  }, [_c('div', {
+    staticClass: "category-title"
+  }, [_c('div', {
+    staticClass: "pull-right"
+  }, [(!_vm.deployParticipant) ? _c('div', [_c('span', {
+    staticClass: "glyphicon glyphicon-chevron-down"
+  })]) : _c('div', [_c('span', {
+    staticClass: "glyphicon glyphicon-chevron-up"
+  })])]), _vm._v("\n\n                  Liste des participants\n                ")])])]), _vm._v(" "), _c('transition', {
+    attrs: {
+      "name": "fade"
+    }
+  }, [(_vm.deployParticipant) ? _c('tr', [_c('td', {
+    staticClass: "block-deployed"
+  }, [_c('div', {
+    staticClass: "col-md-6"
+  }, [_c('div', {
+    staticClass: "category-participant"
+  }, [_vm._v("Présents")]), _vm._v(" "), _c('li', [_c('span', {
+    staticClass: "glyphicon glyphicon-remove editable"
+  }), _vm._v(" Lui ?!")]), _vm._v(" "), _c('li', [_c('span', {
+    staticClass: "glyphicon glyphicon-remove editable"
+  }), _vm._v(" Lui ?!")])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-6"
+  }, [_c('div', {
+    staticClass: "category-participant"
+  }, [_vm._v("Absents excusés")]), _vm._v(" "), _c('li', [_c('span', {
+    staticClass: "glyphicon glyphicon-remove editable"
+  }), _vm._v(" Lui ?!")]), _vm._v(" "), _c('li', [_c('span', {
+    staticClass: "glyphicon glyphicon-remove editable"
+  }), _vm._v(" Lui ?!")])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-12"
+  }, [_c('br'), _vm._v(" "), _c('div', {
+    staticClass: "category-participant"
+  }, [_vm._v("Secrétaires de séance")]), _vm._v(" "), _c('li', [_c('span', {
+    staticClass: "glyphicon glyphicon-remove editable"
+  }), _vm._v(" Lui ?!")]), _vm._v(" "), _c('li', [_c('span', {
+    staticClass: "glyphicon glyphicon-remove editable"
+  }), _vm._v(" Lui ?!")])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-12"
+  }, [_c('br'), _vm._v(" "), _c('div', {
+    staticClass: "category-participant"
+  }, [_vm._v("Ajouter un participant")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('form', {
+    staticClass: "form"
+  }, [_c('div', {
+    staticClass: "form-group col-md-6 nopadding"
+  }, [_c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "nom",
+      "placeholder": "Nom du participant"
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group col-md-4 nopadding"
+  }, [_c('select', {
+    staticClass: "form-control",
+    attrs: {
+      "name": "type"
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }, [_vm._v("Test")])])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group col-md-2 padding"
+  }, [_c('input', {
+    staticClass: "btn btn-md btn-success",
+    attrs: {
+      "type": "submit",
+      "value": "Insérer"
+    }
+  })])])])])]) : _vm._e()]), _vm._v(" "), _c('tr', {
+    on: {
+      "click": function($event) {
+        _vm.deployDetails = !_vm.deployDetails
+      }
+    }
+  }, [_c('td', {
+    staticClass: "block-deployable"
+  }, [_c('div', {
+    staticClass: "category-title"
+  }, [_c('div', {
+    staticClass: "pull-right"
+  }, [(!_vm.deployDetails) ? _c('div', [_c('span', {
+    staticClass: "glyphicon glyphicon-chevron-down"
+  })]) : _c('div', [_c('span', {
+    staticClass: "glyphicon glyphicon-chevron-up"
+  })])]), _vm._v("\n\n                  Sujet de la réunion\n                ")])])]), _vm._v(" "), _c('transition', {
+    attrs: {
+      "name": "fade"
+    }
+  }, [(_vm.deployDetails) ? _c('tr', [_c('td', {
+    staticClass: "block-deployed"
+  }, [_c('div', {
+    staticClass: "pull-right"
+  }, [_c('button', {
+    staticClass: "btn btn-xs btn-success"
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-edit"
+  })]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-xs btn-danger"
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-remove"
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "category"
+  }, [_c('div', {
+    staticClass: "category-title"
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-chevron-right"
+  }), _vm._v(" Observations")]), _vm._v(" "), _c('div', {
+    staticClass: "editable"
+  }, [_vm._v("Il faudrait faire ci et cela :)")])]), _vm._v(" "), _c('div', {
+    staticClass: "category"
+  }, [_c('br'), _vm._v(" "), _c('div', {
+    staticClass: "category-title"
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-chevron-right"
+  }), _vm._v(" Actions à entreprendre")]), _vm._v(" "), _c('div', {
+    staticClass: "editable"
+  }, [_vm._v("Il faudrait faire ci et cela :)")])])])]) : _vm._e()]), _vm._v(" "), _vm._m(2), _vm._v(" "), _vm._m(3)], 1)])]), _vm._v(" "), _c('div', {
+    staticClass: "clearfix visible-md visible-lg visible-sm"
+  })])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "col-md-12 header"
   }, [_c('div', {
     staticClass: "col-md-10 search"
@@ -19512,7 +19784,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "text",
       "name": "nom",
-      "placeholder": "Sujet à rechercher ..."
+      "placeholder": "Sujet à rechercher..."
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "form-group form-search"
@@ -19521,7 +19793,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "text",
       "name": "date",
-      "placeholder": "Date à rechercher ..."
+      "placeholder": "Date à rechercher..."
     }
   })])])])]), _vm._v(" "), _c('div', {
     staticClass: "col-md-2 options text-right"
@@ -19537,21 +19809,35 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "btn btn-xs btn-primary"
   }, [_c('span', {
     staticClass: "glyphicon glyphicon-chevron-right"
-  })])])])]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-12 container"
+  })])])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('td', {
+    staticClass: "block-date"
   }, [_c('div', {
-    staticClass: "col-md-4 block"
+    staticClass: "pull-right"
+  }, [_c('button', {
+    staticClass: "btn btn-xs btn-primary"
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-print"
+  })]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-xs btn-danger"
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-remove"
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "editable"
+  }, [_vm._v("lundi 15 février 2016 à 18h16")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('td', {
+    staticClass: "block-add"
   }, [_c('div', {
-    staticClass: "block-header"
-  }, [_vm._v("Réunion budgétaire importante /!\\")]), _vm._v(" "), _c('div', {
-    staticClass: "block-container"
-  }, [_c('div', {
-    staticClass: "category-title"
-  }, [_vm._v("Test titre")])]), _vm._v(" "), _c('div', {
-    staticClass: "block-footer"
-  }, [_c('div', {
-    staticClass: "category-title"
-  }, [_vm._v("Test titre")])])])])])
+    staticClass: "col-md-12 text-center"
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-plus"
+  })])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('td', {
+    staticClass: "block-prochain editable"
+  }, [_vm._v("Pas de réunion prochaine prévue")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

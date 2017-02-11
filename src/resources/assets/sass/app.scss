@@ -25,6 +25,27 @@ body {
     float: none;
 }
 
+.nopadding {
+    padding: 0 !important;
+}
+
+.editable {
+    &:hover {
+        cursor: pointer;
+        color: $hover-color;
+    }
+
+    transition: .3s;
+}
+
+/** Fade effect */
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+    opacity: 0
+}
+
 /** Buttons */
 .btn {
     text-transform: uppercase;
@@ -276,40 +297,83 @@ nav.header {
         margin-top: 20px;
 
         .block {
-            display: inline-block;
-            padding: 0;
             background: $block-background;
             box-shadow: $block-box-shadow;
             border-radius: $block-border-radius;
+            margin: 5px 0 5px 0;
 
-            .block-header {
+            .block-date {
+                vertical-align: middle;
+
                 color: $neutral-dark;
-                font-size: $small-font-size;
+                font-size: $normal-font-size;
                 font-weight: bold;
+                text-transform: uppercase;
 
                 border-top-left-radius: $block-border-radius;
                 border-top-right-radius: $block-border-radius;
+                border-bottom: 1px solid $line-color;
 
-                background: $reunion-block-header-background;
+                padding: 10px;
+            }
 
-                padding: 5px;
+            .block-deployable {
+                &:hover {
+                    cursor: pointer;
+                    background: $hover-deploy;
+                }
+
+                vertical-align: middle;
+                transition: .3s;
+                padding: 10px;
 
                 border-bottom: 1px solid $line-color;
             }
 
-            .block-container {
+            .block-deployed {
+		li {
+		    list-style: none;
+		}
 
+                vertical-align: middle;
+                transition: .3s;
+                padding: 10px;
+                background: $deployed;
+
+                border-bottom: 1px solid $line-color;
             }
 
-            .block-footer {
+            .block-add {
+                &:hover {
+                    cursor: pointer;
+                    background: $hover-deploy;
+                }
 
+		font-size: $normal-font-size;
+
+                vertical-align: middle;
+                transition: .3s;
+                padding: 10px;
+
+                border-bottom: 1px solid $line-color;
+            }
+
+            .block-prochain {
+                padding: 10px;
+
+                font-weight: bold;
             }
 
             .category-title {
-                font-size: $small-font-size;
+                font-size: $normal-font-size;
+                font-weight: bold;
+            }
+
+            .category-participant {
+                font-size: $normal-font-size;
                 font-weight: bold;
 
-                border-bottom: 1px solid $line-color;
+                border-bottom: 1px solid $line-color2;
             }
         }
     }

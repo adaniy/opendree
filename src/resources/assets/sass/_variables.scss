@@ -13,16 +13,22 @@ $separation: " - ";
 $box-shadow: 1px 1px 2px grey;
 
 /** Fonts sizes */
-$big-font-size: 28px;
-$medium-font-size: 24px;
+$big-font-size: 26px;
+$medium-font-size: 20px;
 $small-font-size: 18px;
+$tiny-font-size: 16px;
 $normal-font-size: $body-font-size;
 
 /** Fonts colors */
 $neutral-dark: #1E2932;
+$neutral-fade: #8B8B8B;
 
 /** Hovers */
 $hover-color: #FFB555;
+$hover-deploy: #FFDD92;
+
+/** Deployables */
+$deployed: #F7F7F7;
 
 /** Modals */
 $modal-wrap: rgba(0, 0, 0, 0.8);
@@ -33,7 +39,8 @@ $block-box-shadow: 1px 1px 2px rgba(200, 200, 200, 0.9);
 $block-border-radius: 5px;
 
 /** Lines */
-$line-color: rgba(100, 100, 100, 0.2);
+$line-color: rgba(150, 150, 150, 0.2);
+$line-color2: rgba(100, 100, 100, 0.6);
 
 /** Buttons */
 $button-border-radius: 2px;

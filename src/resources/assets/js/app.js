@@ -9,7 +9,7 @@ import Moment from 'moment';
 import Axios from 'axios';
 
 Vue.use(VueRouter);
-
+Vue.use(Axios);
 
 /** OpenDREE's modules */
 import reunion from './components/reunion.vue';
