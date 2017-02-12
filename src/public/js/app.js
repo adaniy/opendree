@@ -1884,7 +1884,7 @@ function loadLocale(name) {
             module && module.exports) {
         try {
             oldLocale = globalLocale._abbr;
-            __webpack_require__(121)("./" + name);
+            __webpack_require__(122)("./" + name);
             // because defineLocale currently also sets the global locale, we
             // want to undo that for lazy loaded locales
             getSetGlobalLocale(oldLocale);
@@ -4381,7 +4381,7 @@ return hooks;
 "use strict";
 
 
-var bind = __webpack_require__(115);
+var bind = __webpack_require__(116);
 
 /*global toString:true*/
 
@@ -4705,10 +4705,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(111);
+    adapter = __webpack_require__(112);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(111);
+    adapter = __webpack_require__(112);
   }
   return adapter;
 }
@@ -4779,7 +4779,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(116)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(117)))
 
 /***/ }),
 /* 3 */
@@ -15125,6 +15125,12 @@ return zhTw;
 /* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__(123);
+
+/***/ }),
+/* 112 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
@@ -15133,7 +15139,7 @@ var settle = __webpack_require__(129);
 var buildURL = __webpack_require__(132);
 var parseHeaders = __webpack_require__(138);
 var isURLSameOrigin = __webpack_require__(136);
-var createError = __webpack_require__(114);
+var createError = __webpack_require__(115);
 var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(131);
 
 module.exports = function xhrAdapter(config) {
@@ -15304,10 +15310,10 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(116)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(117)))
 
 /***/ }),
-/* 112 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15333,7 +15339,7 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 113 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15345,7 +15351,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 114 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15369,7 +15375,7 @@ module.exports = function createError(message, config, code, response) {
 
 
 /***/ }),
-/* 115 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15387,7 +15393,7 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 116 */
+/* 117 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -15573,7 +15579,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 117 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.4.0 */
@@ -17394,7 +17400,7 @@ return Tether;
 
 
 /***/ }),
-/* 118 */
+/* 119 */
 /***/ (function(module, exports) {
 
 module.exports = function normalizeComponent (
@@ -17447,7 +17453,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 119 */
+/* 120 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17460,10 +17466,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_v_tooltip___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_v_tooltip__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_axios__ = __webpack_require__(122);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_reunion_vue__ = __webpack_require__(146);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_reunion_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_reunion_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_reunion_vue__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_reunion_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_reunion_vue__);
 /**
  * JavaScript controller of the whole application
  * Also asynchronous routes using VueRouter
@@ -17473,16 +17477,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-
 __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_min_js___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router_dist_vue_router_min_js___default.a);
-__WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_min_js___default.a.use(__WEBPACK_IMPORTED_MODULE_4_axios___default.a);
 
 /** OpenDREE's modules */
 
 
 var routes = [
 /** Index */
-{ path: '/reunion', component: __WEBPACK_IMPORTED_MODULE_5__components_reunion_vue___default.a }];
+{ path: '/reunion', component: __WEBPACK_IMPORTED_MODULE_4__components_reunion_vue___default.a }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router_dist_vue_router_min_js___default.a({
     routes: routes
@@ -17495,13 +17497,13 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue_dist_vue_min_js___default.a({
 }).$mount('#opendree');
 
 /***/ }),
-/* 120 */
+/* 121 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 121 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -17736,14 +17738,8 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 121;
+webpackContext.id = 122;
 
-
-/***/ }),
-/* 122 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(123);
 
 /***/ }),
 /* 123 */
@@ -17753,7 +17749,7 @@ module.exports = __webpack_require__(123);
 
 
 var utils = __webpack_require__(1);
-var bind = __webpack_require__(115);
+var bind = __webpack_require__(116);
 var Axios = __webpack_require__(125);
 var defaults = __webpack_require__(2);
 
@@ -17788,9 +17784,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(112);
+axios.Cancel = __webpack_require__(113);
 axios.CancelToken = __webpack_require__(124);
-axios.isCancel = __webpack_require__(113);
+axios.isCancel = __webpack_require__(114);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -17811,7 +17807,7 @@ module.exports.default = axios;
 "use strict";
 
 
-var Cancel = __webpack_require__(112);
+var Cancel = __webpack_require__(113);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -18028,7 +18024,7 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(1);
 var transformData = __webpack_require__(130);
-var isCancel = __webpack_require__(113);
+var isCancel = __webpack_require__(114);
 var defaults = __webpack_require__(2);
 
 /**
@@ -18138,7 +18134,7 @@ module.exports = function enhanceError(error, config, code, response) {
 "use strict";
 
 
-var createError = __webpack_require__(114);
+var createError = __webpack_require__(115);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -18628,8 +18624,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modal_reunion_edit_subject_vue__ = __webpack_require__(145);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modal_reunion_edit_subject_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__modal_reunion_edit_subject_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(122);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(111);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
+//
+//
+//
 //
 //
 //
@@ -18811,7 +18810,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             modalEditSubjectShow: false,
             deployParticipant: false,
-            deployDetails: false
+            reunions: []
         };
     },
 
@@ -18824,8 +18823,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         getReunions: function getReunions() {
             __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/axios/reunion/get/1').then(function (response) {
-                console.log(response);
-            }).catch(function (error) {
+                this.reunions = response.data.reunions;
+                console.log(this.reunions);
+            }.bind(this)).catch(function (error) {
                 console.log(error);
             });
         }
@@ -18840,7 +18840,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 (function(root, factory) {
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(117)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(118)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -19409,7 +19409,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 (function(root, factory) {
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(142),__webpack_require__(117)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(142),__webpack_require__(118)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -19558,7 +19558,7 @@ module.exports=function(modules){function __webpack_require__(moduleId){if(insta
 /* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(118)(
+var Component = __webpack_require__(119)(
   /* script */
   __webpack_require__(140),
   /* template */
@@ -19592,7 +19592,7 @@ module.exports = Component.exports
 /* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(118)(
+var Component = __webpack_require__(119)(
   /* script */
   __webpack_require__(141),
   /* template */
@@ -19631,141 +19631,148 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "module-reunion"
   }, [_vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "col-md-12 container"
-  }, [_c('div', {
-    staticClass: "col-md-4"
-  }, [_c('table', {
-    staticClass: "block col-md-12"
-  }, [_c('tbody', [_vm._m(1), _vm._v(" "), _c('tr', {
-    on: {
-      "click": function($event) {
-        _vm.deployParticipant = !_vm.deployParticipant
+  }, _vm._l((_vm.reunions), function(reunion, key) {
+    return _c('div', {
+      staticClass: "col-md-4"
+    }, [_c('table', {
+      staticClass: "block col-md-12"
+    }, [_c('tbody', [_c('tr', [_c('td', {
+      staticClass: "block-date"
+    }, [_vm._m(1, true), _vm._v(" "), _c('div', {
+      staticClass: "editable"
+    }, [_vm._v("lundi 15 février 2016 à 18h16 - " + _vm._s(_vm.test + 2))])])]), _vm._v(" "), _c('tr', {
+      on: {
+        "click": function($event) {
+          _vm.deployParticipant = !_vm.deployParticipant
+        }
       }
-    }
-  }, [_c('td', {
-    staticClass: "block-deployable"
-  }, [_c('div', {
-    staticClass: "category-title"
-  }, [_c('div', {
-    staticClass: "pull-right"
-  }, [(!_vm.deployParticipant) ? _c('div', [_c('span', {
-    staticClass: "glyphicon glyphicon-chevron-down"
-  })]) : _c('div', [_c('span', {
-    staticClass: "glyphicon glyphicon-chevron-up"
-  })])]), _vm._v("\n\n                  Liste des participants\n                ")])])]), _vm._v(" "), _c('transition', {
-    attrs: {
-      "name": "fade"
-    }
-  }, [(_vm.deployParticipant) ? _c('tr', [_c('td', {
-    staticClass: "block-deployed"
-  }, [_c('div', {
-    staticClass: "col-md-6"
-  }, [_c('div', {
-    staticClass: "category-participant"
-  }, [_vm._v("Présents")]), _vm._v(" "), _c('li', [_c('span', {
-    staticClass: "glyphicon glyphicon-remove editable"
-  }), _vm._v(" Lui ?!")]), _vm._v(" "), _c('li', [_c('span', {
-    staticClass: "glyphicon glyphicon-remove editable"
-  }), _vm._v(" Lui ?!")])]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-6"
-  }, [_c('div', {
-    staticClass: "category-participant"
-  }, [_vm._v("Absents excusés")]), _vm._v(" "), _c('li', [_c('span', {
-    staticClass: "glyphicon glyphicon-remove editable"
-  }), _vm._v(" Lui ?!")]), _vm._v(" "), _c('li', [_c('span', {
-    staticClass: "glyphicon glyphicon-remove editable"
-  }), _vm._v(" Lui ?!")])]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-12"
-  }, [_c('br'), _vm._v(" "), _c('div', {
-    staticClass: "category-participant"
-  }, [_vm._v("Secrétaires de séance")]), _vm._v(" "), _c('li', [_c('span', {
-    staticClass: "glyphicon glyphicon-remove editable"
-  }), _vm._v(" Lui ?!")]), _vm._v(" "), _c('li', [_c('span', {
-    staticClass: "glyphicon glyphicon-remove editable"
-  }), _vm._v(" Lui ?!")])]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-12"
-  }, [_c('br'), _vm._v(" "), _c('div', {
-    staticClass: "category-participant"
-  }, [_vm._v("Ajouter un participant")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('form', {
-    staticClass: "form"
-  }, [_c('div', {
-    staticClass: "form-group col-md-6 nopadding"
-  }, [_c('input', {
-    staticClass: "form-control",
-    attrs: {
-      "type": "text",
-      "name": "nom",
-      "placeholder": "Nom du participant"
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "form-group col-md-4 nopadding"
-  }, [_c('select', {
-    staticClass: "form-control",
-    attrs: {
-      "name": "type"
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": ""
-    }
-  }, [_vm._v("Test")])])]), _vm._v(" "), _c('div', {
-    staticClass: "form-group col-md-2 padding"
-  }, [_c('input', {
-    staticClass: "btn btn-md btn-success",
-    attrs: {
-      "type": "submit",
-      "value": "Insérer"
-    }
-  })])])])])]) : _vm._e()]), _vm._v(" "), _c('tr', {
-    on: {
-      "click": function($event) {
-        _vm.deployDetails = !_vm.deployDetails
+    }, [_c('td', {
+      staticClass: "block-deployable"
+    }, [_c('div', {
+      staticClass: "category-title"
+    }, [_c('div', {
+      staticClass: "pull-right"
+    }, [(!_vm.deployParticipant) ? _c('div', [_c('span', {
+      staticClass: "glyphicon glyphicon-chevron-down"
+    })]) : _c('div', [_c('span', {
+      staticClass: "glyphicon glyphicon-chevron-up"
+    })])]), _vm._v("\n\n                                Liste des participants\n                            ")])])]), _vm._v(" "), _c('transition', {
+      attrs: {
+        "name": "fade"
       }
-    }
-  }, [_c('td', {
-    staticClass: "block-deployable"
-  }, [_c('div', {
-    staticClass: "category-title"
-  }, [_c('div', {
-    staticClass: "pull-right"
-  }, [(!_vm.deployDetails) ? _c('div', [_c('span', {
-    staticClass: "glyphicon glyphicon-chevron-down"
-  })]) : _c('div', [_c('span', {
-    staticClass: "glyphicon glyphicon-chevron-up"
-  })])]), _vm._v("\n\n                  Sujet de la réunion\n                ")])])]), _vm._v(" "), _c('transition', {
-    attrs: {
-      "name": "fade"
-    }
-  }, [(_vm.deployDetails) ? _c('tr', [_c('td', {
-    staticClass: "block-deployed"
-  }, [_c('div', {
-    staticClass: "pull-right"
-  }, [_c('button', {
-    staticClass: "btn btn-xs btn-success"
-  }, [_c('span', {
-    staticClass: "glyphicon glyphicon-edit"
-  })]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-xs btn-danger"
-  }, [_c('span', {
-    staticClass: "glyphicon glyphicon-remove"
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "category"
-  }, [_c('div', {
-    staticClass: "category-title"
-  }, [_c('span', {
-    staticClass: "glyphicon glyphicon-chevron-right"
-  }), _vm._v(" Observations")]), _vm._v(" "), _c('div', {
-    staticClass: "editable"
-  }, [_vm._v("Il faudrait faire ci et cela :)")])]), _vm._v(" "), _c('div', {
-    staticClass: "category"
-  }, [_c('br'), _vm._v(" "), _c('div', {
-    staticClass: "category-title"
-  }, [_c('span', {
-    staticClass: "glyphicon glyphicon-chevron-right"
-  }), _vm._v(" Actions à entreprendre")]), _vm._v(" "), _c('div', {
-    staticClass: "editable"
-  }, [_vm._v("Il faudrait faire ci et cela :)")])])])]) : _vm._e()]), _vm._v(" "), _vm._m(2), _vm._v(" "), _vm._m(3)], 1)])]), _vm._v(" "), _c('div', {
-    staticClass: "clearfix visible-md visible-lg visible-sm"
-  })])])
+    }, [(_vm.deployParticipant) ? _c('tr', [_c('td', {
+      staticClass: "block-deployed"
+    }, [_c('div', {
+      staticClass: "col-md-6"
+    }, [_c('div', {
+      staticClass: "category-participant"
+    }, [_vm._v("Présents")]), _vm._v(" "), _c('li', [_c('span', {
+      staticClass: "glyphicon glyphicon-remove editable"
+    }), _vm._v(" Lui ?!")]), _vm._v(" "), _c('li', [_c('span', {
+      staticClass: "glyphicon glyphicon-remove editable"
+    }), _vm._v(" Lui ?!")])]), _vm._v(" "), _c('div', {
+      staticClass: "col-md-6"
+    }, [_c('div', {
+      staticClass: "category-participant"
+    }, [_vm._v("Absents excusés")]), _vm._v(" "), _c('li', [_c('span', {
+      staticClass: "glyphicon glyphicon-remove editable"
+    }), _vm._v(" Lui ?!")]), _vm._v(" "), _c('li', [_c('span', {
+      staticClass: "glyphicon glyphicon-remove editable"
+    }), _vm._v(" Lui ?!")])]), _vm._v(" "), _c('div', {
+      staticClass: "col-md-12"
+    }, [_c('br'), _vm._v(" "), _c('div', {
+      staticClass: "category-participant"
+    }, [_vm._v("Secrétaires de séance")]), _vm._v(" "), _c('li', [_c('span', {
+      staticClass: "glyphicon glyphicon-remove editable"
+    }), _vm._v(" Lui ?!")]), _vm._v(" "), _c('li', [_c('span', {
+      staticClass: "glyphicon glyphicon-remove editable"
+    }), _vm._v(" Lui ?!")])]), _vm._v(" "), _c('div', {
+      staticClass: "col-md-12"
+    }, [_c('br'), _vm._v(" "), _c('div', {
+      staticClass: "category-participant"
+    }, [_vm._v("Ajouter un participant")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('form', {
+      staticClass: "form"
+    }, [_c('div', {
+      staticClass: "form-group col-md-6 nopadding"
+    }, [_c('input', {
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "name": "nom",
+        "placeholder": "Nom du participant"
+      }
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "form-group col-md-4 nopadding"
+    }, [_c('select', {
+      staticClass: "form-control",
+      attrs: {
+        "name": "type"
+      }
+    }, [_c('option', {
+      attrs: {
+        "value": ""
+      }
+    }, [_vm._v("Test")])])]), _vm._v(" "), _c('div', {
+      staticClass: "form-group col-md-2 padding"
+    }, [_c('input', {
+      staticClass: "btn btn-md btn-success",
+      attrs: {
+        "type": "submit",
+        "value": "Insérer"
+      }
+    })])])])])]) : _vm._e()]), _vm._v(" "), _c('tr', {
+      class: {
+        id: reunion.id, deployDetails: false
+      },
+      on: {
+        "click": function($event) {}
+      }
+    }, [_c('td', {
+      staticClass: "block-deployable"
+    }, [_c('div', {
+      staticClass: "category-title"
+    }, [_c('div', {
+      staticClass: "pull-right"
+    }, [(!_vm.deployDetails) ? _c('div', [_c('span', {
+      staticClass: "glyphicon glyphicon-chevron-down"
+    })]) : _c('div', [_c('span', {
+      staticClass: "glyphicon glyphicon-chevron-up"
+    })])]), _vm._v("\n\n                                Sujet de la réunion " + _vm._s(_vm.id) + "\n                            ")])])]), _vm._v(" "), _c('transition', {
+      attrs: {
+        "name": "fade"
+      }
+    }, [(_vm.deployDetails) ? _c('tr', [_c('td', {
+      staticClass: "block-deployed"
+    }, [_c('div', {
+      staticClass: "pull-right"
+    }, [_c('button', {
+      staticClass: "btn btn-xs btn-success"
+    }, [_c('span', {
+      staticClass: "glyphicon glyphicon-edit"
+    })]), _vm._v(" "), _c('button', {
+      staticClass: "btn btn-xs btn-danger"
+    }, [_c('span', {
+      staticClass: "glyphicon glyphicon-remove"
+    })])]), _vm._v(" "), _c('div', {
+      staticClass: "category"
+    }, [_c('div', {
+      staticClass: "category-title"
+    }, [_c('span', {
+      staticClass: "glyphicon glyphicon-chevron-right"
+    }), _vm._v(" Observations")]), _vm._v(" "), _c('div', {
+      staticClass: "editable"
+    }, [_vm._v("Il faudrait faire ci et cela :)")])]), _vm._v(" "), _c('div', {
+      staticClass: "category"
+    }, [_c('br'), _vm._v(" "), _c('div', {
+      staticClass: "category-title"
+    }, [_c('span', {
+      staticClass: "glyphicon glyphicon-chevron-right"
+    }), _vm._v(" Actions à entreprendre")]), _vm._v(" "), _c('div', {
+      staticClass: "editable"
+    }, [_vm._v("Il faudrait faire ci et cela :)")])])])]) : _vm._e()]), _vm._v(" "), _vm._m(2, true), _vm._v(" "), _vm._m(3, true)], 1)]), _vm._v(" "), (key % 2 == 0) ? _c('div', {
+      staticClass: "clearfix visible-md visible-lg visible-sm"
+    }) : _vm._e()])
+  }))])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "col-md-12 header"
@@ -19773,7 +19780,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-md-10 search"
   }, [_c('div', {
     staticClass: "search-result vcenter"
-  }, [_vm._v("\n          64 résultat(s)\n        ")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n                64 résultat(s)\n            ")]), _vm._v(" "), _c('div', {
     staticClass: "search-form"
   }, [_c('form', {
     staticClass: "form form-inline"
@@ -19811,9 +19818,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "glyphicon glyphicon-chevron-right"
   })])])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('td', {
-    staticClass: "block-date"
-  }, [_c('div', {
+  return _c('div', {
     staticClass: "pull-right"
   }, [_c('button', {
     staticClass: "btn btn-xs btn-primary"
@@ -19823,9 +19828,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "btn btn-xs btn-danger"
   }, [_c('span', {
     staticClass: "glyphicon glyphicon-remove"
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "editable"
-  }, [_vm._v("lundi 15 février 2016 à 18h16")])])])
+  })])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('td', {
     staticClass: "block-add"
@@ -19976,8 +19979,8 @@ module.exports = function(module) {
 /* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(119);
-module.exports = __webpack_require__(120);
+__webpack_require__(120);
+module.exports = __webpack_require__(121);
 
 
 /***/ })
