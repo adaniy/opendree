@@ -2,7 +2,7 @@
  *
  * Rate variable handles the rate speed of all asynchronous datas in this file
  */
-const rate = 30000;
+const rate = 4000;
 
 /** Hack for textarea auto size */
 $(function () {
@@ -26,12 +26,14 @@ Vue.component('list', {
                 date: ""
             },
             search: false,
-            loading: false
+            loading: false,
+            amount: 0
         }
     },
     created: function () {
         this.getReunions();
         this.getMaxPage();
+        this.getAmount();
     },
     methods: {
         getReunions: function() {
@@ -39,9 +41,9 @@ Vue.component('list', {
                 if(this.regexp.nom != "" && this.regexp.date != "") { /** If the name and date is completed */
                     var url = "/reunion/get/page/" + this.page.actual + "/search/" + this.regexp.nom + "/" + this.regexp.date;
                 } else if(this.regexp.nom != "" && this.regexp.date == "") { /** If the name alone is completed */
-                    var url = "/reunion/get/page/" + this.page.actual + "/search-nom/" + this.regexp.nom;
+                    var url = "/reunion/get/page/" + this.page.actual + "/search/" + this.regexp.nom + "/null";
                 } else if(this.regexp.date != "" && this.regexp.nom == "") { /** If the date alone is completed */
-                    var url = "/reunion/get/page/" + this.page.actual + "/search-date/" + this.regexp.date;
+                    var url = "/reunion/get/page/" + this.page.actual + "/search/null/" + this.regexp.date;
                 } else { /** If neither is completed */
                     var url = "/reunion/get/page/" + this.page.actual;
                 }
@@ -49,25 +51,74 @@ Vue.component('list', {
                 var url = "/reunion/get/page/" + this.page.actual;
             }
 
-            $.ajax({
-                type: "GET",
-                url: url
-            }).done( function(msg) {
-                var response = $.parseJSON(msg);
-
-                if(response.status == "success") {
-                    this.reunions = response.reunions;
+            axios.get(url)
+                .then( response => {
+                    this.reunions = response.data.reunions;
                     this.loading = false;
-                }
-            }.bind(this));
+                })
+                .catch( error => {
+                    console.log(error);
+                });
+
 
             setTimeout(this.getReunions, rate);
             setTimeout(this.getMaxPage, rate);
+            setTimeout(this.getAmount, rate);
+        },
+        getMaxPage: function () {
+            if(this.search) {
+                if(this.regexp.nom != "" && this.regexp.date != "") { /** If the name and date is completed */
+                    var url = "/reunion/get/max-page/" + this.regexp.nom + "/" + this.regexp.date;
+                } else if(this.regexp.nom != "" && this.regexp.date == "") { /** If the name alone is completed */
+                    var url = "/reunion/get/max-page/" + this.regexp.nom + "/null";
+                } else if(this.regexp.date != "" && this.regexp.nom == "") { /** If the date alone is completed */
+                    var url = "/reunion/get/max-page/null/" + this.regexp.date;
+                } else { /** If neither is completed */
+                    var url = "/reunion/get/max-page";
+                }
+            } else {
+                var url = "/reunion/get/max-page/";
+            }
+
+            axios.get(url)
+                .then( response => {
+                    this.page.max = response.data;
+                })
+                .catch( error => {
+                    console.log(error);
+                });
+        },
+        getAmount : function () {
+            if(this.search) {
+                if(this.regexp.nom != "" && this.regexp.date != "") { /** If the name and date is completed */
+                    var url = "/reunion/get/amount/" + this.regexp.nom + "/" + this.regexp.date;
+                } else if(this.regexp.nom != "" && this.regexp.date == "") { /** If the name alone is completed */
+                    var url = "/reunion/get/amount/" + this.regexp.nom + "/null";
+                } else if(this.regexp.date != "" && this.regexp.nom == "") { /** If the date alone is completed */
+                    var url = "/reunion/get/amount/null/" + this.regexp.date;
+                } else { /** If neither is completed */
+                    var url = "/reunion/get/amount";
+                }
+            } else {
+                var url = "/reunion/get/amount/";
+            }
+
+            axios.get(url)
+                .then( response => {
+                    this.amount = response.data;
+                })
+                .catch( error => {
+                    console.log(error);
+                });
+
+            this.getMaxPage();
         },
         nextPage: function () {
             this.loading = true;
             this.page.actual++;
             this.getReunions();
+
+            clearInterval();
         },
         previousPage: function () {
             this.loading = true;
@@ -83,16 +134,6 @@ Vue.component('list', {
             this.loading = true;
             this.page.actual = 1;
             this.getReunions();
-        },
-        getMaxPage: function () {
-            /** Si une recherche est entrée, on modifie la méthode de l'obtention du nombre de page maximum */
-            if(!this.search) {
-                $.getJSON("/reunion/get/max-page/", function (maxPage) {
-                    this.page.max = maxPage;
-                }.bind(this));
-            } else {
-
-            }
         },
         addReunion: function () {
             var component = this;
@@ -139,6 +180,7 @@ Vue.component('list', {
 
                             if(response.status == "success") {
                                 component.getReunions();
+                                component.getAmount();
                                 component.loading = true;
 
                                 $.notify({
@@ -375,19 +417,31 @@ Vue.component('participants', {
             setTimeout(this.getParticipants, rate);
         },
         getPresents: function() {
-            $.getJSON("/reunion/get/present/" + this.parent, function (participant) {
-                this.presents = participant;
-            }.bind(this));
+            axios.get("/reunion/get/present/" + this.parent)
+                .then( response => {
+                    this.presents = response.data;
+                })
+                .catch( error => {
+                    console.log(error);
+                });
         },
         getAbsents: function () {
-            $.getJSON("/reunion/get/absent/" + this.parent, function (participant) {
-                this.absents = participant;
-            }.bind(this));
+            axios.get("/reunion/get/absent/" + this.parent)
+                .then( response => {
+                    this.absents = response.data;
+                })
+                .catch( error => {
+                    console.log(error);
+                });
         },
         getSecretaires: function () {
-            $.getJSON("/reunion/get/secretaire/" + this.parent, function (participant) {
-                this.secretaires = participant;
-            }.bind(this));
+            axios.get("/reunion/get/secretaire/" + this.parent)
+                .then( response => {
+                    this.secretaires = response.data;
+                })
+                .catch( error => {
+                    console.log(error);
+                });
         },
         addParticipant: function (input) {
             var id = input.target.id.value;
@@ -475,9 +529,13 @@ Vue.component('subjects', {
     },
     methods: {
         getSubjects: function() {
-            $.getJSON("/reunion/get/subjects/" + this.parent, function (subject) {
-                this.subjects = subject;
-            }.bind(this));
+            axios.get("/reunion/get/subjects/" + this.parent)
+                .then( response => {
+                    this.subjects = response.data;
+                })
+                .catch( error => {
+                    console.log(error);
+                });
 
             setTimeout(this.getSubjects, rate);
         },
@@ -682,29 +740,6 @@ Vue.component('subjects', {
         },
         escapeHtml: function (string) {
             return escapeHtml(string);
-        }
-    }
-});
-
-/** Component of the reunion amount */
-Vue.component('amount', {
-    data: function () {
-        return {
-            amount: 0
-        }
-    },
-    template: "<strong v-cloak>{{ this.amount }} réunion(s)</strong>",
-    created: function () {
-        this.getAmount();
-    },
-    methods: {
-        getAmount : function () {
-            $.getJSON("/reunion/get/amount", function (amount) {
-                this.amount = amount;
-            }.bind(this));
-
-            /** Seul timeout qui ne réagi pas au reste, car il est important qu'il soit en permanence à jour, vu qu'il n'est pas lié aux autres component */
-            setTimeout(this.getAmount, 1000);
         }
     }
 });

@@ -119,6 +119,7 @@
             </div>
         </div>
         {{-- on charge jquery à l'aide de node.JS --}}
+	<script src="{{ asset('js/axios.min.js') }}"></script>
         <script src="{{ asset('js/jquery-1.11.3.min.js') }}" onload="$ = jQuery = module.exports;"></script>
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('js/bootbox.min.js') }}"></script>

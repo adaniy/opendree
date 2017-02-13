@@ -15,18 +15,20 @@
                 <div class="top">
                     <div class="buttons pull-right"><button class="btn btn-xs btn-success btn-tree" v-on:click="addReunion()">Ajouter une réunion</button></div>
                     <div class="display pull-right"><div class="pagination-number text-muted"><i v-if="this.loading" class="fa fa-spinner fa-spin fa-6x fa-fw"></i> <button class="btn btn-xs btn-primary btn-page" v-if="this.page.actual - 2 >= 1" v-on:click="firstPage()"><span class="glyphicon glyphicon-step-backward"></span></button> <button class="btn btn-xs btn-primary btn-page" v-if="this.page.actual - 1 >= 1" v-on:click="previousPage()"><span class="glyphicon glyphicon-chevron-left"></span></button> <strong>@{{ this.page.actual }}</strong> sur @{{ this.page.max }} <button class="btn btn-xs btn-primary btn-page" v-if="this.page.actual + 1 <= this.page.max" v-on:click="nextPage()"><span class="glyphicon glyphicon-chevron-right"></span></button> <button class="btn btn-xs btn-primary btn-page" v-if="this.page.actual + 2 <= this.page.max" v-on:click="lastPage()"><span class="glyphicon glyphicon-step-forward"></span></button></div></div>
-                    <div class="amount"><amount></amount></div>
+                    <div class="amount"><strong>@{{ this.amount }} résultat(s)</strong></div>
                     <div class="search">
-                        <button v-if="!search" class="btn btn-xs btn-primary btn-tree" v-on:click="getReunions()" @click="search = !search"><span class="glyphicon glyphicon-search"></span> recherche</button>
-                        <button v-else class="btn btn-xs btn-warning btn-tree" v-on:click="getReunions()" @click="search = !search"><span class="glyphicon glyphicon-search"></span> recherche</button>
-                        <form class="form-search form-inline" v-if="search">
+                        <button v-if="!search" class="btn btn-xs btn-primary btn-tree" v-on:click="search = !search" @click="getReunions()"><span class="glyphicon glyphicon-search"></span> recherche</button>
+                        <button v-else class="btn btn-xs btn-warning btn-tree" v-on:click="search = !search" @click="getReunions()"><span class="glyphicon glyphicon-search"></span> recherche</button>
+                        <form class="form-search form-inline" v-if="search" v-on:submit.prevent="getReunions()" @submit.prevent="getAmount()">
                             <div class="form-group">
-                                <input type="text" name="nom" class="form-control" placeholder="Nom de la réunion" v-on:keydown="getReunions()" v-model="regexp.nom" />
+                                <input type="text" name="nom" class="form-control" placeholder="Nom de la réunion" v-model="regexp.nom" />
                             </div>
 
                             <div class="form-group">
-                                <input type="text" name="date" class="form-control" placeholder="Date de la réunion" v-on:keydown="getReunions()" v-model="regexp.date" />
-                                @{{ regexp.date }}
+                                <input type="text" name="date" class="form-control" placeholder="Date de la réunion" v-model="regexp.date" />
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="valider" class="btn btn-xs btn-tree btn-success" />
                             </div>
                         </form>
                     </div>

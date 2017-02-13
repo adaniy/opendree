@@ -34,17 +34,15 @@ Route::get("election/brut/supprimer/{id}","ElectionController@supprimer");
  */
 /** Get */
 Route::get("reunion", "ReunionController@index");
-Route::get("reunion/get/page/{page?}", "ReunionController@get");
-Route::get("reunion/get/page/{page?}/search/{nom}/{date}", "ReunionController@get");
-Route::get("reunion/get/page/{page?}/search-nom/{nom}", "ReunionController@get");
-Route::get("reunion/get/page/{page?}/search-date/{date}", "ReunionController@get");
+Route::get("reunion/get/page/{page}", "ReunionController@get");
+Route::get("reunion/get/page/{page}/search/{nom?}/{date?}", "ReunionController@get");
+Route::get("reunion/get/amount/{nom?}/{date?}", "ReunionController@getAmount");
+Route::get("reunion/get/max-page/{nom?}/{date?}", "ReunionController@getMaxPage");
 Route::get("reunion/get/present/{id}", "ReunionController@getPresent");
 Route::get("reunion/get/absent/{id}", "ReunionController@getAbsent");
 Route::get("reunion/get/secretaire/{id}", "ReunionController@getSecretaire");
-Route::get("reunion/get/max-page", "ReunionController@getMaxPage");
 Route::get("reunion/nullify-date-prochain/{id}", "ReunionController@nullifyDateProchain");
 Route::get("reunion/get/subjects/{id}", "ReunionController@getSubjects");
-Route::get("reunion/get/amount", "ReunionController@getAmount");
 Route::get("reunion/add", "ReunionController@add");
 Route::get("reunion/add/subject/{id}", "ReunionController@addSubject");
 Route::get("reunion/delete/{id}", "ReunionController@delete");

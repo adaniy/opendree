@@ -38,26 +38,105 @@ class ReunionController extends Controller
         $page--;
         $skip = ($page * $this->nbParPage);
 
-        /*        if(!empty($nom) && !empty($date)) {
-        } elseif(!empty($nom)) {
-        } elseif(!empty($date)) {
+        /** If the name and date is filled */
+        if($nom != "null" && $date != "null") {
+            $date = (string) $date;
+
+            $response = [
+                "status" => "success",
+                "reunions" => Reunion::where('sujet', 'like', "%$nom%")
+                ->where('date', 'like', "%$date%")
+                ->skip($skip)->take($this->nbParPage)->orderBy('id', 'DESC')->get()
+            ];
+            /** If the name is filled */
+        } elseif($nom != "null" && $date == "null") {
+            $response = [
+                "status" => "success",
+                "reunions" => Reunion::where('sujet', 'like', "%$nom%")
+                ->skip($skip)->take($this->nbParPage)->orderBy('id', 'DESC')->get()
+            ];
+            /** If the date is filled */
+        } elseif($date != "null" && $nom == "null") {
+            $date = (string) $date;
+
+            $response = [
+                "status" => "success",
+                "reunions" => Reunion::where('date', 'like', "%$date%")
+                ->skip($skip)->take($this->nbParPage)->orderBy('id', 'DESC')->get()
+            ];
         } else {
-        }*/
-        $response = [
-            "status" => "success",
-            "reunions" => Reunion::where('sujet', 'like', "%$nom%")
-            ->where('date', 'like', "%$date%")
-            ->skip($skip)->take($this->nbParPage)->orderBy('id', 'DESC')->get()
-        ];
+            $response = [
+                "status" => "success",
+                "reunions" => Reunion::skip($skip)->take($this->nbParPage)->orderBy('id', 'DESC')->get()
+            ];
+        }
 
         return json_encode($response);
     }
 
-    public function getMaxPage()
+    public function getMaxPage($nom = "null", $date = "null")
     {
-        $count = Reunion::count();
+        /** If the name and date is filled */
+        if($nom != "null" && $date != "null") {
+            $date = (string) $date;
 
-        return ceil($count / $this->nbParPage) - 1;
+            $count = Reunion::where('sujet', 'like', "%$nom%")
+                   ->where('date', 'like', "%$date%")
+                   ->count();
+
+            $page = ceil($count / $this->nbParPage) - 1;
+
+            if($page > 1) {
+                $page = $page;
+            } else {
+                $page = 1;
+            }
+
+            return $page;
+
+            /** If the name is filled */
+        } elseif($nom != "null" && $date == "null") {
+            $count = Reunion::where('sujet', 'like', "%$nom%")->count();
+
+            $page = ceil($count / $this->nbParPage) - 1;
+
+            if($page > 1) {
+                $page = $page;
+            } else {
+                $page = 1;
+            }
+
+            return $page;
+
+            /** If the date is filled */
+        } elseif($date != "null" && $nom == "null") {
+            $date = (string) $date;
+
+            $count = Reunion::where('date', 'like', "%$date%")->count();
+
+            $page = ceil($count / $this->nbParPage) - 1;
+
+            if($page > 1) {
+                $page = $page;
+            } else {
+                $page = 1;
+            }
+
+            return $page;
+            
+        } else {
+            $count = Reunion::count();
+
+            $page = ceil($count / $this->nbParPage) - 1;
+
+            if($page > 1) {
+                $page = $page;
+            } else {
+                $page = 1;
+            }
+
+            return $page;
+        }
     }
 
     public function getSubjects($id)
@@ -85,9 +164,27 @@ class ReunionController extends Controller
         return json_encode($response);
     }
 
-    public function getAmount()
+    public function getAmount($nom = "null", $date = "null")
     {
-        return Reunion::count();
+        if($nom != "null" && $date != "null") {
+            $date = (string) $date;
+
+            return Reunion::where('sujet', 'like', "%$nom%")
+                ->where('date', 'like', "%$date%")
+                ->count();
+
+            /** If the name is filled */
+        } elseif($nom != "null" && $date == "null") {
+            return Reunion::where('sujet', 'like', "%$nom%")->count();
+
+            /** If the date is filled */
+        } elseif($date != "null" && $nom == "null") {
+            $date = (string) $date;
+
+            return Reunion::where('date', 'like', "%$date%")->count();
+        } else {
+            return Reunion::count();
+        }
     }
 
     public function getPresent($id)
