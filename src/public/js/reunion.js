@@ -34,6 +34,18 @@ Vue.component('list', {
         this.getReunions();
         this.getMaxPage();
         this.getAmount();
+
+        setInterval(() => {
+            this.getReunions();
+        }, rate);
+
+        setInterval(() => {
+            this.getMaxPage();
+        }, rate);
+
+        setInterval(() => {
+            this.getAmount();
+        }, rate);
     },
     methods: {
         getReunions: function() {
@@ -59,11 +71,6 @@ Vue.component('list', {
                 .catch( error => {
                     console.log(error);
                 });
-
-
-            setTimeout(this.getReunions, rate);
-            setTimeout(this.getMaxPage, rate);
-            setTimeout(this.getAmount, rate);
         },
         getMaxPage: function () {
             if(this.search) {
