@@ -946,7 +946,6 @@ nav.header .menu .modules .bottom {
 /**
  * ----> Réunions <----
  */
-
 .reunions {
 
 }
@@ -1182,4 +1181,11 @@ nav.header .menu .modules .bottom {
 .reunions .bottom .block .foot li.participants {
     list-style: none;
     text-transform: uppercase;
+}
+
+/**
+ * ----> Elections <----
+ */
+.elections {
+
 }

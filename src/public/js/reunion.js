@@ -3,7 +3,7 @@
  * Rate variable handles the rate speed of all asynchronous datas in this file
  */
 const rate = 10000;
-const rate2 = 1000;
+const rate2 = 3000;
 
 /** Hack for textarea auto size */
 $(function () {
