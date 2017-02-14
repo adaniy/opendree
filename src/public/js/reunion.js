@@ -2,7 +2,8 @@
  *
  * Rate variable handles the rate speed of all asynchronous datas in this file
  */
-const rate = 4000;
+const rate = 10000;
+const rate2 = 1000;
 
 /** Hack for textarea auto size */
 $(function () {
@@ -37,13 +38,7 @@ Vue.component('list', {
 
         setInterval(() => {
             this.getReunions();
-        }, rate);
-
-        setInterval(() => {
             this.getMaxPage();
-        }, rate);
-
-        setInterval(() => {
             this.getAmount();
         }, rate);
     },
@@ -72,6 +67,9 @@ Vue.component('list', {
                     console.log(error);
                 });
         },
+	getUrlPrintable: function (reunion) {
+	    return "/reunion/get/printable/" + reunion.id;
+	},
         getMaxPage: function () {
             if(this.search) {
                 if(this.regexp.nom != "" && this.regexp.date != "") { /** If the name and date is completed */
@@ -414,14 +412,16 @@ Vue.component('participants', {
         this.getPresents();
         this.getAbsents();
         this.getSecretaires();
+
+        setInterval( () => {
+            this.getParticipants();
+        }, rate2);
     },
     methods: {
         getParticipants: function () {
             this.getPresents();
             this.getAbsents();
             this.getSecretaires();
-
-            setTimeout(this.getParticipants, rate);
         },
         getPresents: function() {
             axios.get("/reunion/get/present/" + this.parent)
@@ -533,6 +533,10 @@ Vue.component('subjects', {
     },
     created: function () {
         this.getSubjects();
+
+        setInterval( () => {
+            this.getSubjects();
+        }, rate2)
     },
     methods: {
         getSubjects: function() {
@@ -543,8 +547,6 @@ Vue.component('subjects', {
                 .catch( error => {
                     console.log(error);
                 });
-
-            setTimeout(this.getSubjects, rate);
         },
         addSubject: function(subject) {
             var id = this.parent;

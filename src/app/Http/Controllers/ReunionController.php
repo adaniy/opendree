@@ -23,6 +23,18 @@ class ReunionController extends Controller
 {
     private $nbParPage = 3;
 
+    public function printable($id)
+    {
+        return view('reunion.printable')->with([
+            "reunion" => Reunion::find($id),
+            "reunionParticipant" => ReunionParticipant::where('reunion_id', $id),
+            "reunionParticipant2" => ReunionParticipant::where('reunion_id', $id),
+            "reunionParticipant3" => ReunionParticipant::where('reunion_id', $id),
+            "reunionSujet" => ReunionSujet::where('reunion_id', $id)->get(),
+            "temps" => new TempsClass
+        ]);
+    }
+
     public function index(Reunion $reunion, ReunionParticipant $reunionParticipant, ReunionClass $reunionClass)
     {
         return view("reunion.index")->with([
@@ -84,9 +96,9 @@ class ReunionController extends Controller
                    ->where('date', 'like', "%$date%")
                    ->count();
 
-            $page = ceil($count / $this->nbParPage) - 1;
+            $page = ceil($count / $this->nbParPage);
 
-            if($page > 1) {
+            if($page >= 1) {
                 $page = $page;
             } else {
                 $page = 1;
@@ -98,9 +110,9 @@ class ReunionController extends Controller
         } elseif($nom != "null" && $date == "null") {
             $count = Reunion::where('sujet', 'like', "%$nom%")->count();
 
-            $page = ceil($count / $this->nbParPage) - 1;
+            $page = ceil($count / $this->nbParPage);
 
-            if($page > 1) {
+            if($page >= 1) {
                 $page = $page;
             } else {
                 $page = 1;
@@ -114,22 +126,22 @@ class ReunionController extends Controller
 
             $count = Reunion::where('date', 'like', "%$date%")->count();
 
-            $page = ceil($count / $this->nbParPage) - 1;
+            $page = ceil($count / $this->nbParPage);
 
-            if($page > 1) {
+            if($page >= 1) {
                 $page = $page;
             } else {
                 $page = 1;
             }
 
             return $page;
-            
+
         } else {
             $count = Reunion::count();
 
-            $page = ceil($count / $this->nbParPage) - 1;
+            $page = ceil($count / $this->nbParPage);
 
-            if($page > 1) {
+            if($page >= 1) {
                 $page = $page;
             } else {
                 $page = 1;
@@ -217,7 +229,7 @@ class ReunionController extends Controller
 
         $reunion->sujet = "Nouvelle réunion";
         $reunion->date = Carbon::now();
-        $reunion->date_prochain = "";
+        $reunion->date_prochain = null;
 
         if($reunion->save()) {
             $response = [

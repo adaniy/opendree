@@ -61,7 +61,7 @@ class TempsClass
 	public function parseDateTime($date)
 	{
 		Carbon::setLocale('fr');
-		$init = Carbon::createFromFormat('d/m/Y H:i:s', $date);
+		$init = Carbon::createFromFormat('Y-m-d H:i:s', $date);
 
 		$jours = $init->format('d');
 		$mois = $init->format('m');
@@ -71,13 +71,13 @@ class TempsClass
 		$minutes = $init->format('i');
 		$secondes = $init->format('s');
 
-		return $jours.'/'.$mois.'/'.$annee.' à '.$heures.':'.$minutes.':'.$secondes;
+		return $jours.'/'.$mois.'/'.$annee.' à '.$heures.':'.$minutes;
 	}
 
 	public function parseDateTime2($date)
 	{
 		Carbon::setLocale('fr');
-		$init = Carbon::createFromFormat('d/m/Y H:i:s', $date);
+		$init = Carbon::createFromFormat('Y-m-d H:i:s', $date);
 
 		$jours = $init->format('d');
 		$mois = $init->format('m');
