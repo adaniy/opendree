@@ -753,9 +753,14 @@ nav.header .menu .modules .bottom {
 }
 
 .dashboard .menu {
+    position: fixed;
+    left: 0;
+    top: 0;
+    margin-top: 88px;
     background: #3f3f3f;
     box-shadow: 5px 0 5px -5px grey;
     height: 100%;
+    width: 280px;
 
     color: white;
     padding: 0;
@@ -819,6 +824,7 @@ nav.header .menu .modules .bottom {
 
 .dashboard .content {
     padding-top: 10px;
+    margin-left: 320px;
 }
 
 

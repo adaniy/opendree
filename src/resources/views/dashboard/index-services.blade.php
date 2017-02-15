@@ -38,7 +38,7 @@
 	    </div>
 	</div>
 
-	<div class="col-md-10">
+	<div class="col-md-10 content">
 	    <hr />
 	    <div class="text-muted">
 		<span class="glyphicon glyphicon-exclamation-sign"></span> Attention : supprimer un service aura pour conséquence de supprimer toute ses données associées et ce définitivement (sauf sauvegardes).
