@@ -10,8 +10,4 @@ class Election extends Model
 {
     protected $table = "elections";
 	protected $fillable = ['date', 'type', 'nb'];
-
-	protected $dateFormat = 'd/m/Y';
-
-	
 }

@@ -56,6 +56,10 @@ app.on('ready', createWindow)
 
 let tray = null
 app.on('ready', () => {
+    win.webContents.on('notify', function() {
+        win.webContents.executeJavaScript("alert('Hello There!');");
+    });
+
     tray = new Tray('./icon.png')
     const contextMenu = Menu.buildFromTemplate([
         { label: 'Afficher', click:  function(){

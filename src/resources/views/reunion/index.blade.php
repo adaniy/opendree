@@ -46,7 +46,7 @@
                                             <button v-on:click="deleteReunion(reunion)" class="btn btn-xs btn-danger live" id="delete-reunion"><span class="glyphicon glyphicon-remove"></span></button>
                                         </div>
 
-                                        <button v-bind:href="getUrlPrintable(reunion)" class="btn btn-xs btn-warning live" type="button" data-toggle="tooltip" data-placement="bottom" title="Version imprimable"><span class="glyphicon glyphicon-print"></span></button>
+                                        <button v-bind:href="getUrlPrintable(reunion)" class="btn btn-xs btn-primary live" type="button" data-toggle="tooltip" data-placement="bottom" title="Version imprimable"><span class="glyphicon glyphicon-print"></span></button>
                                     </div>
                                     <div class="body">
                                         <div class="name editable" v-on:click="editReunion(reunion)">@{{ reunion.sujet }}</div>

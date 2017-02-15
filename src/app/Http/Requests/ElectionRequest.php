@@ -24,7 +24,7 @@ class ElectionRequest extends FormRequest
     public function rules()
     {
         return [
-            'date' => 'required|date_format:d/m/Y',
+            'date' => 'required|date_format:Y-m-d',
             'type' => 'required|in:recensement,vote',
             'nb' => 'required|numeric',
         ];

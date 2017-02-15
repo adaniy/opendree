@@ -14,7 +14,7 @@
         @yield('meta')
     </head>
     <body>
-        <nav class="header col-md-12 col-xs-12">
+        <nav class="header col-md-12 col-xs-12 no-print">
             <div class="title">
                 <div class="name">OpenDREE</div><div class="separation"> <span class="glyphicon glyphicon-menu-right"></span> </div> <div class="module"> @yield('head') </div>
             </div>
@@ -74,6 +74,19 @@
                     </div>
                     <div class="bottom">
                         élections
+                    </div>
+
+            </div>
+                </a>
+
+                <a href="{{ url('archive') }}">
+                    <div class="modules @if(Request::segment(1) == "archive") active @endif">
+
+                                <div class="top">
+                        <span class="glyphicon glyphicon-time"></span>
+                    </div>
+                    <div class="bottom">
+                        archive
                     </div>
 
             </div>

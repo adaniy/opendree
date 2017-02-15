@@ -16,15 +16,23 @@ Route::get("login", function() {
  * Model local scopes
  */
 
+/**
+ * ----> Module Election <----
+ * -------------------------
+ * Get requests
+ * Post requests
+ */
+/** Get */
+Route::get("election", "ElectionController@index");
+Route::get("election/get/years", "ElectionController@getYears");
+Route::get("election/get/nb/electoral/year/{year}/month/{month}", "ElectionController@getNbElectoralYearMonth");
+Route::get("election/get/nb/recensement/year/{year}/month/{month}", "ElectionController@getNbRecensementYearMonth");
+Route::get("election/get/nb/spec/year/{year}/month/{month}/day/{day}", "ElectionController@getNbSpec");
+Route::get("election/get/total/electoral/year/{year}", "ElectionController@getTotalElectoralYear");
+Route::get("election/get/total/recensement/year/{year}", "ElectionController@getTotalRecensementYear");
 
-/** Routes de développement */
-Route::get("election","ElectionController@index");
-Route::get("election/printable","ElectionController@printable");
-Route::post("election","ElectionController@insert");
-
-Route::get("election/brut","ElectionController@indexBrut");
-Route::post("election/brut","ElectionController@rechercheBrut");
-Route::get("election/brut/supprimer/{id}","ElectionController@supprimer");
+/** Post */
+Route::post("election/add", "ElectionController@add");
 
 /**
  * ----> Module Réunion <----

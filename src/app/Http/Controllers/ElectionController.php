@@ -4,97 +4,95 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ElectionRequest;
-use App\Http\Requests\ElectionRechercheRequest;
 
 use App\Election;
 
 use Carbon\Carbon;
-
-use App\Classes\TempsClass;
-use App\Classes\ElectionClass;
+use DB;
 
 class ElectionController extends Controller
 {
-	private $nbParPage = 20;
+    public function index()
+    {
+        return view('election.index');
+    }
 
-    public function index(Election $election, ElectionClass $electionClass, TempsClass $tempsClass, Carbon $carbon)
-	{
-		return view('election.index')->with([
-			'election' => $election,
-			'electionClass' => $electionClass,
-			'tempsClass' => $tempsClass,
-			'carbon' => $carbon
-		]);
-	}
+    public function printable($id)
+    {
+        return view('election.printable');
+    }
 
-	public function printable(Election $election, ElectionClass $electionClass, TempsClass $tempsClass, Carbon $carbon)
-	{
-		return view('election.printable')->with([
-			'election' => $election,
-			'electionClass' => $electionClass,
-			'tempsClass' => $tempsClass,
-			'carbon' => $carbon
-		]);
-	}
+    public function add(ElectionRequest $request)
+    {
+        $type = $request->get("type");
+        $date = $request->get("date");
+        $nb = $request->get("nb");
+        $election = new Election;
 
-	public function insert(ElectionRequest $request, ElectionClass $electionClass)
-	{
-		return $electionClass->insert($request);
-	}
+        $election->type = $type;
+        $election->date = $date;
+        $election->nb = $nb;
 
-	public function indexBrut(Election $election, ElectionClass $electionClass, TempsClass $tempsClass, Carbon $carbon)
-	{
-		return view('election.index-brut')->with([
-			'election' => $election->orderBy('id', 'desc')->paginate($this->nbParPage),
-			'electionClass' => $electionClass,
-			'tempsClass' => $tempsClass,
-			'carbon' => $carbon
-		]);
-	}
+        $election->save();
+    }
 
-	public function rechercheBrut(ElectionRechercheRequest $request, Election $election, ElectionClass $electionClass, TempsClass $tempsClass, Carbon $carbon)
-	{
-		$type = $request->input('type');
-		$date = $request->input('date');
+    public function getYears()
+    {
+        return Election::groupBy(DB::raw('date(date, "start of year")'))->get();
+    }
 
-		if(empty($type) && !empty($date)) {
-			return view('election.recherche-brut')->with([
-			'election' => $election
-			->where("date", "LIKE", "%$date%")
-			->orderBy('id', 'desc')
-			->get(),
-			'electionClass' => $electionClass,
-			'tempsClass' => $tempsClass,
-			'carbon' => $carbon
-			]);
-		} elseif(!empty($type) && empty($date)) {
-			return view('election.recherche-brut')->with([
-			'election' => $election
-			->where("type", "LIKE", "%$type%")
-			->orderBy('id', 'desc')
-			->get(),
-			'electionClass' => $electionClass,
-			'tempsClass' => $tempsClass,
-			'carbon' => $carbon
-			]);
-		} elseif(!empty($type) && !empty($date)) {
-			return view('election.recherche-brut')->with([
-			'election' => $election
-			->where("type", "LIKE", "%$type%")
-			->where("date", "LIKE", "%$date%")
-			->orderBy('id', 'desc')
-			->get(),
-			'electionClass' => $electionClass,
-			'tempsClass' => $tempsClass,
-			'carbon' => $carbon
-			]);
-		} else {
+    public function getTotalElectoralYear($year)
+    {
+        $resultat = 0;
 
-		}
-	}
+        foreach(Election::whereYear('date', $year)->where('type', 'vote')->get() as $totals) {
+            $resultat += $totals->nb;
+        }
 
-	public function supprimer($id, ElectionClass $electionClass)
-	{
-		return $electionClass->delete($id);
-	}
+        return $resultat;
+    }
+
+    public function getNbElectoralYearMonth($year, $month)
+    {
+        $resultat = 0;
+
+        foreach(Election::whereYear('date', $year)->whereMonth('date', Carbon::parse(Carbon::create($year, $month, 1))->format("m"))->where('type', 'vote')->get() as $totals) {
+            $resultat += $totals->nb;
+        }
+
+        return $resultat;
+    }
+
+    public function getNbSpec($year, $month, $day)
+    {
+        $resultat = 0;
+        $date = $year.'-'.$month.'-'.$day;
+        foreach(Election::whereDate('date', $date)->where('type', 'vote')->get() as $totals) {
+            $resultat += $totals->nb;
+        }
+
+        return $resultat;
+    }
+
+    public function getTotalRecensementYear($year)
+    {
+        $resultat = 0;
+
+        foreach(Election::whereYear('date', $year)->where('type', 'recensement')->get() as $totals) {
+            $resultat += $totals->nb;
+        }
+
+        return $resultat;
+    }
+
+    public function getNbRecensementYearMonth($year, $month)
+    {
+        $resultat = 0;
+
+        foreach(Election::whereYear('date', $year)->whereMonth('date', Carbon::parse(Carbon::create($year, $month, 1))->format("m"))->where('type', 'recensement')->get() as $totals) {
+            $resultat += $totals->nb;
+        }
+
+        return $resultat;
+    }
 }
