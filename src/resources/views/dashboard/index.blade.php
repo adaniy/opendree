@@ -14,7 +14,7 @@
 
         <div class="col-md-10 content">
             <div class="col-md-8">
-                <h3>Suivi annuel des recettes</h3>
+                <h3>Suivi annuel</h3>
                 <div class="inner">
                     <button class="pull-right btn btn-xs btn-tree btn-default" id="update-amount-line"><span class="glyphicon glyphicon-refresh"></button>
                         <div id="canvas-holder"><canvas id="chart-dashboard-1" /></div>
@@ -23,7 +23,7 @@
             </div>
 
             <div class="col-md-4">
-                <h3>Comparatif des recettes</h3>
+                <h3>Comparatif depuis le début des temps</h3>
                 <div class="inner">
                     <button class="pull-right btn btn-xs btn-tree btn-default" id="update-amount-pie"><span class="glyphicon glyphicon-refresh"></button>
                         <div id="canvas-holder"><canvas id="chart-dashboard-2" /></div>
@@ -31,12 +31,12 @@
             </div>
 
             <div class="col-md-12">
-                <h3>Statistique annuelle des recettes</h3>
-                <div class="inner">
+                <h3>Statistique annuel</h3>
+                <div class="inner-table">
                     @if($dashboardAmount->count() > 0)
-                        <table class="table table-hover table-striped table-bordered">
-                            <tr>
-                                <th class="col-md-11">Année</th>
+                        <table class="table table-hover table-striped">
+                            <tr class="header">
+                                <th>Année</th>
                                 @foreach($dashboardAmount->orderBy('date', 'ASC')->groupBy(DB::raw('date(date, "start of year")'))->get() as $amounts)
                                     <th>{{ $carbon->parse($amounts->date)->year }}</th>
                                 @endforeach
@@ -46,9 +46,9 @@
                                     <td>{{ $categories->name }}</td>
                                     @foreach($dashboardAmount->orderBy('date', 'ASC')->groupBy(DB::raw('date(date, "start of year")'))->get() as $amounts)
                                         @if($categories->type == 'money')
-                                            <td>{{ number_format($dashboardClass->getPluralityAmount($categories->id, 0, $carbon->parse($amounts->date)->year, 'year'), 2) }} €</td>
+                                            <td>{{ number_format($dashboardClass->getPluralityAmount($categories->id, 0, $amounts->date, 'year'), 2) }} €</td>
                                         @else
-                                            <td>{{ $dashboardClass->getPluralityAmount($categories->id, 0, $carbon->parse($amounts->date)->year, 'year') }}</td>
+                                            <td>{{ $dashboardClass->getPluralityAmount($categories->id, 0, $amounts->date, 'year') }}</td>
                                         @endif
                                     @endforeach
                                 </tr>

@@ -26,6 +26,17 @@ class BudgetController extends Controller
         ]);
     }
 
+    public function printable($year, BudgetClass $budgetClass)
+    {
+        $budget = new Budget;
+
+        return view('budget.printable')->with([
+            'year' => $year,
+            'budget' => $budget,
+            'budgetClass' => $budgetClass
+        ]);
+    }
+
     public function getTotal($id, BudgetClass $budgetClass)
     {
         return $budgetClass->getTotal($id);

@@ -2,6 +2,7 @@
     @foreach($budget->groupBy('date')->get() as $budgetTree)
 	<li><button class="btn btn-tree btn-xs btn-info" type="button" data-toggle="collapse" data-target="#collapsetab{{ $budgetTree->date }}" aria-expanded="false" aria-controls="collapsetab{{ $budgetTree->date }}">{{ $budgetTree->date }}</button>
 	    <div class="collapse" id="collapsetab{{ $budgetTree->date }}">
+		<div class="pull-right"><button href="/budget/print/{{ $budgetTree->date }}" class="btn btn-xs live btn-primary"><span class="glyphicon glyphicon-print"></span></button></div>
 		<table class="table table-hover table-striped table-bordered table-tableau">
 		    <tr class="header">
 			<th class="col-md-2">Service</th>

@@ -7,7 +7,7 @@
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/printable.css') }}" rel="stylesheet" type="text/css" media="screen, print">
 
-        <title>GDMC</title>
+        <title>OpenDREE</title>
     </head>
     <body class="landscape">
         <a href="/reunion" class="no-print"><div class="wrap-return">

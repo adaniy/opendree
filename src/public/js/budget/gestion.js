@@ -265,8 +265,6 @@ $(document).on('click', 'button#add-budget', function (e) {
     var year = $(this).attr("data-year");
     var parent = $(this).parent();
 
-    console.log(id);
-
     $.ajax({
         type: "GET",
         url: "/budget/add/" + id + "/" + year,
@@ -291,7 +289,7 @@ $(document).on('click', 'button#add-year', function (e) {
                 $.ajax({
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                     type: 'GET',
-                    url: 'budget/add/year/' + year,
+                    url: '/budget/add/year/' + year,
                 }).done( function (msg) {
                     var response = $.parseJSON(msg);
 
@@ -299,8 +297,6 @@ $(document).on('click', 'button#add-year', function (e) {
                         location.reload();
                     }
                 });
-
-                location.reload();
             }
         }
     });

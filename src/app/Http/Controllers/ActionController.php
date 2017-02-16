@@ -16,7 +16,7 @@ class ActionController extends Controller
     public function index(Action $action, ActionClass $actionClass)
     {
         return view("action.index")->with([
-    		'action' => $action->where('deleted', 0)->orderBy('alert', 'DESC')->orderBy('date_butoir', 'ASC')->orderBy('id', 'DESC')->get(),
+    		'action' => $action->orderBy('alert', 'DESC')->orderBy('date_butoir', 'ASC')->orderBy('id', 'DESC')->get(),
     		'actionClass' => $actionClass,
     		'temps' => new TempsClass(),
     		'carbon' => new Carbon()
@@ -26,7 +26,7 @@ class ActionController extends Controller
     public function getAction(Action $action, $id, ActionClass $actionClass) 
     {
     	return view("action.get")->with([
-    		'action' => $action->where('deleted', 0)->orderBy('alert', 'DESC')->orderBy('date_butoir', 'ASC')->orderBy('id', 'DESC')->get(),
+    		'action' => $action->orderBy('alert', 'DESC')->orderBy('date_butoir', 'ASC')->orderBy('id', 'DESC')->get(),
             'actionCurrent' => $action->find($id),
     		'actionClass' => $actionClass,
     		'temps' => new TempsClass(),

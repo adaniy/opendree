@@ -1,5 +1,4 @@
 const {app, BrowserWindow, Menu, Tray} = require('electron')
-const notifier = require('node-notifier');
 const port = 8042;
 const path = require("path");
 const connect = require("gulp-connect-php");

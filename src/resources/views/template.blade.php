@@ -175,5 +175,28 @@
         @if(Request::segment(1) == "election")
             <script src="{{ asset("js/election.js") }}"></script>
         @endif
+
+        <script>
+         /** Managing the notification ajax call */
+         var remote = require('electron').remote;
+         var notifier = remote.require('node-notifier');
+
+         setInterval( () => {
+             axios.get("/notify/get")
+                  .then( response => {
+                      if(response.data.notify == "notify") {
+                          notifier.notify({
+                              'title': 'OpenDREE - alerte',
+                              'message': 'La date butoir d\'une action planifiée en réunion approche, vous devriez la consulter.',
+			      sound: true,
+			      wait: true
+                          })
+                      }
+                  })
+                  .catch( error => {
+                      console.log(error);
+                  })
+         }, 1000);
+        </script>
     </body>
 </html>

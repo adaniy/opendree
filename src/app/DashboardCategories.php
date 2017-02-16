@@ -13,4 +13,9 @@ class DashboardCategories extends Model
     {
         return $this->hasMany("App\DashboardAmount");
     }
+
+    protected function service()
+    {
+        return $this->belongsTo("App\Service");
+    }
 }

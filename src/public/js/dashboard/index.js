@@ -242,43 +242,49 @@ $(document).on('submit', '.edit-category', function (e) {
     });
 });
 
-$(document).on('click', 'button#delete-category', function () {
+$(document).on('click', '#delete-category', function () {
     var id = $(this).data('attribute');
-    var actual = $(this).parent().parent().parent().prev();
-    var actual2 = $(this).parent().parent().parent();
-    var old = $(this).parent().parent().parent().prev().children().children().text();
+    var name = $(this).data('name');
 
     bootbox.confirm({
-        message: 'Voulez-vous vraiment supprimer la catégorie <b>"'+ old +'"</b> ?<br /><br /><b>Cela aura pour effet de supprimer TOUTE les données associées à cette catégorie.</b>',
-        callback: function (input) {
-            if(input) {
-                $.ajax({
-                    type: "GET",
-                    url: "/dashboard/delete/category/" + id,
-                }).done( function (msg) {
-                    var response = $.parseJSON(msg);
-
-                    if(response.status == 'success') {
-                        actual.fadeOut(800);
-                        actual2.fadeOut(800);
-                    }
-                });
+        message: 'Êtes-vous <strong>SÛR</strong> de vouloir supprimer la catégorie <strong>"'+ name +'"</strong> ?<br /><br /><strong>Toute ses données associées seront supprimées.</strong>',
+        callback: event => {
+            if(event) {
+                axios.get("/dashboard/delete/category/" + id)
+                    .then( response => {
+                        location.reload();
+                    })
+                    .catch( error => {
+                        console.log(error);
+                    })
             }
         }
     });
 });
 
-$(document).on('click', '.add-category', function () {
-    var actual = $(this);
+$(document).on('click', '#add-category', function (e) {
+    e.preventDefault();
+    var id = $(this).data('service');
+    var service = $(this).data('service-name');
 
-    $.ajax({
-        type: "GET",
-        url: "/dashboard/add/category"
-    }).done( function (msg) {
-        var response = $.parseJSON(msg);
+    var form = '<h4>Ajout d\'une catégorie de montant dans le service "'+ service +'"</h4><hr /><form class="form add-category"><div class="form-group"><select name="type" class="form-control"><option value="money">Monétaire</option><option value="amount">Nombre</option></select></div><div class="form-group"><input type="text" name="name" class="form-control" placeholder="Nom du montant"></div></form>';
 
-        if(response.status == 'success') {
-            location.reload();
+    bootbox.confirm(form, result => {
+        if(result) {
+            var type = $(document).find(".add-category").find('select[name="type"]').val();
+            var name = $(document).find(".add-category").find('input[name="name"]').val();
+
+            axios.post("/dashboard/add/category", {
+                id: id,
+                type: type,
+                name: name
+            })
+                .then( response => {
+                    location.reload();
+                })
+                .catch( error => {
+                    console.log(error);
+                });
         }
     });
 });
@@ -336,8 +342,8 @@ $(document).on('click', 'td.valide', function () {
                     var response = $.parseJSON(msg);
 
                     if(response.status == "success") {
-			$('td[data-attribute="'+ id +'"]').removeAttr("class");
-			$('td[data-attribute="'+ id +'"]').popover('destroy');
+                        $('td[data-attribute="'+ id +'"]').removeAttr("class");
+                        $('td[data-attribute="'+ id +'"]').popover('destroy');
                     }
                 });
             }
@@ -399,12 +405,13 @@ $(document).on('click', 'button#add-month', function () {
 });
 
 $('.collapse').on('show.bs.collapse', function () {
-    $(this).parent().find('.show-more').animate({opacity: 0}, 400);
-
+    if($(this).data('attribute') == 'sous')
+        $(this).parent().find('.show-more').animate({opacity: 0}, 400);
 });
 
 $('.collapse').on('hide.bs.collapse', function () {
-    $(this).parent().find('.show-more').animate({opacity: 1});
+    if($(this).data('attribute') == 'sous')
+        $(this).parent().find('.show-more').animate({opacity: 1});
 });
 
 $(document).on('click', 'button#add-month', function () {

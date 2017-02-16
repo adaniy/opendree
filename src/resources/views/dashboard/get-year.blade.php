@@ -13,7 +13,7 @@
         @include('dashboard.menu')
         <div class="col-md-10 content">
             <div class="col-md-8">
-		<h3>Suivi mensuel des montants</h3>
+		<h3>Suivi mensuel</h3>
 		<div class="inner">
 		    <button class="pull-right btn btn-xs btn-tree btn-default" id="update-amount-line"><span class="glyphicon glyphicon-refresh"></button>
 		    <div id="canvas-holder"><canvas id="chart-dashboard-year-1" /></div>
@@ -21,7 +21,7 @@
             </div>
 
 	    <div class="col-md-4">
-		<h3>Comparatifs des montants sur l'année</h3>
+		<h3>Comparatifs sur l'année</h3>
 		<div class="inner">
 		    <button class="pull-right btn btn-xs btn-tree btn-default" id="update-amount-pie"><span class="glyphicon glyphicon-refresh"></button>
 		    <div id="canvas-holder"><canvas id="chart-dashboard-year-2" /></div>
@@ -29,12 +29,12 @@
             </div>
 
 	    <div class="col-md-12">
-                <h3>Statistique annuelle des recettes</h3>
+                <h3>Statistique annuelle</h3>
                 <div class="inner">
                     @if($dashboardAmount->count() > 0)
-                        <table class="table table-hover table-striped table-bordered table-dashboard">
-                            <tr>
-                                <th class="col-md-11">Année</th>
+                        <table class="table table-hover table-striped">
+                            <tr class="header">
+                                <th>Catégorie</th>
                                 @for($x = 1; $x <= 12; $x++)
                                     <th>{{ $temps->parseMois($carbon->create($year, $x, 1)->month) }}</th>
                                 @endfor
@@ -44,7 +44,7 @@
                                     <td class="category">{{ $categories->name }}</td>
 				    @for($x = 1; $x <= 12; $x++)
                                         @if($categories->type == 'money')
-                                            <td>{{ number_format($dashboardClass->getPluralityAmount($categories->id, 0, $x, 'month'), 2) }} €</td>
+                                            <td>{{ number_format($dashboardClass->getPluralityAmount($categories->id, 0, $carbon->create($year, $x, 1), 'month'), 2) }} €</td>
                                         @else
 					    <td>{{ $dashboardClass->getPluralityAmount($categories->id, 0, $carbon->create($year, $x, 1), 'month') }}</td>
                                         @endif

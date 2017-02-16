@@ -10,39 +10,32 @@
 
 @section('content')
     <div class="dashboard">
-	@include('dashboard.menu')
-	
-	<div class="col-md-10 content">
-	    @foreach($dashboardCategories->get() as $categories)
-		<div class="col-lg-8 col-sm-7">
-		    <div class="data services">
-			<div class="middle">{{ $categories->name }}</div>
-		    </div>
-		</div>
-
-		<div class="col-lg-4 col-sm-4">
-		    <div class="buttons">
-			<div class="col-lg-6 col-sm-6">
-			    <button class="btn btn-xs btn-success btn-crud" id="edit-category" data-attribute="{{ $categories->id }}" data-type="{{ $categories->type }}">modifier</button>
-			</div>
-			<div class="col-lg-6 col-sm-6">
-			    <button class="btn btn-xs btn-danger btn-crud" id="delete-category" data-attribute="{{ $categories->id }}">supprimer</button>
-			</div>
-		    </div>
-		</div>
-	    @endforeach
-	    <div class="col-md-12">
-		<div class="data">
-		    <div class="middle add-category"><span class="glyphicon glyphicon-plus"></span></div>
-		</div>
-	    </div>
-	</div>
-
-	<div class="col-md-10 content">
-	    <hr />
-	    <div class="text-muted">
-		<span class="glyphicon glyphicon-exclamation-sign"></span> Attention : supprimer une catégorie aura pour conséquence de supprimer toute ses données associées et ce définitivement (sauf sauvegardes).
-	    </div>
-	</div>
+        @include('dashboard.menu')
+        <div class="col-md-10 content">
+            @foreach($service->get() as $services)
+                <div class="col-md-12">
+                    <h4>{{ $services->name }}</h4>
+                    <div class="inner">
+                        <table class="table table-hover table-striped table-bordered" data-attribute="{{ $services->id }}">
+                            @foreach($services->categories as $categories)
+                                <tr data-attribute="{{ $categories->id }}">
+                                    <th class="col-md-10">{{ $categories->name }} ( @if($categories->type == "money") monétaire @else nombre @endif )</th>
+                                    <td class="col-md-2">
+                                        <button class="btn btn-xs btn-danger btn-tree" id="delete-category" data-attribute="{{ $categories->id }}" data-name="{{ $categories->name }}">supprimer</button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </table>
+                        <div class="text-center"><button class="btn btn-xs btn-warning btn-tree" id="add-category" data-service-name="{{ $services->name }}" data-service="{{ $services->id }}"><span class="glyphicon glyphicon-plus-sign"></span></button></div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+        <div class="col-md-10 content">
+            <hr />
+            <div class="text-muted">
+                <span class="glyphicon glyphicon-exclamation-sign"></span> Attention : supprimer un service aura pour conséquence de supprimer toute ses données associées et ce définitivement (sauf sauvegardes).
+            </div>
+        </div>
     </div>
 @endsection

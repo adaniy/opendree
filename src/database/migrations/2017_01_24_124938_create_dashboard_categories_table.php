@@ -15,7 +15,13 @@ class CreateDashboardCategoriesTable extends Migration
     {
         Schema::create('dashboard_categories', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->string('name');
+            $table->integer('service_id')->unsigned();
+            $table->foreign('service_id')
+                ->references('id')
+                ->on('service')
+                ->onDelete('cascade');
+            
+            $table->string('name')->index('dashboard_categories_name');
             $table->string('color');
             $table->enum('type', ['money', 'number']);
 

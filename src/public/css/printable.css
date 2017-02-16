@@ -1,5 +1,5 @@
 @media print
-{    
+{
     .no-print
     {
         display: none !important;
@@ -72,4 +72,42 @@ body,html {
 
 li {
     list-style: none;
+}
+
+.budget table td,th {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.budget table td.category {
+    font-weight: bold;
+    vertical-align: middle;
+    text-align: center;
+
+    text-transform: uppercase;
+}
+
+.budget .table-header {
+    background: #444444;
+    text-align: left;
+    vertical-align: middle !important;
+
+    margin-top: 5px;
+    padding: 5px 5px 5px 5px;
+
+    color: white;
+    text-transform: uppercase;
+
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+}
+
+.budget .table-tableau th.service-side {
+    vertical-align: middle;
+    font-size: 14px;
+
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-all;
+    hyphens: auto;
 }

@@ -42,7 +42,7 @@ class DashboardClass extends TempsClass
     {
         // on récupère les mois où des données existent
         $dashboardPeriod = $this->dashboardAmount->whereYear('date', (string) $year)->orderBy('id', 'ASC')->get();
-        $dashboardCategories = $this->dashboardCategories->orderBy('name', 'ASC')->get();
+        $dashboardCategories = $this->dashboardCategories->orderBy('service_id', 'ASC')->get();
 
         $resultat = array(
             'status' => 'success',
@@ -74,7 +74,7 @@ class DashboardClass extends TempsClass
             }
 
             array_push($resultat['line']['categories']['values'], [
-                'label' => $categories->name,
+                'label' => '['.$categories->service->name.'] '.$categories->name,
                 'fill' => false,
                 'lineTension' => 0.2,
                 'backgroundColor' => $color,
@@ -134,13 +134,13 @@ class DashboardClass extends TempsClass
         $colors = [];
 
         /** On récupère les catégories */
-        foreach($this->dashboardCategories->get() as $categories) {
+        foreach($this->dashboardCategories->orderBy('service_id', 'ASC')->get() as $categories) {
             $color = $categories->color;
             array_push($data, DashboardClass::getPluralityAmount($categories->id, 0, $this->carbon->create($year, 1, 1), 'year'));
             array_push($colors, $color);
 
             /** On ajoute les catégories */
-            array_push($resultat['pie']['labels'], $categories->name);
+            array_push($resultat['pie']['labels'], '['.$categories->service->name.'] '.$categories->name);
 
             /** Pour chaque catégorie, on execute leur pluralité annuelle */
 
@@ -160,8 +160,8 @@ class DashboardClass extends TempsClass
      */
     public function stats()
     {
-        $dashboardPeriod = $this->dashboardAmount->orderBy('id', 'ASC')->groupBy(DB::raw('date(date, "start of year")'))->get();
-        $dashboardCategories = $this->dashboardCategories->orderBy('name', 'ASC')->get();
+        $dashboardPeriod = $this->dashboardAmount->orderBy('date', 'ASC')->groupBy(DB::raw('date(date, "start of year")'))->get();
+        $dashboardCategories = $this->dashboardCategories->orderBy('service_id', 'ASC')->get();
 
         $resultat = array(
             'status' => 'success',
@@ -193,7 +193,7 @@ class DashboardClass extends TempsClass
             }
 
             array_push($resultat['line']['categories']['values'], [
-                'label' => $categories->name,
+                'label' => '['.$categories->service->name.'] '.$categories->name,
                 'fill' => false,
                 'lineTension' => 0.2,
                 'backgroundColor' => $color,
@@ -250,13 +250,13 @@ class DashboardClass extends TempsClass
         $colors = [];
 
         /** On récupère les catégories */
-        foreach($this->dashboardCategories->get() as $categories) {
+        foreach($this->dashboardCategories->orderBy('service_id')->get() as $categories) {
             $color = $categories->color;
             array_push($data, DashboardClass::getPluralityAmount($categories->id, 0, null, 'all-time'));
             array_push($colors, $color);
 
             /** On ajoute les catégories */
-            array_push($resultat['pie']['labels'], $categories->name);
+            array_push($resultat['pie']['labels'], '['.$categories->service->name.'] '.$categories->name);
         }
 
         $resultat['pie']['data'] = $data;
@@ -773,9 +773,11 @@ class DashboardClass extends TempsClass
         if($this->dashboardAmount->where('category_id', $idCategory)->count() > 0) {
             if($type == 'month-last-year') { // mois année précédente
                 $plurality = 0;
+                $year = Carbon::parse($date)->subYear()->year;
+                $month = Carbon::parse($date)->format("m");
 
-                if($this->dashboardAmount->whereYear('date', (string) Carbon::parse($date)->subYear()->year)->whereMonth('date', (string) $date->month)->where('category_id', $idCategory)->count() > 0) {
-                    $plurality = $this->dashboardAmount->whereYear('date', (string) Carbon::parse($date)->subYear()->year)->whereMonth('date', (string) $date->month)->where('category_id', $idCategory)->first()->amount;
+                if($this->dashboardAmount->where('category_id', $idCategory)->whereYear('date', (string) $year)->whereMonth('date', $month)->count() > 0) {
+                    $plurality = $this->dashboardAmount->where('category_id', $idCategory)->whereYear('date', (string) $year)->whereMonth('date', $month)->first()->amount;
                 }
 
                 return $plurality;
@@ -791,23 +793,22 @@ class DashboardClass extends TempsClass
                 return $plurality;
             } elseif($type == 'year') { // cumul année
                 $plurality = 0;
+                $year = Carbon::parse($date)->year;
 
                 /** Modifier parse par create($date, 1, 1)->year */
-                
-                foreach($this->dashboardAmount->whereYear('date', (string) Carbon::parse($date)->year)->where('category_id', $idCategory)->get() as $amounts) {
+
+                foreach($this->dashboardAmount->whereYear('date', (string) $year)->where('category_id', $idCategory)->get() as $amounts) {
                     $plurality += $amounts->amount;
                 }
-                
-                /*
-                foreach($this->dashboardAmount->whereYear('date', (string) Carbon::create($date, 1, 1)->year)->where('category_id', $idCategory)->get() as $amounts) {
-                    $plurality += $amounts->amount;
-                }
-                */
+
                 return $plurality;
             } elseif($type == 'month') { // cumul mois
                 $plurality = 0;
-                if($this->dashboardAmount->whereYear('date', (string) $date->year)->whereMonth('date', (string) $date->format("m"))->where('category_id', $idCategory)->count() > 0) {
-                    $plurality = $this->dashboardAmount->whereYear('date', (string) $date->year)->whereMonth('date', $date->format("m"))->where('category_id', $idCategory)->first()->amount;
+                $year = Carbon::parse($date)->year;
+                $month = Carbon::parse($date)->format("m");
+
+                if($this->dashboardAmount->whereYear('date', (string) $year)->whereMonth('date', (string) $month)->where('category_id', $idCategory)->count() > 0) {
+                    $plurality = $this->dashboardAmount->whereYear('date', (string) $year)->whereMonth('date', $month)->where('category_id', $idCategory)->first()->amount;
                 }
 
                 return $plurality;

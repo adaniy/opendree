@@ -89,6 +89,16 @@ button.close:focus {
     outline: none !important;
 }
 
+button.all {
+    width: 100%;
+
+    margin-top: 6px;
+
+    padding: 11px 20px 11px 20px;
+
+    font-size: 15px;
+}
+
 button.btn-page {
     position: relative;
     bottom: 2px;
@@ -752,11 +762,11 @@ nav.header .menu .modules .bottom {
     text-transform: none;
 }
 
-.dashboard .menu {
+.menu-side {
     position: fixed;
     left: 0;
     top: 0;
-    margin-top: 88px;
+    margin-top: 88px !important;
     background: #3f3f3f;
     box-shadow: 5px 0 5px -5px grey;
     height: 100%;
@@ -766,44 +776,44 @@ nav.header .menu .modules .bottom {
     padding: 0;
 }
 
-.dashboard .menu button {
+.menu-side button {
     font-size: 13px;
     width: 100%;
     margin: 0;
     border-radius: 0;
     box-shadow: none;
 
-    color: white;
+    color: white !important;
     text-align: left;
 }
 
-.dashboard .menu button:focus {
+.menu-side button:focus {
     outline: none;
 }
 
-.dashboard .menu button.btn-home {
+.menu-side button.btn-home {
     background: #474747;
     transition: .2s;
 }
 
-.dashboard .menu .glyphicon {
+.menu-side .glyphicon {
     margin-right: 10px;
 }
 
-.dashboard .menu button.btn-home:hover {
+.menu-side button.btn-home:hover {
     background: #525252;
 }
 
-.dashboard .menu button.btn-year {
+.menu-side button.btn-year {
     background: #474747;
     transition: .2s;
 }
 
-.dashboard .menu button.btn-year:hover {
+.menu-side button.btn-year:hover {
     background: #525252;
 }
 
-.dashboard .menu button.btn-month {
+.menu-side button.btn-month {
     background: rgba(0, 0, 0, 0.0);
     border-bottom: 1px solid rgba(140, 140, 140, 0.2);
 
@@ -812,21 +822,20 @@ nav.header .menu .modules .bottom {
     transition: .2s;
 }
 
-.dashboard .menu button.btn-month:hover {
+.menu-side button.btn-month:hover {
     background: #525252;
     border-color: #AB6300;
 }
 
-.dashboard .menu button.active {
+.menu-side button.active {
     background: #525252;
     border-color: #AB6300;
 }
 
 .dashboard .content {
     padding-top: 10px;
-    margin-left: 320px;
+    margin-left: 300px;
 }
-
 
 .dashboard .content .date {
     font-size: 18px;
@@ -1230,15 +1239,33 @@ nav.header .menu .modules .bottom {
     margin: 10px 0 10px 0;
 }
 
-.elections .table .header {
-    background: #4D717E;
+.table .header {
+    background: #4D717E !important;
     color: white;
     font-weight: bold;
+    text-transform: uppercase;
     border: 0;
 }
 
-.elections .table th, td {
-    vertical-align: middle;
+.table th, td {
+    vertical-align: middle !important;
     text-align: center;
     border: 0 !important;
+}
+
+.table .description {
+    text-align: left !important;
+    vertical-align: middle !important;
+}
+
+/**
+ * ----> Archive <----
+ */
+.archive {
+
+}
+
+.archive .content {
+    padding-top: 10px;
+    margin-left: 300px;
 }

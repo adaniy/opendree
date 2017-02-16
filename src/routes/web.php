@@ -17,6 +17,19 @@ Route::get("login", function() {
  */
 
 /**
+ * ----> Module Archive <----
+ * -------------------------
+ * Get requests
+ * Post requests
+ */
+/** Get */
+Route::get("archive", "ArchiveController@index");
+Route::get("archive/action", "ArchiveController@indexAction");
+Route::get("archive/reunion", "ArchiveController@indexReunion");
+Route::get("archive/election", "ArchiveController@indexElection");
+Route::get("archive/election/delete/{id}", "ArchiveController@deleteElection");
+
+/**
  * ----> Module Election <----
  * -------------------------
  * Get requests
@@ -96,6 +109,7 @@ Route::post("action/ajout", "ActionController@ajoutAction");
  * Post requests
  */
 Route::get("budget", "BudgetController@index");
+Route::get("budget/print/{year}", "BudgetController@printable");
 Route::get("budget/add/{id}/{year}", "BudgetController@add");
 Route::get("budget/add/year/{year}", "BudgetController@addYear");
 Route::get("budget/delete/{id}", "BudgetController@delete");
@@ -125,7 +139,6 @@ Route::get("dashboard/stats", "DashboardController@stats");
 Route::get("dashboard/stats/raw", "DashboardController@statsRaw");
 Route::get("dashboard/stats/comparison", "DashboardController@statsComparison");
 Route::get("dashboard/categories", "DashboardController@indexCategories");
-Route::get("dashboard/add/categories", "DashboardController@addCategories");
 Route::get("dashboard/services", "DashboardController@indexServices");
 Route::get("dashboard/add/service", "DashboardController@addService");
 Route::get("dashboard/agents", "DashboardController@indexAgents");
@@ -139,13 +152,17 @@ Route::get("dashboard/{year}/{month}", "DashboardController@access");
 Route::get("dashboard/{year}", "DashboardController@accessYear");
 Route::get("dashboard/add/{year}", "DashboardController@add");
 Route::get("dashboard/add/{year}/month", "DashboardController@addMonth");
+
 /** Post */
 Route::post("dashboard/add/agent", "DashboardController@addAgent");
 Route::post("dashboard/add/holiday", "DashboardController@addHoliday");
+Route::post("dashboard/add/category", "DashboardController@addCategory");
 Route::post("dashboard/edit/service", "DashboardController@editService");
-Route::post("dashboard/edit/category", "DashboardController@editCategory");
 Route::post("dashboard/edit/amount", "DashboardController@editAmount");
 Route::post("dashboard/edit/amount/service", "DashboardController@editAmountService");
+
+/** Notifications */
+Route::get("notify/get", "NotifyController@ajax");
 
 /** XHR CSRF */
 Route::get('refresh-csrf', function(){

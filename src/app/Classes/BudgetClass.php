@@ -125,7 +125,7 @@ class BudgetClass extends TempsClass
             ];
         } else {
             $response = [
-                "status" => "success"
+                "status" => "error"
             ];
         }
 

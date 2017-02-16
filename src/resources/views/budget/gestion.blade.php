@@ -1,3 +1,4 @@
+@if($service->count() > 0)
 <button class="btn btn-xs btn-tree btn-default tree-category">gestion budgétaire</button>
 <ul class="tree">
     @foreach($budget->groupBy('date')->get() as $budgetTree)
@@ -53,3 +54,6 @@
 </ul>
         </li>
 </ul>
+@else
+<strong>Vous devez ajouter un service à partir du tableau de bord afin de créé des budgets.</strong>
+@endif

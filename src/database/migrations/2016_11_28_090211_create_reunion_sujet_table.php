@@ -24,6 +24,8 @@ class CreateReunionSujetTable extends Migration
             $table->string("sujet");
             $table->text("observation");
             $table->text("action");
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

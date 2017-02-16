@@ -18,4 +18,9 @@ class Service extends Model
     {
         return $this->hasMany('App\DashboardAgent');
     }
+
+    public function categories()
+    {
+        return $this->hasMany('App\DashboardCategories');
+    }
 }

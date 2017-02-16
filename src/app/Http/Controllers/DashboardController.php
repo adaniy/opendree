@@ -52,7 +52,7 @@ class DashboardController extends Controller
     {
         return $dashboardClass->statsComparison();
     }
-    
+
     public function index(Dashboard $dashboard, DashboardAmount $dashboardAmount, DashboardService $dashboardService, Service $service, DashboardCategories $dashboardCategories, Carbon $carbon, DashboardClass $dashboardClass)
     {
         return view('dashboard.index')->with([
@@ -205,19 +205,42 @@ class DashboardController extends Controller
         return $dashboardClass->deleteService($id);
     }
 
-    public function addCategory(DashboardClass $dashboardClass)
+    public function addCategory(DashboardRequest $request)
     {
-        return $dashboardClass->addCategory();
+        $id = $request->get("id");
+        $type = $request->get("type");
+        $name = $request->get("name");
+        $color = '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+
+        $category = new DashboardCategories;
+
+        $category->service_id = $id;
+        $category->type = $type;
+        $category->name = $name;
+        $category->color = $color;
+
+        if($category->save()) {
+            return json_encode([
+                "status" => "success"
+            ]);
+        } else {
+            return json_encode([]);
+        }
     }
 
-    public function editCategory(DashboardRequest $request, DashboardClass $dashboardClass)
+    public function deleteCategory($id)
     {
-        return $dashboardClass->editCategory($request);
-    }
+        $category = DashboardCategories::find($id);
 
-    public function deleteCategory($id, DashboardClass $dashboardClass)
-    {
-        return $dashboardClass->deleteCategory($id);
+        if($category) {
+            $category->delete();
+
+            return json_encode([
+                "status" => "success"
+            ]);
+        } else {
+            return json_encode([]);
+        }
     }
 
     public function editAmount(DashboardRequest $request, DashboardClass $dashboardClass)
