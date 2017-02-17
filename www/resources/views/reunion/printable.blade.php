@@ -21,7 +21,7 @@
             <li><b>Date et heure :</b> {{ $temps->parseDateTime($reunion->date) }}</li>
             <li>
                 <b>Présents :</b>
-                @foreach($reunionParticipant2->where('type','absent')->get() as $participant)
+                @foreach($reunionParticipant2->where('type','present')->get() as $participant)
                     @if($loop->first && $loop->count > 1 OR !$loop->last)
                         {{ $participant->nom }},
                     @elseif($loop->last)

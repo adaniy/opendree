@@ -4,10 +4,6 @@
 	<div class="pull-right"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></div>
 	Services
     </button>
-    <button href="/dashboard/agents/" class="btn btn-menu btn-year">
-	<div class="pull-right"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></div>
-	Agents
-    </button>
     <button href="/dashboard/categories/" class="btn btn-menu btn-year">
 	<div class="pull-right"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></div>
 	Catégories

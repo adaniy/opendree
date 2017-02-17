@@ -1,10 +1,10 @@
 <?php
-if(!empty(parse_ini_file(public_path('../../config.ini'))['database'])) {
+if(!empty(parse_ini_file(storage_path('config.ini'))['database'])) {
     /** Si la localisation de la base de donnée dans le fichier ini est compélté, alors on utilise ce chemin absolu */
-    $sqlitedb = parse_ini_file(public_path('../../config.ini'))['database'];
+    $sqlitedb = parse_ini_file(storage_path('config.ini'))['database'];
 } else {
     /** Si la localisation de la base de donnée dans le fichier ini est vide, alors on utilise un chemin relatif */
-    $sqlitedb = storage_path('database/gdmc.db');
+    $sqlitedb = storage_path('database/mairie.db');
 }
 
 return [

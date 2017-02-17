@@ -1,3 +1,5 @@
+"use strict";
+
 var id = $('meta[name="service"]').attr('content');
 
 function syncDashboard () {

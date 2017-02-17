@@ -9,6 +9,8 @@ use File;
 use Carbon\Carbon;
 
 use App\Action;
+use App\Reunion;
+use App\Election;
 
 class NotifyController extends Controller
 {
@@ -18,6 +20,17 @@ class NotifyController extends Controller
 
     public function ajax()
     {
+        // conversion
+        foreach(Election::get() as $elections) {
+            /*            $date = Carbon::createFromFormat('d/m/Y', $elections->created_at);
+
+                          $dateNew = $date->format('Y').'-'.$date->format('m').'-'.$date->format('d').' 00:00:00';
+
+            Election::where('id', $elections->id)->update([
+                "created_at" => Carbon::now()
+                ]);*/
+        }
+
         /** Si une action planifiée a l'alerte enclenchée et qu'elle arrive à date butoir */
         if(Action::where([
             ['alert', 1],

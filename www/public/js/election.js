@@ -1,3 +1,5 @@
+"use strict";
+
 const rate = 120000;
 
 Vue.component('list', {
