@@ -1,6 +1,6 @@
 <?php
 Route::get('/', function() {
-    return view('index');
+    return redirect('/dashboard');
 });
 
 Route::get("test", function() {
@@ -131,11 +131,15 @@ Route::post("budget/edit/depense", "BudgetController@editDepense");
  */
 /** Get */
 Route::get("dashboard", "DashboardController@index");
+Route::get("dashboard/service/{id}", "DashboardController@accessService");
+Route::get("dashboard/service/year/{year}/{id}", "DashboardController@accessYearService");
 Route::get("dashboard/print", "DashboardController@indexPrint");
 Route::get("dashboard/print/{year}", "DashboardController@accessYearPrint");
 Route::get("dashboard/stats/year/{year}", "DashboardController@statsYear");
 Route::get("dashboard/stats/comparison/year/{year}", "DashboardController@statsYearComparison");
 Route::get("dashboard/stats", "DashboardController@stats");
+Route::get("dashboard/stats/service/{id}", "DashboardController@statsService");
+Route::get("dashboard/stats/year/{year}/service/{id}", "DashboardController@statsYearService");
 Route::get("dashboard/stats/raw", "DashboardController@statsRaw");
 Route::get("dashboard/stats/comparison", "DashboardController@statsComparison");
 Route::get("dashboard/categories", "DashboardController@indexCategories");

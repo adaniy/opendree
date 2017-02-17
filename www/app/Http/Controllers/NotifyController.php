@@ -13,7 +13,7 @@ use App\Action;
 class NotifyController extends Controller
 {
     /** interval pour le lancement des notifications, doit être synchronisé avec la recoloration des actions dans la liste des actions */
-    protected $rate = 10;
+    protected $rate = 120;
     protected $days = 31;
 
     public function ajax()

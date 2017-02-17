@@ -115,6 +115,87 @@ class DashboardClass extends TempsClass
 
     /**
      * Retourne les données de manière asynchrone des tableaux de bord, par année
+     * @param $year
+     * @return json
+     * @exception json
+     */
+    public function statsYearService($id, $year)
+    {
+        // on récupère les mois où des données existent
+        $dashboardPeriod = $this->dashboardAmount->whereYear('date', (string) $year)->orderBy('id', 'ASC')->get();
+        $dashboardCategories = $this->dashboardCategories->where('service_id', $id)->orderBy('service_id', 'ASC')->get();
+
+        $resultat = array(
+            'status' => 'success',
+            'line' => array(
+                'month' => array(),
+                'categories' => array(
+                    'id' => array(),
+                    'month' => array(),
+                    'values' => array()
+                ),
+                'nbCategory' => array()
+            )
+        );
+
+        /** Cette boucle doit être identique avec l'autre, dans la boucle des mois */
+        foreach($dashboardCategories as $categories) {
+            $color = $categories->color;
+            /** On fait une liste des mois avec des données à l'intérieur */
+            $data = [];
+
+            for($x = 1; $x <= 12; $x++) {
+                $month = $this->carbon->create($year, $x, 1)->format("m");
+
+                if($this->dashboardAmount->whereYear('date', (string) $year)->whereMonth('date', $month)->where('category_id', $categories->id)->count() > 0) {
+                    $date = $this->carbon->create($year, $month, 1);
+                    /** On peut enfin récupérer la pluralité */
+                    $data[] = DashboardClass::getPluralityAmount($categories->id, 0, $date, 'month');
+                }
+            }
+
+            array_push($resultat['line']['categories']['values'], [
+                'label' => $categories->name,
+                'fill' => false,
+                'lineTension' => 0.2,
+                'backgroundColor' => $color,
+                'borderColor' => $color,
+                'borderCapStyle' => 'butt',
+                'borderDash' => [],
+                'borderDashOffet' => 0.0,
+                'borderJoinStyle' => 'miter',
+                'pointBorderColor' => $color,
+                'pointBackgroundColor' => "#fff",
+                'pointBorderWidth' => 1,
+                'pointHoverRadius' => 5,
+                'pointHoverBackgroundColor' => $color,
+                'pointHoverBorderColor' => $color,
+                'pointHoverBorderWidth' => 2,
+                'pointRadius' => 1,
+                'pointHitRadius' => 10,
+                'data' => $data,
+                'stepSize' => 1,
+                'spanGaps' => false
+            ]);
+        }
+
+        foreach($dashboardPeriod as $dashboardPeriods) {
+            // pour chaque mois
+            $month = $this->temps->parseMois($this->carbon->parse($dashboardPeriods->date)->month);
+            /** Cette variable sert pour la recherche du nombre de donnée par mois. Il est également nécessaire de formater la réponse de Carbon afin d'obtenir la bonne valeur. */
+            $monthRaw = $this->carbon->parse($dashboardPeriods->date)->format('m');
+
+            if(!in_array($month, $resultat['line']['month'], true)) {
+                /** Faire une boucle pour récupérer toute les catégories */
+                array_push($resultat['line']['month'], $month);
+            }
+        }
+
+        return json_encode($resultat);
+    }
+
+    /**
+     * Retourne les données de manière asynchrone des tableaux de bord, par année
      * Sert à remplir les données du graphique Pie
      * @param $year
      * @return json
@@ -155,7 +236,6 @@ class DashboardClass extends TempsClass
 
     /**
      * Retourne les données de manière asynchrone des tableaux de bord, depuis le début des temps
-     * Sert à remplir les données du graphique Pie
      * @return json
      */
     public function stats()
@@ -194,6 +274,82 @@ class DashboardClass extends TempsClass
 
             array_push($resultat['line']['categories']['values'], [
                 'label' => '['.$categories->service->name.'] '.$categories->name,
+                'fill' => false,
+                'lineTension' => 0.2,
+                'backgroundColor' => $color,
+                'borderColor' => $color,
+                'borderCapStyle' => 'butt',
+                'borderDash' => [],
+                'borderDashOffet' => 0.0,
+                'borderJoinStyle' => 'miter',
+                'pointBorderColor' => $color,
+                'pointBackgroundColor' => "#fff",
+                'pointBorderWidth' => 1,
+                'pointHoverRadius' => 5,
+                'pointHoverBackgroundColor' => $color,
+                'pointHoverBorderColor' => $color,
+                'pointHoverBorderWidth' => 2,
+                'pointRadius' => 1,
+                'pointHitRadius' => 10,
+                'data' => $data,
+                'stepSize' => 1,
+                'spanGaps' => false
+            ]);
+        }
+
+        foreach($dashboardPeriod as $dashboardPeriods) {
+            $year = $this->carbon->parse($dashboardPeriods->date)->year;
+
+            if(!in_array($year, $resultat['line']['year'], true)) {
+                /** Faire une boucle pour récupérer toute les catégories */
+                array_push($resultat['line']['year'], $year);
+            }
+        }
+
+        return json_encode($resultat);
+    }
+
+    /**
+     * Retourne les données de manière asynchrone des tableaux de bord, pour un service
+     * @param id
+     * @return json
+     */
+    public function statsService($id)
+    {
+        $dashboardPeriod = $this->dashboardAmount->orderBy('date', 'ASC')->groupBy(DB::raw('date(date, "start of year")'))->get();
+        $dashboardCategories = $this->dashboardCategories->where('service_id', $id)->orderBy('service_id', 'ASC')->get();
+
+        $resultat = array(
+            'status' => 'success',
+            'line' => array(
+                'year' => array(),
+                'categories' => array(
+                    'id' => array(),
+                    'year' => array(),
+                    'values' => array()
+                ),
+                'nbCategory' => array()
+            )
+        );
+
+        /** Cette boucle doit être identique avec l'autre, dans la boucle des mois */
+        foreach($dashboardCategories as $categories) {
+            $color = $categories->color;
+            /** On fait une liste des mois avec des données à l'intérieur */
+            $data = [];
+
+            foreach($dashboardPeriod as $dashboardPeriods) {
+                $year = $this->carbon->parse($dashboardPeriods->date)->year;
+
+                /** On fait une liste des années disponible */
+                if($this->dashboardAmount->whereYear('date', (string) $year)->where('category_id', $categories->id)->count() > 0) {
+                    $data[] = DashboardClass::getPluralityAmount($categories->id, 0, $dashboardPeriods->date, 'year');
+                }
+
+            }
+
+            array_push($resultat['line']['categories']['values'], [
+                'label' => $categories->name,
                 'fill' => false,
                 'lineTension' => 0.2,
                 'backgroundColor' => $color,

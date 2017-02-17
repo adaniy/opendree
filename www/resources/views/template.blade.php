@@ -133,7 +133,7 @@
         </div>
         {{-- on charge jquery à l'aide de node.JS --}}
         <script src="{{ asset('js/axios.min.js') }}"></script>
-        <script src="{{ asset('js/jquery-1.11.3.min.js') }}" onload="$ = jQuery = module.exports;"></script>
+        <script src="{{ asset('js/jquery-1.11.3.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('js/bootbox.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap-notify.min.js') }}"></script>
@@ -178,19 +178,11 @@
 
         <script>
          /** Managing the notification ajax call */
-         var remote = require('electron').remote;
-         var notifier = remote.require('node-notifier');
-
          setInterval( () => {
              axios.get("/notify/get")
                   .then( response => {
                       if(response.data.notify == "notify") {
-                          notifier.notify({
-                              'title': 'OpenDREE - alerte',
-                              'message': 'La date butoir d\'une action planifiée en réunion approche, vous devriez la consulter.',
-			      sound: true,
-			      wait: true
-                          })
+			  alert("Une action planifiée arrive à date butoir.");
                       }
                   })
                   .catch( error => {

@@ -38,9 +38,19 @@ class DashboardController extends Controller
         return $dashboardClass->statsYearComparison($year);
     }
 
+    public function statsYearService($id, $year, DashboardClass $dashboardClass)
+    {
+        return $dashboardClass->statsYearService($id, $year);
+    }
+
     public function stats(DashboardClass $dashboardClass)
     {
         return $dashboardClass->stats();
+    }
+
+    public function statsService($id, DashboardClass $dashboardClass)
+    {
+        return $dashboardClass->statsService($id);
     }
 
     public function statsRaw(DashboardClass $dashboardClass)
@@ -150,6 +160,41 @@ class DashboardController extends Controller
             "carbon" => $carbon,
             "temps" => $temps,
             "year" => $year
+        ]);
+    }
+
+    public function accessYearService($year, $id, Dashboard $dashboard, DashboardAgent $dashboardAgent, DashboardHoliday $dashboardHoliday, DashboardAmount $dashboardAmount, DashboardService $dashboardService, Service $service, DashboardCategories $dashboardCategories, Carbon $carbon, TempsClass $temps, DashboardClass $dashboardClass)
+    {
+        return view('dashboard.get-year-service')->with([
+            "dashboard" => $dashboard,
+            "dashboardAgent" => $dashboardAgent,
+            "dashboardHoliday" => $dashboardHoliday,
+            "dashboardAmount" => $dashboardAmount,
+            "dashboardService" => $dashboardService,
+            "dashboardCategories" => $dashboardCategories,
+            "dashboardClass" => $dashboardClass,
+            "services" => $service->find($id),
+            "carbon" => $carbon,
+            "temps" => $temps,
+            "id" => $id,
+            "year" => $year
+        ]);
+    }
+
+    public function accessService($id, Dashboard $dashboard, DashboardAgent $dashboardAgent, DashboardHoliday $dashboardHoliday, DashboardAmount $dashboardAmount, DashboardService $dashboardService, Service $service, DashboardCategories $dashboardCategories, Carbon $carbon, TempsClass $temps, DashboardClass $dashboardClass)
+    {
+        return view('dashboard.get-service')->with([
+            "id" => $id,
+            "dashboard" => $dashboard,
+            "dashboardAgent" => $dashboardAgent,
+            "dashboardHoliday" => $dashboardHoliday,
+            "dashboardAmount" => $dashboardAmount,
+            "dashboardService" => $dashboardService,
+            "dashboardCategories" => $dashboardCategories,
+            "dashboardClass" => $dashboardClass,
+            "services" => $service->find($id),
+            "carbon" => $carbon,
+            "temps" => $temps
         ]);
     }
 

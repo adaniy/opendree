@@ -1,4 +1,4 @@
-<div class="menu-side no-print">
+<div class="menu-side no-print col-md-2">
     <button href="/dashboard/" class="btn btn-menu btn-home"><span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> tableau de bord</button>
     <button href="/dashboard/services/" class="btn btn-menu btn-year">
 	<div class="pull-right"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></div>

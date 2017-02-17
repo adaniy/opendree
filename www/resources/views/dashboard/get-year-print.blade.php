@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="fr">
     <head>
         <meta charset="utf-8">
@@ -8,7 +7,7 @@
         <meta name="year" content="{{ $year }}" />
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/override.css') }}" rel="stylesheet">
-        <title>GDMC</title>
+        <title>OpenDREE</title>
     </head>
 
     <body>

@@ -75,8 +75,13 @@ li {
 }
 
 .budget table td,th {
-    text-align: center;
-    vertical-align: middle;
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+table td,th {
+    text-align: center !important;
+    vertical-align: middle !important;
 }
 
 .budget table td.category {

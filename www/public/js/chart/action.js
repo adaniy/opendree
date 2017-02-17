@@ -1,7 +1,7 @@
 function syncActionStatsDoughnut () {
     $.ajax({
 	type: "GET",
-	url: "action/stats",
+	url: "/action/stats",
     }).done(function(msg) {
 	var response = $.parseJSON(msg);
     
@@ -18,7 +18,7 @@ function syncActionStatsDoughnut () {
 function syncActionStatsLine () {
     $.ajax({
 	type: "GET",
-	url: "action/stats",
+	url: "/action/stats",
     }).done(function(msg) {
 	var response = $.parseJSON(msg);
 
@@ -35,7 +35,7 @@ function syncActionStatsLine () {
 function syncActionStats () {
     $.ajax({
 	type: "GET",
-	url: "action/stats",
+	url: "/action/stats",
     }).done(function(msg) {
 	var response = $.parseJSON(msg);
 
